@@ -1,0 +1,17 @@
+[     500ms] [LOG] SW registrado @ https://elijocreer.vercel.app/_next/static/chunks/0xy0dbbrey_57.js:1
+[     612ms] [WARNING] <meta name="apple-mobile-web-app-capable" content="yes"> is deprecated. Please include <meta name="mobile-web-app-capable" content="yes"> @ https://elijocreer.vercel.app/groups/new:0
+[     910ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://elijocreer.vercel.app/icon-192.png:0
+[     911ms] [WARNING] Error while trying to use the following icon from the Manifest: https://elijocreer.vercel.app/icon-192.png (Download error or resource isn't a valid image) @ https://elijocreer.vercel.app/groups/new:0
+[   60137ms] [WARNING] <meta name="apple-mobile-web-app-capable" content="yes"> is deprecated. Please include <meta name="mobile-web-app-capable" content="yes"> @ https://elijocreer.vercel.app/groups/7d0215e9-9c98-4e44-a526-84e738c0780c:0
+[   60609ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://elijocreer.vercel.app/icon-192.png:0
+[   60610ms] [WARNING] Error while trying to use the following icon from the Manifest: https://elijocreer.vercel.app/icon-192.png (Download error or resource isn't a valid image) @ https://elijocreer.vercel.app/groups/7d0215e9-9c98-4e44-a526-84e738c0780c:0
+[   61448ms] [ERROR] Failed to load resource: the server responded with a status of 500 () @ https://elijocreer.vercel.app/api/activity?groupId=7d0215e9-9c98-4e44-a526-84e738c0780c&limit=15:0
+[   66776ms] [WARNING] <meta name="apple-mobile-web-app-capable" content="yes"> is deprecated. Please include <meta name="mobile-web-app-capable" content="yes"> @ https://elijocreer.vercel.app/groups/7d0215e9-9c98-4e44-a526-84e738c0780c/fixture:0
+[   67266ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://elijocreer.vercel.app/icon-192.png:0
+[   67267ms] [WARNING] Error while trying to use the following icon from the Manifest: https://elijocreer.vercel.app/icon-192.png (Download error or resource isn't a valid image) @ https://elijocreer.vercel.app/groups/7d0215e9-9c98-4e44-a526-84e738c0780c/fixture:0
+[   67777ms] [ERROR] Failed to load resource: the server responded with a status of 500 () @ https://elijocreer.vercel.app/api/predictions?groupId=7d0215e9-9c98-4e44-a526-84e738c0780c:0
+[   67879ms] [ERROR] Failed to load resource: the server responded with a status of 500 () @ https://elijocreer.vercel.app/api/matches?tournamentId=a0000000-0000-0000-0000-000000000001&stage=group:0
+[   75253ms] [ERROR] Failed to load resource: the server responded with a status of 500 () @ https://elijocreer.vercel.app/api/predictions?groupId=7d0215e9-9c98-4e44-a526-84e738c0780c:0
+[   75456ms] [ERROR] Failed to load resource: the server responded with a status of 500 () @ https://elijocreer.vercel.app/api/matches?tournamentId=a0000000-0000-0000-0000-000000000001&stage=round_of_32:0
+[   78326ms] [ERROR] Failed to load resource: the server responded with a status of 500 () @ https://elijocreer.vercel.app/api/matches?tournamentId=a0000000-0000-0000-0000-000000000001&stage=group:0
+[   78327ms] [ERROR] Failed to load resource: the server responded with a status of 500 () @ https://elijocreer.vercel.app/api/predictions?groupId=7d0215e9-9c98-4e44-a526-84e738c0780c:0
