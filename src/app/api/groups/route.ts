@@ -7,34 +7,46 @@ import crypto from "crypto";
 
 // GET /api/groups — listar grupos del usuario
 export async function GET() {
-  const session = await auth();
-  if (!session?.user?.id) {
-    return NextResponse.json({ error: "No autorizado" }, { status: 401 });
-  }
+  try {
+    const session = await auth();
+    console.log("📊 Session:", session);
 
-  const _db = getDb();
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: "No autorizado", session: !!session }, { status: 401 });
+    }
 
-  const memberships = await _db
-    .select({
-      groupId: groupMembers.groupId,
-      role: groupMembers.role,
-      joinedAt: groupMembers.joinedAt,
-      groupName: groups.name,
-      groupSlug: groups.slug,
-      inviteCode: groups.inviteCode,
-      ownerUserId: groups.ownerUserId,
-      createdAt: groups.createdAt,
-    })
-    .from(groupMembers)
-    .innerJoin(groups, eq(groups.id, groupMembers.groupId))
-    .where(
-      and(
-        eq(groupMembers.userId, session.user.id),
-        eq(groupMembers.status, "active")
-      )
+    const _db = getDb();
+    console.log("📊 User ID:", session.user.id);
+
+    const memberships = await _db
+      .select({
+        groupId: groupMembers.groupId,
+        role: groupMembers.role,
+        joinedAt: groupMembers.joinedAt,
+        groupName: groups.name,
+        groupSlug: groups.slug,
+        inviteCode: groups.inviteCode,
+        ownerUserId: groups.ownerUserId,
+        createdAt: groups.createdAt,
+      })
+      .from(groupMembers)
+      .innerJoin(groups, eq(groups.id, groupMembers.groupId))
+      .where(
+        and(
+          eq(groupMembers.userId, session.user.id),
+          eq(groupMembers.status, "active")
+        )
+      );
+
+    console.log("📊 Memberships found:", memberships.length);
+    return NextResponse.json(memberships);
+  } catch (error) {
+    console.error("❌ Error in GET /api/groups:", error);
+    return NextResponse.json(
+      { error: "Error al obtener grupos", detail: error instanceof Error ? error.message : String(error) },
+      { status: 500 }
     );
-
-  return NextResponse.json(memberships);
+  }
 }
 
 // POST /api/groups — crear grupo
