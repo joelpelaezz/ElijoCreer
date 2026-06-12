@@ -70,7 +70,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error("Error en registro:", error);
     return NextResponse.json(
-      { error: "Error al registrar usuario" },
+      { error: "Error al registrar usuario", detail: error instanceof Error ? error.message : String(error) },
       { status: 500 }
     );
   }
