@@ -1,10 +1,22 @@
 import Link from "next/link";
 import { auth } from "@/lib/auth/config";
+import { getPool } from "@/lib/db";
 import { UserDropdown } from "./user-dropdown";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 export async function Header() {
   const session = await auth();
+
+  // Check if user is admin
+  let isAdmin = false;
+  if (session?.user?.id) {
+    const pool = getPool();
+    const profileResult = await pool.query(
+      'SELECT role FROM profiles WHERE id = $1',
+      [session.user.id]
+    );
+    isAdmin = profileResult.rows.length > 0 && profileResult.rows[0].role === "admin";
+  }
 
   return (
     <header className="border-b border-border bg-card">
@@ -14,6 +26,15 @@ export async function Header() {
         </Link>
 
         <nav className="flex items-center gap-2">
+          {isAdmin && (
+            <Link
+              href="/admin"
+              className="text-sm px-3 py-1.5 rounded-lg bg-amber-500/20 text-amber-500 hover:bg-amber-500/30 transition-colors"
+              title="Panel de Admin"
+            >
+              Admin
+            </Link>
+          )}
           <ThemeToggle />
           {session?.user ? (
             <UserDropdown user={session.user} />

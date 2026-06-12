@@ -20,6 +20,20 @@ export const metadata: Metadata = {
   title: "ElijoCreer — Prode del Mundial 2026",
   description:
     "Creá grupos, cargá tus pronósticos y competí con amigos en el prode del Mundial 2026.",
+  metadataBase: new URL("https://elijocreer.vercel.app"),
+  openGraph: {
+    title: "ElijoCreer — Prode del Mundial 2026",
+    description: "Creá grupos, cargá tus pronósticos y competí con amigos en el prode del Mundial 2026.",
+    url: "https://elijocreer.vercel.app",
+    siteName: "ElijoCreer",
+    locale: "es_AR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ElijoCreer — Prode del Mundial 2026",
+    description: "Creá grupos, cargá tus pronósticos y competí con amigos en el prode del Mundial 2026.",
+  },
 };
 
 export default function RootLayout({
@@ -37,11 +51,13 @@ export default function RootLayout({
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         />
-        <link rel="manifest" href="/manifest.webmanifest" />
+        <link rel="manifest" href="/manifest.json" />
         <link rel="icon" href="/icon-192.svg" />
-        <meta name="theme-color" content="#6366f1" />
+        <link rel="apple-touch-icon" href="/icon-192.png" />
+        <meta name="theme-color" content="#236391" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-title" content="ElijoCreer" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
       </head>
       <body className="min-h-full flex flex-col bg-background text-foreground font-sans">
         <SessionProvider>

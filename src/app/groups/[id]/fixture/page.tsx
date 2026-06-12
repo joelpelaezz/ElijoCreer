@@ -133,8 +133,19 @@ export default function FixturePage() {
     setTimeout(() => setMessage(null), 3000);
   }
 
+  // Buffer de 30 minutos antes del partido para cerrar pronósticos
+  const DEADLINE_BUFFER_MINUTES = 30;
+
   function isPast(match: Match): boolean {
-    return new Date(match.startsAt) < new Date();
+    const matchTime = new Date(match.startsAt);
+    const deadline = new Date(matchTime.getTime() - DEADLINE_BUFFER_MINUTES * 60 * 1000);
+    return deadline < new Date();
+  }
+
+  function getDeadlineText(match: Match): string {
+    const matchTime = new Date(match.startsAt);
+    const deadline = new Date(matchTime.getTime() - DEADLINE_BUFFER_MINUTES * 60 * 1000);
+    return deadline.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" });
   }
 
   // Agrupar por stage
@@ -230,7 +241,11 @@ export default function FixturePage() {
                     minute: "2-digit",
                   })}
                 </span>
-                <span>{match.venue}</span>
+                {!isPastMatch && (
+                  <span className="text-orange-600 font-medium" title="Último momento para pronosticar">
+                    🕐 Cierra {getDeadlineText(match)}
+                  </span>
+                )}
               </div>
 
               {/* Teams + Scores */}
@@ -327,10 +342,10 @@ export default function FixturePage() {
                   }`}
                 >
                   {isPastMatch
-                    ? "Finalizado"
+                    ? "❌ Cerrado"
                     : pred?.isLocked
                       ? "🔒 Bloqueado"
-                      : "Abierto"}
+                      : "🟢 Abierto"}
                 </span>
                 <div className="flex items-center gap-2">
                   <button
