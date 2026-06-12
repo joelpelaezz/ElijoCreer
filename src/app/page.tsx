@@ -1,8 +1,91 @@
 import Link from "next/link";
 import { auth } from "@/lib/auth/config";
+import { getPool } from "@/lib/db";
+
+async function getNextMatch() {
+  const pool = getPool();
+  const result = await pool.query(`
+    SELECT 
+      m.id, m.starts_at, m.stage, m.round_label,
+      ht.name as home_name, ht.code as home_code, ht.flag_icon as home_flag,
+      at.name as away_name, at.code as away_code, at.flag_icon as away_flag
+    FROM matches m
+    JOIN teams ht ON ht.id = m.home_team_id
+    JOIN teams at ON at.id = m.away_team_id
+    WHERE m.starts_at > NOW()
+    ORDER BY m.starts_at ASC
+    LIMIT 1
+  `);
+  return result.rows[0] || null;
+}
+
+async function getStats() {
+  const pool = getPool();
+  
+  const usersResult = await pool.query(`SELECT count(*)::int as c FROM "user"`);
+  const groupsResult = await pool.query(`SELECT count(*)::int as c FROM groups`);
+  const matchesResult = await pool.query(`SELECT count(*)::int as c FROM matches`);
+  
+  return {
+    users: usersResult.rows[0]?.c || 0,
+    groups: groupsResult.rows[0]?.c || 0,
+    matches: matchesResult.rows[0]?.c || 0,
+  };
+}
+
+async function getUserRanking(groupId: string, userId: string) {
+  const pool = getPool();
+  
+  // Get user's total score from predictions
+  const scoreResult = await pool.query(`
+    SELECT COALESCE(SUM(
+      CASE 
+        WHEN p.predicted_home_score = m.home_score AND p.predicted_away_score = m.away_score THEN 5
+        WHEN (p.predicted_home_score > p.predicted_away_score AND m.home_score > m.away_score)
+             OR (p.predicted_home_score < p.predicted_away_score AND m.home_score < m.away_score)
+             OR (p.predicted_home_score = p.predicted_away_score AND m.home_score = m.away_score) THEN 3
+        WHEN p.predicted_home_score = m.home_score OR p.predicted_away_score = m.away_score THEN 1
+        ELSE 0
+      END
+    ), 0) as score
+    FROM predictions p
+    JOIN matches m ON m.id = p.match_id
+    WHERE p.group_id = $1 AND p.user_id = $2 AND m.home_score IS NOT NULL
+  `, [groupId, userId]);
+  
+  // Get total users in group
+  const totalResult = await pool.query(`
+    SELECT count(*)::int as c FROM "group_members" WHERE group_id = $1 AND status = 'active'
+  `, [groupId]);
+  
+  return {
+    userScore: scoreResult.rows[0]?.score || 0,
+    totalUsers: totalResult.rows[0]?.c || 0,
+    groupName: "",
+  };
+}
 
 export default async function HomePage() {
   const session = await auth();
+  const nextMatch = await getNextMatch();
+  const stats = await getStats();
+  
+  let userRanking = null;
+  if (session?.user?.id) {
+    const pool = getPool();
+    const userGroups = await pool.query(`
+      SELECT gm.group_id, g.name as group_name 
+      FROM "group_members" gm
+      JOIN groups g ON g.id = gm.group_id
+      WHERE gm.user_id = $1 AND gm.status = 'active'
+      LIMIT 1
+    `, [session.user.id]);
+    
+    if (userGroups.rows.length > 0) {
+      userRanking = await getUserRanking(userGroups.rows[0].group_id, session.user.id);
+      userRanking.groupName = userGroups.rows[0].group_name;
+    }
+  }
 
   return (
     <>
@@ -65,6 +148,26 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Stats Banner */}
+      <section className="max-w-7xl mx-auto px-4 -mt-6 relative z-20">
+        <div className="bg-white rounded-2xl shadow-lg border border-[#e0e3e5] p-6">
+          <div className="grid grid-cols-3 gap-4 text-center">
+            <div>
+              <p className="text-3xl font-bold text-[#236391]">{stats.users}</p>
+              <p className="text-sm text-[#41474f]">Usuarios</p>
+            </div>
+            <div className="border-l border-[#e0e3e5]">
+              <p className="text-3xl font-bold text-[#236391]">{stats.groups}</p>
+              <p className="text-sm text-[#41474f]">Grupos</p>
+            </div>
+            <div className="border-l border-[#e0e3e5]">
+              <p className="text-3xl font-bold text-[#236391]">{stats.matches}</p>
+              <p className="text-sm text-[#41474f]">Partidos</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Features Section */}
       <section className="max-w-7xl mx-auto px-4 my-16" id="features">
         <div className="text-center mb-12">
@@ -119,119 +222,181 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Preview Section */}
+      {/* Preview Section - Dynamic */}
       <section className="max-w-7xl mx-auto px-4 my-16" id="preview">
         <div className="text-center mb-12">
           <h2 className="text-[clamp(1.5rem,3vw,2rem)] font-bold text-[#191c1e]">
-            Viví la experiencia
+            {nextMatch ? "Próximo Partido" : "Viví la experiencia"}
           </h2>
           <p className="text-[#41474f] mt-2">
-            Interfaz moderna diseñada para los fans más apasionados.
+            {nextMatch 
+              ? `Fecha: ${new Date(nextMatch.starts_at).toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long' })}`
+              : "Interfaz moderna diseñada para los fans más apasionados."
+            }
           </p>
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          {/* Prediction Card */}
-          <div className="lg:col-span-8 bg-white rounded-3xl p-8 border border-[#e0e3e5] shadow-sm">
-            <div className="flex justify-between items-center mb-8">
-              <span className="text-sm font-semibold text-[#236391] bg-[#236391]/10 px-3 py-1 rounded-full">
-                Próximo Partido
-              </span>
-              <span className="text-sm font-semibold text-[#41474f]">
-                Grupo A • Estadio Azteca
-              </span>
-            </div>
-            <div className="flex justify-around items-center gap-4 mb-8">
-              <div className="flex flex-col items-center gap-3">
-                <div className="w-20 h-20 rounded-full bg-[#f2f4f6] flex items-center justify-center shadow-lg border-4 border-white text-2xl font-bold text-[#236391]">
-                  ARG
-                </div>
-                <span className="text-lg font-bold text-[#191c1e]">
-                  Argentina
+        
+        {nextMatch ? (
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            {/* Next Match Card */}
+            <div className="lg:col-span-8 bg-white rounded-3xl p-8 border border-[#e0e3e5] shadow-sm">
+              <div className="flex justify-between items-center mb-8">
+                <span className="text-sm font-semibold text-[#236391] bg-[#236391]/10 px-3 py-1 rounded-full">
+                  Próximo Partido
+                </span>
+                <span className="text-sm font-semibold text-[#41474f]">
+                  {nextMatch.stage === 'group' ? 'Fase de Grupos' : nextMatch.stage.replace('_', ' ').toUpperCase()}
                 </span>
               </div>
-              <div className="flex gap-4 items-center">
-                <div className="w-16 h-20 bg-[#f7f9fb] rounded-xl border border-[#74acdf] flex items-center justify-center text-3xl font-bold text-[#191c1e]">
-                  ?
+              <div className="flex justify-around items-center gap-4 mb-8">
+                <div className="flex flex-col items-center gap-3">
+                  <div className="w-20 h-20 rounded-full bg-[#f2f4f6] flex items-center justify-center shadow-lg border-4 border-white text-4xl">
+                    {nextMatch.home_flag || '🇦🇷'}
+                  </div>
+                  <span className="text-lg font-bold text-[#191c1e]">
+                    {nextMatch.home_name}
+                  </span>
+                  <span className="text-sm text-[#41474f]">{nextMatch.home_code}</span>
                 </div>
-                <span className="text-2xl font-bold text-[#c1c7d0]">:</span>
-                <div className="w-16 h-20 bg-[#f7f9fb] rounded-xl border border-[#c1c7d0] flex items-center justify-center text-3xl font-bold text-[#191c1e]">
-                  ?
+                <div className="flex gap-4 items-center">
+                  <div className="w-16 h-20 bg-[#f7f9fb] rounded-xl border border-[#74acdf] flex items-center justify-center text-3xl font-bold text-[#191c1e]">
+                    ?
+                  </div>
+                  <span className="text-2xl font-bold text-[#c1c7d0]">:</span>
+                  <div className="w-16 h-20 bg-[#f7f9fb] rounded-xl border border-[#c1c7d0] flex items-center justify-center text-3xl font-bold text-[#191c1e]">
+                    ?
+                  </div>
+                </div>
+                <div className="flex flex-col items-center gap-3">
+                  <div className="w-20 h-20 rounded-full bg-[#f2f4f6] flex items-center justify-center shadow-lg border-4 border-white text-4xl">
+                    {nextMatch.away_flag || '🇲🇽'}
+                  </div>
+                  <span className="text-lg font-bold text-[#191c1e]">
+                    {nextMatch.away_name}
+                  </span>
+                  <span className="text-sm text-[#41474f]">{nextMatch.away_code}</span>
                 </div>
               </div>
-              <div className="flex flex-col items-center gap-3">
-                <div className="w-20 h-20 rounded-full bg-[#f2f4f6] flex items-center justify-center shadow-lg border-4 border-white text-2xl font-bold text-[#236391]">
-                  MEX
-                </div>
-                <span className="text-lg font-bold text-[#191c1e]">
-                  México
+              <div className="bg-[#f2f4f6] p-4 rounded-2xl flex items-center justify-between">
+                <p className="text-[#41474f] text-sm">
+                  {new Date(nextMatch.starts_at).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })} hs
+                </p>
+                <span className="text-sm font-bold text-[#236391]">
+                  +5 pts si acertás el exacto
                 </span>
               </div>
             </div>
-            <div className="bg-[#f2f4f6] p-4 rounded-2xl flex items-center justify-between">
-              <p className="text-[#41474f] text-sm">
-                ¿Podés predecir el resultado exacto?
-              </p>
-              <span className="text-sm font-bold text-[#236391]">
-                +5 pts si acertás
-              </span>
-            </div>
-          </div>
 
-          {/* Ranking Snippet + Stats */}
-          <div className="lg:col-span-4 flex flex-col gap-6">
-            <div className="flex-1 bg-white rounded-3xl p-6 border border-[#e0e3e5] shadow-sm">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-lg font-bold text-[#191c1e]">
-                  Ranking Amigos
-                </h3>
-                <span className="material-symbols-outlined text-[#735c00]">
-                  workspace_premium
-                </span>
-              </div>
-              <div className="space-y-4">
-                {[
-                  { pos: "1", name: "Messi_10", pts: "1,240" },
-                  { pos: "2", name: "Vos", pts: "1,180", active: true },
-                  { pos: "3", name: "Maria_Fan", pts: "950" },
-                ].map((item) => (
-                  <div
-                    key={item.pos}
-                    className={`flex items-center justify-between p-2 rounded-xl transition-colors ${
-                      item.active
-                        ? "bg-[#d2e4ff]/20 border border-[#a6ccfe]/30"
-                        : "hover:bg-[#f7f9fb]"
-                    }`}
-                  >
-                    <div className="flex items-center gap-3">
-                      <span className="font-bold text-[#41474f]">
-                        {item.pos}
-                      </span>
-                      <div className="w-8 h-8 rounded-full bg-[#236391]/20 flex items-center justify-center text-xs font-bold text-[#236391]">
-                        {item.name[0]}
-                      </div>
-                      <span className="text-sm font-semibold">{item.name}</span>
-                    </div>
-                    <span className="text-sm font-bold text-[#236391]">
-                      {item.pts} pts
+            {/* User Ranking or Login Prompt */}
+            <div className="lg:col-span-4 flex flex-col gap-6">
+              {session?.user && userRanking ? (
+                <div className="flex-1 bg-white rounded-3xl p-6 border border-[#e0e3e5] shadow-sm">
+                  <div className="flex items-center justify-between mb-6">
+                    <h3 className="text-lg font-bold text-[#191c1e]">
+                      Tu Progreso
+                    </h3>
+                    <span className="material-symbols-outlined text-[#735c00]">
+                      trending_up
                     </span>
                   </div>
-                ))}
+                  <div className="space-y-4">
+                    <div className="bg-[#f2f4f6] p-4 rounded-xl">
+                      <p className="text-sm text-[#41474f] mb-1">Tu grupo</p>
+                      <p className="text-xl font-bold text-[#191c1e]">{userRanking.groupName}</p>
+                    </div>
+                    <div className="bg-[#236391] p-4 rounded-xl text-white">
+                      <p className="text-sm opacity-70 mb-1">Puntos acumulados</p>
+                      <p className="text-3xl font-bold">{userRanking.userScore}</p>
+                    </div>
+                    <Link 
+                      href="/dashboard"
+                      className="block text-center text-[#236391] text-sm font-medium hover:underline"
+                    >
+                      Ver ranking completo →
+                    </Link>
+                  </div>
+                </div>
+              ) : (
+                <div className="flex-1 bg-white rounded-3xl p-6 border border-[#e0e3e5] shadow-sm">
+                  <div className="flex items-center justify-between mb-6">
+                    <h3 className="text-lg font-bold text-[#191c1e]">
+                      Ranking Amigos
+                    </h3>
+                    <span className="material-symbols-outlined text-[#735c00]">
+                      workspace_premium
+                    </span>
+                  </div>
+                  <p className="text-[#41474f] text-sm mb-4">
+                    Iniciá sesión para ver tu posición en el ranking
+                  </p>
+                  <Link 
+                    href="/login"
+                    className="block text-center bg-[#236391] text-white font-bold px-6 py-3 rounded-xl hover:bg-[#236391]/90 transition-colors"
+                  >
+                    Iniciar Sesión
+                  </Link>
+                </div>
+              )}
+              
+              <div className="bg-[#236391] rounded-3xl p-6 text-white">
+                <p className="text-xs font-bold uppercase tracking-widest opacity-70 mb-2">
+                  {session ? "Tu Nivel" : " Unite a la competencia"}
+                </p>
+                {session ? (
+                  <>
+                    <p className="text-3xl font-bold mb-4">
+                      {userRanking && userRanking.userScore > 100 ? 'Experto' : 
+                       userRanking && userRanking.userScore > 50 ? 'Intermedio' : 'Novato'}
+                    </p>
+                    <div className="relative h-2 bg-white/20 rounded-full mb-2">
+                      <div 
+                        className="absolute inset-y-0 left-0 bg-[#e9c349] rounded-full" 
+                        style={{ width: `${Math.min(100, (userRanking?.userScore || 0) / 2) }%` }}
+                      ></div>
+                    </div>
+                    <p className="text-sm opacity-90">
+                      {userRanking?.userScore || 0} puntos
+                    </p>
+                  </>
+                ) : (
+                  <p className="text-lg opacity-90">
+                    Registrate y empezá a competir con tus amigos
+                  </p>
+                )}
               </div>
-            </div>
-            <div className="bg-[#236391] rounded-3xl p-6 text-white">
-              <p className="text-xs font-bold uppercase tracking-widest opacity-70 mb-2">
-                Tu Nivel de Confianza
-              </p>
-              <p className="text-3xl font-bold mb-4">Experto</p>
-              <div className="relative h-2 bg-white/20 rounded-full mb-2">
-                <div className="absolute inset-y-0 left-0 bg-[#e9c349] rounded-full w-[65%]"></div>
-              </div>
-              <p className="text-sm opacity-90">
-                A 240 pts del nivel Legendario
-              </p>
             </div>
           </div>
-        </div>
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            {/* Placeholder when no matches */}
+            <div className="lg:col-span-8 bg-white rounded-3xl p-8 border border-[#e0e3e5] shadow-sm">
+              <div className="text-center py-12">
+                <span className="material-symbols-outlined text-6xl text-[#c1c7d0] mb-4">
+                  sports_soccer
+                </span>
+                <p className="text-[#41474f]">
+                  Los partidos del Mundial 2026 estarán disponibles pronto
+                </p>
+              </div>
+            </div>
+            
+            <div className="lg:col-span-4 flex flex-col gap-6">
+              <div className="flex-1 bg-white rounded-3xl p-6 border border-[#e0e3e5] shadow-sm">
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="text-lg font-bold text-[#191c1e]">
+                    Ranking Amigos
+                  </h3>
+                  <span className="material-symbols-outlined text-[#735c00]">
+                    workspace_premium
+                  </span>
+                </div>
+                <p className="text-[#41474f] text-sm">
+                  Unite a la competencia
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
       </section>
 
       {/* CTA Section */}
