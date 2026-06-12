@@ -1,234 +1,108 @@
 import { NextResponse } from "next/server";
-import { getDb } from "@/lib/db";
-import { predictions, predictionHistory, groupMembers, matches } from "@/lib/db/schema";
+import { getPool } from "@/lib/db";
 import { auth } from "@/lib/auth/config";
-import { eq, and } from "drizzle-orm";
 import crypto from "crypto";
-import { logActivity } from "@/lib/activity";
 
-// GET /api/predictions?groupId=X&userId=Y
+// GET /api/predictions?groupId=X
 export async function GET(request: Request) {
-  const session = await auth();
-  if (!session?.user?.id) {
-    return NextResponse.json({ error: "No autorizado" }, { status: 401 });
+  try {
+    const session = await auth();
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: "No autorizado" }, { status: 401 });
+    }
+
+    const { searchParams } = new URL(request.url);
+    const groupId = searchParams.get("groupId");
+
+    if (!groupId) {
+      return NextResponse.json({ error: "groupId requerido" }, { status: 400 });
+    }
+
+    const pool = getPool();
+
+    // Check membership
+    const memberResult = await pool.query(
+      `SELECT * FROM "group_members" WHERE "group_id" = $1 AND "user_id" = $2 AND status = 'active'`,
+      [groupId, session.user.id]
+    );
+
+    if (memberResult.rows.length === 0) {
+      return NextResponse.json({ error: "No sos miembro" }, { status: 403 });
+    }
+
+    // Get predictions
+    const predResult = await pool.query(
+      `SELECT p.* FROM predictions p WHERE p.group_id = $1`,
+      [groupId]
+    );
+
+    return NextResponse.json(predResult.rows);
+  } catch (error) {
+    console.error("Error in predictions API:", error);
+    return NextResponse.json(
+      { error: "Error fetching predictions", detail: error instanceof Error ? error.message : String(error) },
+      { status: 500 }
+    );
   }
-
-  const { searchParams } = new URL(request.url);
-  const groupId = searchParams.get("groupId");
-  const userId = searchParams.get("userId") || session.user.id;
-
-  if (!groupId) {
-    return NextResponse.json({ error: "groupId requerido" }, { status: 400 });
-  }
-
-  const _db = getDb();
-
-  // Verificar membresía
-  const member = await _db.query.groupMembers.findFirst({
-    where: (gm, { eq, and: _and }) =>
-      _and(eq(gm.groupId, groupId), eq(gm.userId, session.user.id!)),
-  });
-
-  if (!member || member.status !== "active") {
-    return NextResponse.json({ error: "No sos miembro" }, { status: 403 });
-  }
-
-  const userPredictions = await _db.query.predictions.findMany({
-    where: (p, { eq, and: _and }) =>
-      _and(eq(p.groupId, groupId), eq(p.userId, userId)),
-  });
-
-  return NextResponse.json(userPredictions);
 }
 
-// POST /api/predictions — crear/actualizar predicción
+// POST /api/predictions
 export async function POST(request: Request) {
-  const session = await auth();
-  if (!session?.user?.id) {
-    return NextResponse.json({ error: "No autorizado" }, { status: 401 });
-  }
-
-  const _db = getDb();
-  const { groupId, matchId, predictedHomeScore, predictedAwayScore } =
-    await request.json();
-
-  if (!groupId || !matchId || predictedHomeScore === undefined || predictedAwayScore === undefined) {
-    return NextResponse.json(
-      { error: "Faltan datos requeridos" },
-      { status: 400 }
-    );
-  }
-
-  // Verificar membresía
-  const member = await _db.query.groupMembers.findFirst({
-    where: (gm, { eq, and: _and }) =>
-      _and(eq(gm.groupId, groupId), eq(gm.userId, session.user.id!)),
-  });
-
-  if (!member || member.status !== "active") {
-    return NextResponse.json({ error: "No sos miembro" }, { status: 403 });
-  }
-
-  // Verificar que el partido no haya empezado
-  const match = await _db.query.matches.findFirst({
-    where: (m, { eq }) => eq(m.id, matchId),
-  });
-
-  if (!match) {
-    return NextResponse.json({ error: "Partido no encontrado" }, { status: 404 });
-  }
-
-  if (new Date(match.startsAt) < new Date()) {
-    return NextResponse.json(
-      { error: "El partido ya comenzó" },
-      { status: 400 }
-    );
-  }
-
-  // Upsert: buscar predicción existente
-  const existing = await _db.query.predictions.findFirst({
-    where: (p, { eq, and: _and }) =>
-      _and(
-        eq(p.groupId, groupId),
-        eq(p.matchId, matchId),
-        eq(p.userId, session.user.id!)
-      ),
-  });
-
-  if (existing) {
-    if (existing.isLocked) {
-      return NextResponse.json(
-        { error: "La predicción está bloqueada" },
-        { status: 400 }
-      );
+  try {
+    const session = await auth();
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: "No autorizado" }, { status: 401 });
     }
 
-    // Guardar historial antes de actualizar.
-    // Si la tabla todavía no fue migrada, no bloqueamos el update principal.
-    try {
-      await _db.insert(predictionHistory).values({
-        id: crypto.randomUUID(),
-        predictionId: existing.id,
-        groupId,
-        matchId,
-        userId: session.user.id!,
-        previousHomeScore: existing.predictedHomeScore,
-        previousAwayScore: existing.predictedAwayScore,
-        newHomeScore: predictedHomeScore,
-        newAwayScore: predictedAwayScore,
-        editedBy: session.user.id!,
-      });
-    } catch (error) {
-      console.warn("No se pudo guardar prediction_history", error);
+    const { groupId, matchId, predictedHomeScore, predictedAwayScore } = await request.json();
+
+    if (!groupId || !matchId) {
+      return NextResponse.json({ error: "groupId y matchId son requeridos" }, { status: 400 });
     }
 
-    await _db
-      .update(predictions)
-      .set({
-        predictedHomeScore,
-        predictedAwayScore,
-        updatedAt: new Date(),
-      })
-      .where(eq(predictions.id, existing.id));
+    const pool = getPool();
 
-    logActivity({
-      groupId,
-      userId: session.user.id!,
-      activityType: "prediction_updated",
-      referenceId: matchId,
-      message: `Actualizó su pronóstico: ${predictedHomeScore}-${predictedAwayScore}`,
-    });
+    // Check membership
+    const memberResult = await pool.query(
+      `SELECT * FROM "group_members" WHERE "group_id" = $1 AND "user_id" = $2 AND status = 'active'`,
+      [groupId, session.user.id]
+    );
 
-    return NextResponse.json({ success: true, updated: true });
-  }
+    if (memberResult.rows.length === 0) {
+      return NextResponse.json({ error: "No sos miembro" }, { status: 403 });
+    }
 
-  // Crear nueva
-  await _db.insert(predictions).values({
-    id: crypto.randomUUID(),
-    groupId,
-    matchId,
-    userId: session.user.id,
-    predictedHomeScore,
-    predictedAwayScore,
-  });
+    // Check match is not past
+    const matchResult = await pool.query(
+      `SELECT starts_at FROM matches WHERE id = $1`,
+      [matchId]
+    );
 
-  logActivity({
-    groupId,
-    userId: session.user.id!,
-    activityType: "prediction_saved",
-    referenceId: matchId,
-    message: `Cargó pronóstico: ${predictedHomeScore}-${predictedAwayScore}`,
-  });
+    if (matchResult.rows.length === 0) {
+      return NextResponse.json({ error: "Partido no encontrado" }, { status: 404 });
+    }
 
-  return NextResponse.json({ success: true, updated: false }, { status: 201 });
-}
+    const match = matchResult.rows[0];
+    if (new Date(match.starts_at) < new Date()) {
+      return NextResponse.json({ error: "El partido ya empezó" }, { status: 400 });
+    }
 
-// DELETE /api/predictions — borrar predicción (body: { groupId, matchId })
-export async function DELETE(request: Request) {
-  const session = await auth();
-  if (!session?.user?.id) {
-    return NextResponse.json({ error: "No autorizado" }, { status: 401 });
-  }
+    // Upsert prediction
+    const predId = crypto.randomUUID();
+    await pool.query(`
+      INSERT INTO predictions (id, group_id, match_id, user_id, predicted_home_score, predicted_away_score, is_locked)
+      VALUES ($1, $2, $3, $4, $5, $6, false)
+      ON CONFLICT (group_id, match_id, user_id) DO UPDATE SET
+        predicted_home_score = excluded.predicted_home_score,
+        predicted_away_score = excluded.predicted_away_score
+    `, [predId, groupId, matchId, session.user.id, predictedHomeScore, predictedAwayScore]);
 
-  const _db = getDb();
-  const { groupId, matchId } = await request.json();
-
-  if (!groupId || !matchId) {
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error("Error in predictions POST:", error);
     return NextResponse.json(
-      { error: "groupId y matchId requeridos" },
-      { status: 400 }
+      { error: "Error saving prediction", detail: error instanceof Error ? error.message : String(error) },
+      { status: 500 }
     );
   }
-
-  // Verificar membresía
-  const member = await _db.query.groupMembers.findFirst({
-    where: (gm, { eq, and: _and }) =>
-      _and(eq(gm.groupId, groupId), eq(gm.userId, session.user.id!)),
-  });
-
-  if (!member || member.status !== "active") {
-    return NextResponse.json({ error: "No sos miembro" }, { status: 403 });
-  }
-
-  // Verificar que el partido no haya empezado
-  const match = await _db.query.matches.findFirst({
-    where: (m, { eq }) => eq(m.id, matchId),
-  });
-
-  if (!match) {
-    return NextResponse.json({ error: "Partido no encontrado" }, { status: 404 });
-  }
-
-  if (new Date(match.startsAt) < new Date()) {
-    return NextResponse.json(
-      { error: "El partido ya comenzó, no se puede borrar" },
-      { status: 400 }
-    );
-  }
-
-  // Buscar y borrar
-  const existing = await _db.query.predictions.findFirst({
-    where: (p, { eq, and: _and }) =>
-      _and(
-        eq(p.groupId, groupId),
-        eq(p.matchId, matchId),
-        eq(p.userId, session.user.id!)
-      ),
-  });
-
-  if (!existing) {
-    return NextResponse.json({ error: "Predicción no encontrada" }, { status: 404 });
-  }
-
-  await _db.delete(predictions).where(eq(predictions.id, existing.id));
-
-  logActivity({
-    groupId,
-    userId: session.user.id!,
-    activityType: "prediction_deleted",
-    referenceId: matchId,
-    message: `Eliminó su pronóstico`,
-  });
-
-  return NextResponse.json({ success: true });
 }

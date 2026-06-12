@@ -1,0 +1,7 @@
+- generic [ref=e75]:
+  - img [ref=e76]
+  - heading "This page couldn’t load" [level=1] [ref=e78]
+  - paragraph [ref=e79]: Reload to try again, or go back.
+  - generic [ref=e80]:
+    - button "Reload" [ref=e82] [cursor=pointer]
+    - button "Back" [ref=e83] [cursor=pointer]
