@@ -13,11 +13,13 @@ export async function GET() {
 
   const _db = getDb();
 
-  const [userCount] = await _db.select({ count: count() }).from(users);
-  const [groupCount] = await _db.select({ count: count() }).from(groups);
-  const [matchCount] = await _db.select({ count: count() }).from(matches);
-  const [predictionCount] = await _db.select({ count: count() }).from(predictions);
-  const [resultCount] = await _db.select({ count: count() }).from(officialResults);
+  try {
+
+  const [userCount] = await _db.select({ value: count() }).from(users);
+  const [groupCount] = await _db.select({ value: count() }).from(groups);
+  const [matchCount] = await _db.select({ value: count() }).from(matches);
+  const [predictionCount] = await _db.select({ value: count() }).from(predictions);
+  const [resultCount] = await _db.select({ value: count() }).from(officialResults);
 
   // Grupos por tamaño
   const groupSizeStats = await _db
@@ -26,7 +28,7 @@ export async function GET() {
       size: count(),
     })
     .from(groupMembers)
-    .groupBy(groupMembers.groupId);
+    .groupBy(groupMembers.groupId) as { groupId: string; size: number }[];
 
   const avgGroupSize =
     groupSizeStats.length > 0
@@ -44,12 +46,22 @@ export async function GET() {
     .limit(10);
 
   return NextResponse.json({
-    users: userCount.count,
-    groups: groupCount.count,
-    matches: matchCount.count,
-    predictions: predictionCount.count,
-    results: resultCount.count,
+    users: Number(userCount?.value || 0),
+    groups: Number(groupCount?.value || 0),
+    matches: Number(matchCount?.value || 0),
+    predictions: Number(predictionCount?.value || 0),
+    results: Number(resultCount?.value || 0),
     avgGroupSize,
     recentUsers,
   });
+  } catch (error) {
+    console.error("❌ Error in GET /api/admin/stats:", error);
+    return NextResponse.json(
+      {
+        error: "Error al obtener estadísticas",
+        detail: error instanceof Error ? error.message : String(error),
+      },
+      { status: 500 }
+    );
+  }
 }
