@@ -1,6 +1,6 @@
 type EnvMap = Record<string, string | undefined>;
 
-function isPgUrl(value?: string): value is string {
+function isPgUrl(value: string | null | undefined): value is string {
   return !!value && /^(postgres|postgresql):\/\//i.test(value);
 }
 
