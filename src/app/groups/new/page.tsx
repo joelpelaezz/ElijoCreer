@@ -47,6 +47,13 @@ export default function NewGroupPage() {
       return;
     }
 
+    if (!data.groupId) {
+      setError("No se recibió ID del grupo");
+      setLoading(false);
+      return;
+    }
+
+    setLoading(false);
     router.push(`/groups/${data.groupId}`);
     router.refresh();
   }
