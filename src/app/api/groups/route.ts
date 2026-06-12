@@ -57,8 +57,8 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "No autorizado" }, { status: 401 });
     }
 
-    const _db = getDb();
-    const { name, tournamentId, description } = await request.json();
+const _db = getDb();
+    const { name, tournamentId, description, visibility = "private" } = await request.json();
 
     if (!name || !tournamentId) {
       return NextResponse.json(
@@ -74,11 +74,12 @@ export async function POST(request: Request) {
       id: groupId,
       name,
       slug: name.toLowerCase().replace(/\s+/g, "-"),
-    description: description || null,
+      description: description || null,
       inviteCode,
       ownerUserId: session.user.id,
       tournamentId,
       isActive: true,
+      visibility,
     });
 
     // Agregar owner como miembro admin

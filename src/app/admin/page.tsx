@@ -58,7 +58,7 @@ interface GroupPredictions {
   totalPredictions: number;
 }
 
-type Tab = "stats" | "groups" | "users" | "tournaments" | "activity" | "export" | "predictions";
+type Tab = "stats" | "groups" | "users" | "tournaments" | "predictions" | "activity" | "export" | "metrics" | "scoring" | "notifications";
 
 export default function AdminPage() {
   const { data: session, status } = useSession();
@@ -73,6 +73,10 @@ export default function AdminPage() {
   const [selectedGroupId, setSelectedGroupId] = useState<string>("");
   const [loadingActivity, setLoadingActivity] = useState(false);
   const [loadingPredictions, setLoadingPredictions] = useState(false);
+  const [metrics, setMetrics] = useState<any>(null);
+  const [scoringConfig, setScoringConfig] = useState<any>(null);
+  const [loadingMetrics, setLoadingMetrics] = useState(false);
+  const [loadingScoring, setLoadingScoring] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
@@ -90,6 +94,12 @@ export default function AdminPage() {
   useEffect(() => {
     if (activeTab === "activity" && activity.length === 0) {
       loadActivity();
+    }
+    if (activeTab === "metrics" && !metrics) {
+      loadMetrics();
+    }
+    if (activeTab === "scoring" && !scoringConfig) {
+      loadScoringConfig();
     }
   }, [activeTab]);
 
@@ -152,6 +162,37 @@ export default function AdminPage() {
 
   function downloadExport(type: string) {
     window.open(`/api/admin/export?type=${type}`, "_blank");
+  }
+
+  async function loadMetrics() {
+    setLoadingMetrics(true);
+    try {
+      const res = await fetch("/api/admin/metrics");
+      if (res.ok) setMetrics(await res.json());
+    } catch (e) { console.error(e); }
+    finally { setLoadingMetrics(false); }
+  }
+
+  async function loadScoringConfig() {
+    setLoadingScoring(true);
+    try {
+      const res = await fetch("/api/admin/scoring-config");
+      if (res.ok) setScoringConfig(await res.json());
+    } catch (e) { console.error(e); }
+    finally { setLoadingScoring(false); }
+  }
+
+  async function saveScoringConfig() {
+    setLoadingScoring(true);
+    try {
+      const res = await fetch("/api/admin/scoring-config", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(scoringConfig),
+      });
+      if (res.ok) alert("Configuración guardada");
+    } catch (e) { alert("Error al guardar"); }
+    finally { setLoadingScoring(false); }
   }
 
   async function deleteGroup(groupId: string) {
@@ -246,6 +287,9 @@ export default function AdminPage() {
     { id: "predictions" as Tab, label: "Pronósticos", icon: "rate_review" },
     { id: "activity" as Tab, label: "Actividad", icon: "history" },
     { id: "export" as Tab, label: "Exportar", icon: "download" },
+    { id: "metrics" as Tab, label: "Métricas", icon: "trending_up" },
+    { id: "scoring" as Tab, label: "Scoring", icon: "score" },
+    { id: "notifications" as Tab, label: "Notificaciones", icon: "notifications" },
   ];
 
   if (status === "loading" || loading) {
@@ -636,6 +680,131 @@ export default function AdminPage() {
               </div>
             </div>
           )}
+        </div>
+      )}
+
+      {/* Metrics Tab */}
+      {activeTab === "metrics" && (
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-lg font-semibold text-foreground">Métricas y Gráficos</h2>
+            <button
+              onClick={loadMetrics}
+              disabled={loadingMetrics}
+              className="px-3 py-1.5 text-sm font-medium rounded-lg border border-border text-foreground hover:bg-accent disabled:opacity-50"
+            >
+              {loadingMetrics ? "Cargando..." : "Actualizar"}
+            </button>
+          </div>
+          {metrics && (
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="bg-card border border-border rounded-xl p-4">
+                <p className="text-2xl font-bold text-foreground">{metrics.users.total}</p>
+                <p className="text-sm text-muted-foreground">Usuarios totales</p>
+              </div>
+              <div className="bg-card border border-border rounded-xl p-4">
+                <p className="text-2xl font-bold text-foreground">{metrics.users.active7d}</p>
+                <p className="text-sm text-muted-foreground">Usuarios activos (7d)</p>
+              </div>
+              <div className="bg-card border border-border rounded-xl p-4">
+                <p className="text-2xl font-bold text-foreground">{metrics.predictions.total}</p>
+                <p className="text-sm text-muted-foreground">Pronósticos totales</p>
+              </div>
+              <div className="bg-card border border-border rounded-xl p-4">
+                <p className="text-2xl font-bold text-foreground">{metrics.groups.total}</p>
+                <p className="text-sm text-muted-foreground">Grupos totales</p>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Scoring Config Tab */}
+      {activeTab === "scoring" && (
+        <div className="space-y-4">
+          <h2 className="text-lg font-semibold text-foreground">Configuración de Puntos</h2>
+          {scoringConfig && (
+            <div className="space-y-3">
+              {Object.entries(scoringConfig).map(([key, data]: [string, any]) => (
+                <div key={key} className="flex items-center gap-4 bg-card border border-border rounded-xl p-4">
+                  <div className="flex-1">
+                    <p className="font-medium text-foreground">{key}</p>
+                    <p className="text-sm text-muted-foreground">{data.description}</p>
+                  </div>
+                  <input
+                    type="number"
+                    value={data.value}
+                    onChange={(e) => setScoringConfig({ ...scoringConfig, [key]: { ...data, value: e.target.value } })}
+                    className="w-20 bg-background border border-border rounded-lg px-3 py-2 text-foreground text-center"
+                  />
+                </div>
+              ))}
+              <button
+                onClick={saveScoringConfig}
+                disabled={loadingScoring}
+                className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 disabled:opacity-50"
+              >
+                {loadingScoring ? "Guardando..." : "Guardar Configuración"}
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Notifications Tab */}
+      {activeTab === "notifications" && (
+        <div className="space-y-4">
+          <h2 className="text-lg font-semibold text-foreground">Enviar Notificación Masiva</h2>
+          <form
+            onSubmit={async (e) => {
+              e.preventDefault();
+              const form = e.target as HTMLFormElement;
+              const res = await fetch("/api/admin/notifications", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  title: (form.elements.namedItem("title") as HTMLInputElement).value,
+                  message: (form.elements.namedItem("message") as HTMLTextAreaElement).value,
+                  type: (form.elements.namedItem("type") as HTMLSelectElement).value,
+                  targetAudience: (form.elements.namedItem("audience") as HTMLSelectElement).value,
+                }),
+              });
+              const data = await res.json();
+              alert(data.message || data.error);
+              form.reset();
+            }}
+            className="space-y-3 bg-card border border-border rounded-xl p-4"
+          >
+            <div>
+              <label className="block text-sm font-medium text-foreground mb-1">Título</label>
+              <input name="title" required className="w-full bg-background border border-border rounded-lg px-3 py-2 text-foreground" />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-foreground mb-1">Mensaje</label>
+              <textarea name="message" required rows={3} className="w-full bg-background border border-border rounded-lg px-3 py-2 text-foreground" />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block text-sm font-medium text-foreground mb-1">Tipo</label>
+                <select name="type" className="w-full bg-background border border-border rounded-lg px-3 py-2 text-foreground">
+                  <option value="info">Información</option>
+                  <option value="warning">Advertencia</option>
+                  <option value="alert">Alerta</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-foreground mb-1">Audiencia</label>
+                <select name="audience" className="w-full bg-background border border-border rounded-lg px-3 py-2 text-foreground">
+                  <option value="all">Todos los usuarios</option>
+                  <option value="active">Usuarios activos</option>
+                  <option value="groups">En grupos</option>
+                </select>
+              </div>
+            </div>
+            <button type="submit" className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90">
+              Enviar Notificación
+            </button>
+          </form>
         </div>
       )}
     </div>

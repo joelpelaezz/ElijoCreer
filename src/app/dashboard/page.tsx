@@ -1,4 +1,5 @@
 import { auth } from "@/lib/auth/config";
+import { getPool } from "@/lib/db";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -9,6 +10,17 @@ export default async function DashboardPage() {
 
   if (!session?.user) {
     redirect("/login");
+  }
+
+  // Check if user is admin
+  let isAdmin = false;
+  if (session?.user?.id) {
+    const pool = getPool();
+    const profileResult = await pool.query(
+      'SELECT role FROM profiles WHERE id = $1',
+      [session.user.id]
+    );
+    isAdmin = profileResult.rows.length > 0 && profileResult.rows[0].role === "admin";
   }
 
   return (
@@ -22,13 +34,24 @@ export default async function DashboardPage() {
             Tus grupos y predicciones
           </p>
         </div>
-        <Link
-          href="/profile"
-          className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-sm font-bold text-primary hover:bg-primary/30 transition-colors"
-          title="Mi perfil"
-        >
-          {(session.user.name || session.user.email || "U").charAt(0).toUpperCase()}
-        </Link>
+        <div className="flex items-center gap-2">
+          {isAdmin && (
+            <Link
+              href="/admin"
+              className="px-3 py-1.5 text-sm rounded-lg bg-amber-500/20 text-amber-500 hover:bg-amber-500/30 transition-colors"
+              title="Panel de Admin"
+            >
+              Admin
+            </Link>
+          )}
+          <Link
+            href="/profile"
+            className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-sm font-bold text-primary hover:bg-primary/30 transition-colors"
+            title="Mi perfil"
+          >
+            {(session.user.name || session.user.email || "U").charAt(0).toUpperCase()}
+          </Link>
+        </div>
       </div>
 
       {/* Quick Actions */}

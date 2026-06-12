@@ -33,6 +33,20 @@ async function getStats() {
   };
 }
 
+async function getPublicGroups() {
+  const pool = getPool();
+  const result = await pool.query(`
+    SELECT g.id, g.name, g.slug, g.description, t.name as tournament,
+           (SELECT count(*)::int FROM group_members WHERE group_id = g.id) as member_count
+    FROM groups g
+    LEFT JOIN tournaments t ON t.id = g.tournament_id
+    WHERE g.visibility = 'public'
+    ORDER BY member_count DESC
+    LIMIT 6
+  `);
+  return result.rows;
+}
+
 async function getUserRanking(groupId: string, userId: string) {
   const pool = getPool();
   
@@ -69,6 +83,7 @@ export default async function HomePage() {
   const session = await auth();
   const nextMatch = await getNextMatch();
   const stats = await getStats();
+  const publicGroups = await getPublicGroups();
   
   let userRanking = null;
   if (session?.user?.id) {
@@ -167,6 +182,54 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Public Groups */}
+      {publicGroups.length > 0 && (
+        <section className="max-w-7xl mx-auto px-4 my-12">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl font-bold text-[#191c1e]">
+              Grupos Públicos
+            </h2>
+            <p className="text-[#41474f] mt-1">
+              Unite a un grupo y empezá a competir
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {publicGroups.map((group: any) => (
+              <Link
+                key={group.id}
+                href={`/groups/${group.id}`}
+                className="bg-white p-5 rounded-2xl border border-[#e0e3e5] hover:border-[#236391] hover:shadow-md transition-all group"
+              >
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <h3 className="font-bold text-[#191c1e] group-hover:text-[#236391] transition-colors">
+                      {group.name}
+                    </h3>
+                    {group.description && (
+                      <p className="text-sm text-[#41474f] mt-1 line-clamp-2">
+                        {group.description}
+                      </p>
+                    )}
+                    <div className="flex items-center gap-3 mt-3 text-xs text-[#737a8c]">
+                      <span className="flex items-center gap-1">
+                        <span className="material-symbols-outlined text-sm">person</span>
+                        {group.member_count} miembros
+                      </span>
+                      {group.tournament && (
+                        <span className="bg-[#f2f4f6] px-2 py-0.5 rounded-full">
+                          {group.tournament}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  <span className="material-symbols-outlined text-[#236391]">arrow_forward</span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Features Section */}
       <section className="max-w-7xl mx-auto px-4 my-16" id="features">

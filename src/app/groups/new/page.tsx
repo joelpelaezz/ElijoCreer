@@ -13,6 +13,7 @@ export default function NewGroupPage() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [tournamentId, setTournamentId] = useState("");
+  const [visibility, setVisibility] = useState<"public" | "private">("private");
   const [tournaments, setTournaments] = useState<Tournament[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -36,6 +37,7 @@ export default function NewGroupPage() {
         name,
         tournamentId,
         description: description || undefined,
+        visibility,
       }),
     });
 
@@ -109,6 +111,40 @@ export default function NewGroupPage() {
             className="w-full px-3 py-2 rounded-lg border border-border bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary resize-none"
             placeholder="¿De qué va el grupo?"
           />
+        </div>
+
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-foreground">
+            Visibilidad
+          </label>
+          <div className="grid grid-cols-2 gap-3">
+            <button
+              type="button"
+              onClick={() => setVisibility("private")}
+              className={`p-3 rounded-lg border text-left transition-colors ${
+                visibility === "private"
+                  ? "border-primary bg-primary/10"
+                  : "border-border hover:border-primary/50"
+              }`}
+            >
+              <span className="material-symbols-outlined text-xl">lock</span>
+              <p className="font-medium text-foreground mt-1">Privado</p>
+              <p className="text-xs text-muted-foreground">Solo con invitación</p>
+            </button>
+            <button
+              type="button"
+              onClick={() => setVisibility("public")}
+              className={`p-3 rounded-lg border text-left transition-colors ${
+                visibility === "public"
+                  ? "border-primary bg-primary/10"
+                  : "border-border hover:border-primary/50"
+              }`}
+            >
+              <span className="material-symbols-outlined text-xl">public</span>
+              <p className="font-medium text-foreground mt-1">Público</p>
+              <p className="text-xs text-muted-foreground">Visible en el home</p>
+            </button>
+          </div>
         </div>
 
         {error && (
