@@ -32,11 +32,36 @@ export async function GET(request: Request) {
 
     // Get predictions
     const predResult = await pool.query(
-      `SELECT p.* FROM predictions p WHERE p.group_id = $1`,
+      `
+      SELECT 
+        p.id,
+        p.group_id,
+        p.match_id,
+        p.user_id,
+        p.predicted_home_score,
+        p.predicted_away_score,
+        p.is_locked,
+        p.created_at,
+        p.updated_at
+      FROM predictions p 
+      WHERE p.group_id = $1
+      `,
       [groupId]
     );
 
-    return NextResponse.json(predResult.rows);
+    return NextResponse.json(
+      predResult.rows.map((row) => ({
+        id: row.id,
+        groupId: row.group_id,
+        matchId: row.match_id,
+        userId: row.user_id,
+        predictedHomeScore: row.predicted_home_score,
+        predictedAwayScore: row.predicted_away_score,
+        isLocked: row.is_locked,
+        createdAt: row.created_at,
+        updatedAt: row.updated_at,
+      }))
+    );
   } catch (error) {
     console.error("Error in predictions API:", error);
     return NextResponse.json(
@@ -83,7 +108,8 @@ export async function POST(request: Request) {
     }
 
     const match = matchResult.rows[0];
-    if (new Date(match.starts_at) < new Date()) {
+    const deadline = new Date(new Date(match.starts_at).getTime() - 30 * 60 * 1000);
+    if (deadline < new Date()) {
       return NextResponse.json({ error: "El partido ya empezó" }, { status: 400 });
     }
 

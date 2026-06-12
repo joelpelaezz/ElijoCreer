@@ -5,6 +5,7 @@ import path from "path";
 import { eq } from "drizzle-orm";
 import { Page, BrowserContext } from "@playwright/test";
 import { getDb } from "../../src/lib/db";
+import { resolvePostgresConnectionString } from "../../src/lib/db/connection-string";
 import {
   accounts,
   groupMembers,
@@ -20,12 +21,28 @@ import {
   users,
 } from "../../src/lib/db/schema";
 
-if (!process.env.POSTGRES_URL) {
+if (
+  !process.env.POSTGRES_URL &&
+  !process.env.POSTGRES_URL_NON_POOLING &&
+  !process.env.DATABASE_URL
+) {
   const envPath = path.resolve(process.cwd(), ".env.local");
   if (fs.existsSync(envPath)) {
     const content = fs.readFileSync(envPath, "utf8");
-    const match = content.match(/^POSTGRES_URL="?([^"]+)"?/m);
-    if (match) process.env.POSTGRES_URL = match[1];
+
+    const keys = ["POSTGRES_URL_NON_POOLING", "POSTGRES_URL", "DATABASE_URL"] as const;
+    for (const key of keys) {
+      const match = content.match(new RegExp(`^${key}="?([^"\n]+)"?`, "m"));
+      if (match) {
+        process.env[key] = match[1];
+      }
+    }
+
+    try {
+      process.env.POSTGRES_URL = resolvePostgresConnectionString(process.env);
+    } catch {
+      // se valida después cuando se intente usar la conexión
+    }
   }
 }
 

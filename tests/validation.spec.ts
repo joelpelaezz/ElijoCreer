@@ -25,7 +25,8 @@ test.describe('Validación Mobile-First + Accesibilidad + Flujos', () => {
     const emailLabel = page.getByLabel(/Email|Correo/);
     const passwordLabel = page.getByLabel(/Contraseña/);
     
-    await expect(emailLabel.or(passwordLabel)).toBeVisible();
+    await expect(emailLabel).toBeVisible();
+    await expect(passwordLabel).toBeVisible();
   });
   
   test('AC-003: Navegación por teclado', async ({ page }) => {

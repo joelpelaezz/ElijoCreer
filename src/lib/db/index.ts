@@ -1,6 +1,7 @@
 import { Pool } from "pg";
 import { drizzle } from "drizzle-orm/node-postgres";
 import * as schema from "./schema";
+import { resolvePostgresConnectionString } from "./connection-string";
 
 /**
  * Cliente de base de datos.
@@ -17,7 +18,7 @@ let _db: ReturnType<typeof createClient> | null = null;
 let _pool: Pool | null = null;
 
 function createClient() {
-  _pool = new Pool({ connectionString: process.env.POSTGRES_URL });
+  _pool = new Pool({ connectionString: resolvePostgresConnectionString() });
   return drizzle(_pool, { schema });
 }
 

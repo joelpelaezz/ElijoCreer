@@ -9,6 +9,7 @@ export default function RegisterPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -19,6 +20,12 @@ export default function RegisterPage() {
     setError(null);
 
     try {
+      if (password !== confirmPassword) {
+        setError("Las contraseñas no coinciden");
+        setLoading(false);
+        return;
+      }
+
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -73,6 +80,7 @@ export default function RegisterPage() {
             </label>
             <input
               id="name"
+              name="name"
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -90,6 +98,7 @@ export default function RegisterPage() {
             </label>
             <input
               id="email"
+              name="email"
               type="email"
               required
               value={email}
@@ -108,6 +117,7 @@ export default function RegisterPage() {
             </label>
             <input
               id="password"
+              name="password"
               type="password"
               required
               minLength={6}
@@ -115,6 +125,26 @@ export default function RegisterPage() {
               onChange={(e) => setPassword(e.target.value)}
               className="w-full px-3 py-2 rounded-lg border border-border bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
               placeholder="Mínimo 6 caracteres"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label
+              htmlFor="confirmPassword"
+              className="text-sm font-medium text-foreground"
+            >
+              Confirmar contraseña
+            </label>
+            <input
+              id="confirmPassword"
+              name="confirmPassword"
+              type="password"
+              required
+              minLength={6}
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              className="w-full px-3 py-2 rounded-lg border border-border bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+              placeholder="Repetí la contraseña"
             />
           </div>
 

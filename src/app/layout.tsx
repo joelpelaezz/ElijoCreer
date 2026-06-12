@@ -44,7 +44,7 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased overflow-x-hidden`}
     >
       <head>
         <link
@@ -59,7 +59,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-title" content="ElijoCreer" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
       </head>
-      <body className="min-h-full flex flex-col bg-background text-foreground font-sans">
+      <body className="min-h-full flex flex-col bg-background text-foreground font-sans overflow-x-hidden">
         <SessionProvider>
           <ThemeProvider>
             <Header />

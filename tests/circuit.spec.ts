@@ -15,6 +15,7 @@ test.describe('Prode E2E', () => {
     await page.click('text=Registrarse');
     await page.fill('input[type="email"]', email);
     await page.fill('input[type="password"]', 'Test1234!');
+    await page.fill('input[name="confirmPassword"]', 'Test1234!');
     await page.fill('input[id="name"]', 'Test User');
     await page.click('button[type="submit"]');
     await page.waitForURL(/\/dashboard/, { timeout: 15000 });
@@ -29,6 +30,7 @@ test.describe('Prode E2E', () => {
     await page.click('text=Registrarse');
     await page.fill('input[type="email"]', email);
     await page.fill('input[type="password"]', 'Test1234!');
+    await page.fill('input[name="confirmPassword"]', 'Test1234!');
     await page.fill('input[id="name"]', 'Admin User');
     await page.click('button[type="submit"]');
     await page.waitForURL(/\/dashboard/, { timeout: 15000 });
@@ -74,6 +76,7 @@ test.describe('Prode E2E', () => {
     await page.click('text=Registrarse');
     await page.fill('input[type="email"]', email);
     await page.fill('input[type="password"]', 'Test1234!');
+    await page.fill('input[name="confirmPassword"]', 'Test1234!');
     await page.fill('input[id="name"]', 'Fixture User');
     await page.click('button[type="submit"]');
     await page.waitForURL(/\/dashboard/);
