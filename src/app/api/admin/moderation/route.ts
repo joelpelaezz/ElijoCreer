@@ -1,16 +1,17 @@
 import { NextResponse } from "next/server";
 import { getPool } from "@/lib/db";
+import { auth } from "@/lib/auth/config";
+import { hasAdminAccess, isAdmin } from "@/lib/admin";
 
 export async function POST(request: Request) {
   const pool = getPool();
-  const userId = request.headers.get("x-user-id");
+  const session = await auth();
   
-  if (!userId) {
+  if (!session?.user?.id) {
     return NextResponse.json({ error: "No autorizado" }, { status: 401 });
   }
   
-  const adminCheck = await pool.query('SELECT role FROM profiles WHERE id = $1', [userId]);
-  if (adminCheck.rows.length === 0 || adminCheck.rows[0].role !== "admin") {
+  if (!(await hasAdminAccess(session, pool))) {
     return NextResponse.json({ error: "No autorizado" }, { status: 403 });
   }
 
@@ -22,8 +23,14 @@ export async function POST(request: Request) {
     }
 
     // Don't allow banning yourself or other admins
-    const targetCheck = await pool.query('SELECT role FROM profiles WHERE id = $1', [targetUserId]);
-    if (targetCheck.rows.length > 0 && targetCheck.rows[0].role === "admin") {
+    const targetCheck = await pool.query(
+      'SELECT p.role, u.email FROM profiles p LEFT JOIN "user" u ON u.id = p.id WHERE p.id = $1',
+      [targetUserId]
+    );
+    if (
+      targetCheck.rows.length > 0 &&
+      (targetCheck.rows[0].role === "admin" || isAdmin(targetCheck.rows[0].email))
+    ) {
       return NextResponse.json({ error: "No puedes banear a un administrador" }, { status: 400 });
     }
 
@@ -68,7 +75,7 @@ export async function POST(request: Request) {
     await pool.query(`
       INSERT INTO group_activity (action, entity_type, entity_id, user_id, created_at)
       VALUES ($1, 'moderation', $2, $3, NOW())
-    `, [action, targetUserId, userId]);
+    `, [action, targetUserId, session.user.id]);
 
     return NextResponse.json(result);
   } catch (error: any) {

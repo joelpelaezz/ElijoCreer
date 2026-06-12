@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { auth } from "@/lib/auth/config";
 import { getPool } from "@/lib/db";
+import { isUserAdmin } from "@/lib/admin";
 import { UserDropdown } from "./user-dropdown";
 import { ThemeToggle } from "@/components/theme-toggle";
 
@@ -11,11 +12,7 @@ export async function Header() {
   let isAdmin = false;
   if (session?.user?.id) {
     const pool = getPool();
-    const profileResult = await pool.query(
-      'SELECT role FROM profiles WHERE id = $1',
-      [session.user.id]
-    );
-    isAdmin = profileResult.rows.length > 0 && profileResult.rows[0].role === "admin";
+    isAdmin = await isUserAdmin(session.user.id, pool, session.user.email);
   }
 
   return (

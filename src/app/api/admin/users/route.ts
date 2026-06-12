@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getPool } from "@/lib/db";
 import { auth } from "@/lib/auth/config";
+import { hasAdminAccess } from "@/lib/admin";
 
 // GET /api/admin/users — listar todos los usuarios (solo admin)
 export async function GET() {
@@ -12,12 +13,7 @@ export async function GET() {
 
     // Check admin role
     const pool = getPool();
-    const profileResult = await pool.query(
-      'SELECT role FROM profiles WHERE id = $1',
-      [session.user.id]
-    );
-
-    if (profileResult.rows.length === 0 || profileResult.rows[0].role !== 'admin') {
+    if (!(await hasAdminAccess(session, pool))) {
       return NextResponse.json({ error: "No autorizado - se requiere rol admin" }, { status: 403 });
     }
 
@@ -51,12 +47,7 @@ export async function PUT(request: Request) {
 
     // Check admin role
     const pool = getPool();
-    const profileResult = await pool.query(
-      'SELECT role FROM profiles WHERE id = $1',
-      [session.user.id]
-    );
-
-    if (profileResult.rows.length === 0 || profileResult.rows[0].role !== 'admin') {
+    if (!(await hasAdminAccess(session, pool))) {
       return NextResponse.json({ error: "No autorizado - se requiere rol admin" }, { status: 403 });
     }
 
@@ -96,12 +87,7 @@ export async function DELETE(request: Request) {
 
     // Check admin role
     const pool = getPool();
-    const profileResult = await pool.query(
-      'SELECT role FROM profiles WHERE id = $1',
-      [session.user.id]
-    );
-
-    if (profileResult.rows.length === 0 || profileResult.rows[0].role !== 'admin') {
+    if (!(await hasAdminAccess(session, pool))) {
       return NextResponse.json({ error: "No autorizado - se requiere rol admin" }, { status: 403 });
     }
 

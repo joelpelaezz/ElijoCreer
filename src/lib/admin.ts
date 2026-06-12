@@ -20,8 +20,16 @@ export function isAdmin(userEmail?: string | null): boolean {
  * Check if user is admin by user ID (database check)
  * For use in API routes - checks profiles.role
  */
-export async function isUserAdmin(userId: string, pool: any): Promise<boolean> {
+export async function isUserAdmin(
+  userId: string,
+  pool: any,
+  userEmail?: string | null
+): Promise<boolean> {
   if (!userId) return false;
+
+  if (isAdmin(userEmail)) {
+    return true;
+  }
   
   const result = await pool.query(
     'SELECT role FROM profiles WHERE id = $1',
@@ -29,4 +37,9 @@ export async function isUserAdmin(userId: string, pool: any): Promise<boolean> {
   );
   
   return result.rows.length > 0 && result.rows[0].role === 'admin';
+}
+
+export async function hasAdminAccess(session: any, pool: any): Promise<boolean> {
+  if (!session?.user?.id) return false;
+  return isUserAdmin(session.user.id, pool, session.user.email);
 }

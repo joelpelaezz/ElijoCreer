@@ -1,16 +1,17 @@
 import { NextResponse } from "next/server";
 import { getPool } from "@/lib/db";
+import { auth } from "@/lib/auth/config";
+import { hasAdminAccess } from "@/lib/admin";
 
 export async function POST(request: Request) {
   const pool = getPool();
-  const userId = request.headers.get("x-user-id");
+  const session = await auth();
   
-  if (!userId) {
+  if (!session?.user?.id) {
     return NextResponse.json({ error: "No autorizado" }, { status: 401 });
   }
   
-  const adminCheck = await pool.query('SELECT role FROM profiles WHERE id = $1', [userId]);
-  if (adminCheck.rows.length === 0 || adminCheck.rows[0].role !== "admin") {
+  if (!(await hasAdminAccess(session, pool))) {
     return NextResponse.json({ error: "No autorizado" }, { status: 403 });
   }
 
@@ -57,7 +58,7 @@ export async function POST(request: Request) {
     await pool.query(`
       INSERT INTO admin_notifications (id, title, message, type, target_audience, created_by, created_at)
       VALUES ($1, $2, $3, $4, $5, $6, NOW())
-    `, [notificationId, title, message, type || 'info', targetAudience, userId]);
+    `, [notificationId, title, message, type || 'info', targetAudience, session.user.id]);
 
     // TODO: Integrate with actual notification system (email, push, etc.)
     // For now, just log what would be sent

@@ -1,21 +1,17 @@
 import { NextResponse } from "next/server";
 import { getPool } from "@/lib/db";
+import { auth } from "@/lib/auth/config";
+import { hasAdminAccess } from "@/lib/admin";
 
 export async function GET(request: Request) {
   const pool = getPool();
+  const session = await auth();
   
-  // Check auth
-  const userId = request.headers.get("x-user-id");
-  if (!userId) {
+  if (!session?.user?.id) {
     return NextResponse.json({ error: "No autorizado" }, { status: 401 });
   }
   
-  // Verify admin role
-  const adminCheck = await pool.query(
-    'SELECT role FROM profiles WHERE id = $1',
-    [userId]
-  );
-  if (adminCheck.rows.length === 0 || adminCheck.rows[0].role !== "admin") {
+  if (!(await hasAdminAccess(session, pool))) {
     return NextResponse.json({ error: "No autorizado" }, { status: 403 });
   }
 
