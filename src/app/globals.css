@@ -8,12 +8,12 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 
-  /* Design System — ElijoCreer */
-  --color-primary: #236391;
-  --color-primary-container: #74acdf;
+  /* Design System — ElijoCreer (Stitch match) */
+  --color-primary: #6EC6FF;
+  --color-primary-container: #DDF4FF;
   --color-primary-fixed: #cee5ff;
   --color-primary-fixed-dim: #96ccff;
-  --color-on-primary: #ffffff;
+  --color-on-primary: #0D2B45;
   --color-on-primary-container: #003f65;
   --color-on-primary-fixed: #001d32;
   --color-on-primary-fixed-variant: #004a75;
@@ -62,7 +62,7 @@
   --color-destructive: #ba1a1a;
   --color-destructive-foreground: #ffffff;
   --color-surface-variant: #e0e3e5;
-  --color-surface-tint: #236391;
+  --color-surface-tint: #6EC6FF;
 
   /* Spacing tokens */
   --spacing-gutter: 16px;
@@ -82,15 +82,16 @@ body {
   --color-background: #0d1117;
   --color-foreground: #e6edf3;
 
+  /* Primary - lighter for dark mode visibility */
   --color-primary: #96ccff;
   --color-primary-container: #004a75;
   --color-primary-fixed: #cee5ff;
   --color-primary-fixed-dim: #96ccff;
-  --color-on-primary: #003258;
+  --color-on-primary: #0D2B45;
   --color-on-primary-container: #cee5ff;
   --color-on-primary-fixed: #001d32;
   --color-on-primary-fixed-variant: #004a75;
-  --color-inverse-primary: #236391;
+  --color-inverse-primary: #DDF4FF;
 
   --color-secondary: #a3c9fb;
   --color-secondary-container: #1e4973;
@@ -142,7 +143,7 @@ body {
 }
 
 .dark .hero-gradient {
-  background: linear-gradient(135deg, #001d32 0%, #0d1117 100%);
+  background: linear-gradient(135deg, #0D2B45 0%, #0d1117 100%);
 }
 
 .dark .glass-card {
@@ -150,9 +151,9 @@ body {
   border-color: rgba(255, 255, 255, 0.1);
 }
 
-/* Hero gradient */
+/* Hero gradient (Stitch match) */
 .hero-gradient {
-  background: linear-gradient(135deg, #236391 0%, #001d32 100%);
+  background: linear-gradient(135deg, #6EC6FF 0%, #0D2B45 100%);
 }
 
 /* Glass card */
