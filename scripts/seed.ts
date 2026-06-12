@@ -126,7 +126,7 @@ async function main() {
     })
     .onConflictDoNothing();
 
-  tournament ??= { id: tournamentId } as typeof tournament;
+  const existingTournament = tournament ?? { id: tournamentId };
   console.log("✅ Torneo listo: Mundial 2026");
 
   const teamNames = new Set<string>();
