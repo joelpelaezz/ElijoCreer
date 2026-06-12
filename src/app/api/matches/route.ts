@@ -5,16 +5,17 @@ import { auth } from "@/lib/auth/config";
 
 // GET /api/matches?tournamentId=X&stage=group
 export async function GET(request: Request) {
-  const session = await auth();
-  if (!session?.user?.id) {
-    return NextResponse.json({ error: "No autorizado" }, { status: 401 });
-  }
+  try {
+    const session = await auth();
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: "No autorizado" }, { status: 401 });
+    }
 
-  const { searchParams } = new URL(request.url);
-  const tournamentId = searchParams.get("tournamentId");
-  const stage = searchParams.get("stage");
+    const { searchParams } = new URL(request.url);
+    const tournamentId = searchParams.get("tournamentId");
+    const stage = searchParams.get("stage");
 
-  const _db = getDb();
+    const _db = getDb();
 
   // Traer todos los partidos con raw SQL queries
   const allMatches = await _db.query.matches.findMany({
@@ -59,4 +60,11 @@ export async function GET(request: Request) {
   });
 
   return NextResponse.json(enriched);
+  } catch (error) {
+    console.error("Error in matches API:", error);
+    return NextResponse.json(
+      { error: "Error fetching matches", detail: error instanceof Error ? error.message : String(error) },
+      { status: 500 }
+    );
+  }
 }

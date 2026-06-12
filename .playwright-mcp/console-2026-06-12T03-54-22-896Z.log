@@ -1,0 +1,5 @@
+[     729ms] [LOG] SW registrado @ https://elijocreer.vercel.app/_next/static/chunks/0xy0dbbrey_57.js:1
+[     770ms] [WARNING] <meta name="apple-mobile-web-app-capable" content="yes"> is deprecated. Please include <meta name="mobile-web-app-capable" content="yes"> @ https://elijocreer.vercel.app/groups/7d0215e9-9c98-4e44-a526-84e738c0780c:0
+[    1016ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://elijocreer.vercel.app/icon-192.png:0
+[    1017ms] [WARNING] Error while trying to use the following icon from the Manifest: https://elijocreer.vercel.app/icon-192.png (Download error or resource isn't a valid image) @ https://elijocreer.vercel.app/groups/7d0215e9-9c98-4e44-a526-84e738c0780c:0
+[    1633ms] [ERROR] Failed to load resource: the server responded with a status of 500 () @ https://elijocreer.vercel.app/api/activity?groupId=7d0215e9-9c98-4e44-a526-84e738c0780c&limit=15:0
