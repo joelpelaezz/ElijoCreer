@@ -39,13 +39,14 @@ export async function GET() {
 
 // POST /api/groups — crear grupo
 export async function POST(request: Request) {
-  const session = await auth();
-  if (!session?.user?.id) {
-    return NextResponse.json({ error: "No autorizado" }, { status: 401 });
-  }
+  try {
+    const session = await auth();
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: "No autorizado" }, { status: 401 });
+    }
 
-  const _db = getDb();
-  const { name, tournamentId, description } = await request.json();
+    const _db = getDb();
+    const { name, tournamentId, description } = await request.json();
 
   if (!name || !tournamentId) {
     return NextResponse.json(
@@ -87,7 +88,14 @@ export async function POST(request: Request) {
   });
 
   return NextResponse.json(
-    { success: true, groupId, inviteCode },
-    { status: 201 }
-  );
+      { success: true, groupId, inviteCode },
+      { status: 201 }
+    );
+  } catch (error) {
+    console.error("Error creating group:", error);
+    return NextResponse.json(
+      { error: "Error al crear grupo", detail: error instanceof Error ? error.message : String(error) },
+      { status: 500 }
+    );
+  }
 }
