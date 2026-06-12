@@ -1,0 +1,120 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "ElijoCreer" [ref=e4] [cursor=pointer]:
+        - /url: /
+      - navigation [ref=e5]:
+        - button "settings_brightness" [ref=e6]:
+          - generic [ref=e7]: settings_brightness
+        - button "T TestUser99" [ref=e9]:
+          - generic [ref=e10]: T
+          - generic [ref=e11]: TestUser99
+  - main [ref=e12]:
+    - generic [ref=e13]:
+      - generic [ref=e14]:
+        - generic [ref=e17]: Road to 2026
+        - heading "La gloria se predice, el orgullo se comparte." [level=1] [ref=e18]:
+          - text: La gloria se predice,
+          - text: el orgullo se comparte.
+        - paragraph [ref=e19]: La plataforma social de predicciones del Mundial 2026. Creá grupos con amigos, cargá tus pronósticos y subí en el ranking.
+        - link "Ir al Dashboard arrow_forward" [ref=e21] [cursor=pointer]:
+          - /url: /dashboard
+          - text: Ir al Dashboard
+          - generic [ref=e22]: arrow_forward
+      - generic [ref=e25]: sports_soccer
+    - generic [ref=e26]:
+      - generic [ref=e27]:
+        - heading "¿Cómo funciona?" [level=2] [ref=e28]
+        - paragraph [ref=e29]: Tres pasos para convertirte en el campeón de tu grupo.
+      - generic [ref=e30]:
+        - generic [ref=e31]:
+          - generic [ref=e33]: groups
+          - heading "Creá tu grupo" [level=3] [ref=e34]
+          - paragraph [ref=e35]: Armá un grupo privado con amigos o unite a una liga pública. La competencia es mejor cuando es social.
+        - generic [ref=e36]:
+          - generic [ref=e38]: edit_note
+          - heading "Predicí los resultados" [level=3] [ref=e39]
+          - paragraph [ref=e40]: Cargá tus pronósticos antes de cada partido. Ganá puntos por resultado exacto o por acertar el ganador.
+        - generic [ref=e41]:
+          - generic [ref=e43]: leaderboard
+          - heading "Ganá el ranking" [level=3] [ref=e44]
+          - paragraph [ref=e45]: Escalá posiciones en el ranking de tu grupo. Demostrá quién conoce más del fútbol.
+    - generic [ref=e46]:
+      - generic [ref=e47]:
+        - heading "Viví la experiencia" [level=2] [ref=e48]
+        - paragraph [ref=e49]: Interfaz moderna diseñada para los fans más apasionados.
+      - generic [ref=e50]:
+        - generic [ref=e51]:
+          - generic [ref=e52]:
+            - generic [ref=e53]: Próximo Partido
+            - generic [ref=e54]: Grupo A • Estadio Azteca
+          - generic [ref=e55]:
+            - generic [ref=e56]:
+              - generic [ref=e57]: ARG
+              - generic [ref=e58]: Argentina
+            - generic [ref=e59]:
+              - generic [ref=e60]: "?"
+              - generic [ref=e61]: ":"
+              - generic [ref=e62]: "?"
+            - generic [ref=e63]:
+              - generic [ref=e64]: MEX
+              - generic [ref=e65]: México
+          - generic [ref=e66]:
+            - paragraph [ref=e67]: ¿Podés predecir el resultado exacto?
+            - generic [ref=e68]: +5 pts si acertás
+        - generic [ref=e69]:
+          - generic [ref=e70]:
+            - generic [ref=e71]:
+              - heading "Ranking Amigos" [level=3] [ref=e72]
+              - generic [ref=e73]: workspace_premium
+            - generic [ref=e74]:
+              - generic [ref=e75]:
+                - generic [ref=e76]:
+                  - generic [ref=e77]: "1"
+                  - generic [ref=e78]: M
+                  - generic [ref=e79]: Messi_10
+                - generic [ref=e80]: 1,240 pts
+              - generic [ref=e81]:
+                - generic [ref=e82]:
+                  - generic [ref=e83]: "2"
+                  - generic [ref=e84]: V
+                  - generic [ref=e85]: Vos
+                - generic [ref=e86]: 1,180 pts
+              - generic [ref=e87]:
+                - generic [ref=e88]:
+                  - generic [ref=e89]: "3"
+                  - generic [ref=e90]: M
+                  - generic [ref=e91]: Maria_Fan
+                - generic [ref=e92]: 950 pts
+          - generic [ref=e93]:
+            - paragraph [ref=e94]: Tu Nivel de Confianza
+            - paragraph [ref=e95]: Experto
+            - paragraph [ref=e98]: A 240 pts del nivel Legendario
+    - generic [ref=e100]:
+      - heading "¿Listo para demostrar tu fe?" [level=2] [ref=e101]
+      - paragraph [ref=e102]: Unite a miles de aficionados que ya están armando sus grupos. No te quedes fuera del mayor evento social del 2026.
+      - link "Ir al Dashboard" [ref=e104] [cursor=pointer]:
+        - /url: /dashboard
+    - generic [ref=e105]:
+      - generic [ref=e106]:
+        - generic [ref=e107]:
+          - heading "ElijoCreer" [level=4] [ref=e108]
+          - paragraph [ref=e109]: La red social definitiva para fanáticos del fútbol y maestros de las predicciones.
+        - generic [ref=e110]:
+          - heading "Plataforma" [level=5] [ref=e111]
+          - list [ref=e112]:
+            - listitem [ref=e113]:
+              - link "Dashboard" [ref=e114] [cursor=pointer]:
+                - /url: /dashboard
+            - listitem [ref=e115]:
+              - link "Ingresar" [ref=e116] [cursor=pointer]:
+                - /url: /login
+        - generic [ref=e117]:
+          - heading "Legal" [level=5] [ref=e118]
+          - list [ref=e119]:
+            - listitem [ref=e120]: Términos y Condiciones
+            - listitem [ref=e121]: Privacidad
+        - generic [ref=e122]:
+          - heading "Contacto" [level=5] [ref=e123]
+          - paragraph [ref=e124]: Seguinos en redes para estar al tanto de las novedades.
+      - generic [ref=e125]: © 2026 ElijoCreer. Todos los derechos reservados.

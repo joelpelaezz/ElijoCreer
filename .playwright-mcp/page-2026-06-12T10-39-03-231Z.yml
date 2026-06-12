@@ -1,0 +1,38 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "ElijoCreer" [ref=e4] [cursor=pointer]:
+        - /url: /
+      - navigation [ref=e5]:
+        - button "settings_brightness" [ref=e6]:
+          - generic [ref=e7]: settings_brightness
+        - generic [ref=e8]:
+          - link "Iniciar Sesión" [ref=e9] [cursor=pointer]:
+            - /url: /login
+          - link "Registrarse" [ref=e10] [cursor=pointer]:
+            - /url: /register
+  - main [ref=e11]:
+    - generic [ref=e13]:
+      - generic [ref=e14]:
+        - heading "Crear Cuenta" [level=1] [ref=e15]
+        - paragraph [ref=e16]: Únete a ElijoCreer y empezá a predecir
+      - generic [ref=e17]:
+        - generic [ref=e18]:
+          - text: Nombre (opcional)
+          - textbox "Nombre (opcional)" [ref=e19]:
+            - /placeholder: Tu nombre
+        - generic [ref=e20]:
+          - text: Email
+          - textbox "Email" [ref=e21]:
+            - /placeholder: tu@email.com
+        - generic [ref=e22]:
+          - text: Contraseña
+          - textbox "Contraseña" [ref=e23]:
+            - /placeholder: Mínimo 6 caracteres
+        - button "Crear Cuenta" [ref=e24]
+      - paragraph [ref=e25]:
+        - text: ¿Ya tenés cuenta?
+        - link "Iniciá Sesión" [ref=e26] [cursor=pointer]:
+          - /url: /login
+  - button "Open Next.js Dev Tools" [ref=e32] [cursor=pointer]:
+    - img [ref=e33]
