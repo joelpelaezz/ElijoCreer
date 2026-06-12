@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ElijoCreer - Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&amp;family=Hanken+Grotesk:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            background-color: #041329;
+            color: #d6e3ff;
+            -webkit-font-smoothing: antialiased;
+        }
+        .glass-panel {
+            background: rgba(17, 32, 54, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .prediction-input-well {
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+            background: rgba(4, 19, 41, 0.5);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #27354c;
+            border-radius: 10px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#454747",
+                        "primary-fixed": "#c4e7ff",
+                        "primary-fixed-dim": "#86cffa",
+                        "primary-container": "#7bc4ee",
+                        "on-secondary-fixed": "#1a1c1c",
+                        "tertiary-container": "#deb83f",
+                        "inverse-on-surface": "#233148",
+                        "inverse-surface": "#d6e3ff",
+                        "surface-tint": "#86cffa",
+                        "on-surface": "#d6e3ff",
+                        "tertiary-fixed": "#ffe088",
+                        "on-primary-fixed": "#001e2c",
+                        "surface-bright": "#2c3951",
+                        "surface": "#041329",
+                        "on-secondary-container": "#b4b5b5",
+                        "on-error": "#690005",
+                        "outline": "#899298",
+                        "surface-container-highest": "#27354c",
+                        "on-tertiary-fixed": "#241a00",
+                        "on-primary": "#00344a",
+                        "tertiary-fixed-dim": "#e9c349",
+                        "primary": "#aadeff",
+                        "on-primary-container": "#00516f",
+                        "error-container": "#93000a",
+                        "surface-container-low": "#0d1c32",
+                        "on-tertiary-fixed-variant": "#574500",
+                        "surface-container-lowest": "#010e24",
+                        "on-surface-variant": "#bfc8cf",
+                        "surface-container-high": "#1c2a41",
+                        "on-error-container": "#ffdad6",
+                        "on-primary-fixed-variant": "#004c69",
+                        "surface-variant": "#27354c",
+                        "secondary-container": "#454747",
+                        "surface-container": "#112036",
+                        "secondary-fixed-dim": "#c6c6c7",
+                        "background": "#041329",
+                        "secondary-fixed": "#e2e2e2",
+                        "outline-variant": "#40484e",
+                        "on-background": "#d6e3ff",
+                        "secondary": "#c6c6c7",
+                        "surface-dim": "#041329",
+                        "error": "#ffb4ab",
+                        "tertiary": "#fbd358",
+                        "on-secondary": "#2f3131",
+                        "inverse-primary": "#00658b",
+                        "on-tertiary": "#3c2f00"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-lg": "48px",
+                        "margin-mobile": "16px",
+                        "container-max": "1280px",
+                        "stack-md": "24px",
+                        "margin-desktop": "40px",
+                        "gutter": "24px",
+                        "base": "8px",
+                        "stack-sm": "12px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Sora"],
+                        "label-md": ["JetBrains Mono"],
+                        "body-md": ["Hanken Grotesk"],
+                        "headline-md": ["Sora"],
+                        "body-lg": ["Hanken Grotesk"],
+                        "headline-lg": ["Sora"],
+                        "headline-lg-mobile": ["Sora"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "label-md": ["14px", { "lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.2", "fontWeight": "700" }]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="font-body-md text-on-surface selection:bg-primary/30">
+<!-- WebGL Background Overlay (Atmospheric) -->
+<div class="fixed inset-0 pointer-events-none z-0 opacity-40"></div>
+<!-- SideNavBar Shell -->
+<aside class="hidden lg:flex flex-col h-full fixed left-0 top-0 z-40 py-8 bg-surface-container border-r border-white/5 w-64 shadow-xl">
+<div class="px-6 mb-stack-lg">
+<h1 class="font-display-lg text-headline-md font-extrabold text-tertiary tracking-tight">ElijoCreer</h1>
+<p class="font-label-md text-on-surface-variant text-[10px] uppercase tracking-[0.2em] mt-1">World Cup 2026</p>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center gap-4 text-primary font-bold border-l-4 border-primary bg-primary/10 py-3 px-6 transition-transform hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-headline-md text-[16px]">Dashboard</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant hover:text-on-surface hover:bg-surface-bright/50 py-3 px-6 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="sports_soccer">sports_soccer</span>
+<span class="font-headline-md text-[16px]">My Predictions</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant hover:text-on-surface hover:bg-surface-bright/50 py-3 px-6 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="leaderboard">leaderboard</span>
+<span class="font-headline-md text-[16px]">Global Rankings</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant hover:text-on-surface hover:bg-surface-bright/50 py-3 px-6 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-headline-md text-[16px]">Private Leagues</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant hover:text-on-surface hover:bg-surface-bright/50 py-3 px-6 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-headline-md text-[16px]">Tournament Stats</span>
+</a>
+</nav>
+<div class="px-6 mt-auto">
+<button class="w-full bg-tertiary text-on-tertiary py-3 rounded-lg font-bold shadow-lg shadow-tertiary/20 hover:scale-[1.02] active:scale-95 transition-all mb-8">
+            Place Joker Prediction
+        </button>
+<div class="space-y-4 pt-4 border-t border-white/10">
+<a class="flex items-center gap-4 text-on-surface-variant hover:text-tertiary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md">Settings</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant hover:text-tertiary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="font-label-md">Support</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="lg:ml-64 min-h-screen relative z-10">
+<!-- TopAppBar Navigation -->
+<header class="fixed top-0 right-0 left-0 lg:left-64 h-20 bg-surface/80 backdrop-blur-xl border-b border-white/5 z-30 flex items-center justify-between px-margin-desktop shadow-sm">
+<div class="flex items-center gap-stack-md">
+<h2 class="font-headline-md text-headline-md text-primary lg:hidden">ElijoCreer</h2>
+<div class="hidden md:flex gap-base">
+<a class="font-label-md text-primary font-bold border-b-2 border-tertiary pb-1" href="#">Matches</a>
+<a class="font-label-md text-on-surface-variant font-medium hover:text-primary transition-colors" href="#">Leagues</a>
+<a class="font-label-md text-on-surface-variant font-medium hover:text-primary transition-colors" href="#">Rankings</a>
+<a class="font-label-md text-on-surface-variant font-medium hover:text-primary transition-colors" href="#">Rules</a>
+</div>
+</div>
+<div class="flex items-center gap-stack-md">
+<button class="hidden sm:block bg-primary text-on-primary px-6 py-2 rounded-full font-bold text-sm transition-transform active:scale-95 shadow-lg shadow-primary/20">
+                Predict Now
+            </button>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary p-2 rounded-full hover:bg-white/5 transition-all" data-icon="notifications">notifications</button>
+<div class="flex items-center gap-3 pl-4 border-l border-white/10">
+<div class="text-right hidden sm:block">
+<p class="text-sm font-bold">Mateo Rossi</p>
+<p class="text-xs text-on-surface-variant">2,450 pts</p>
+</div>
+<div class="w-10 h-10 rounded-full border-2 border-tertiary p-0.5 overflow-hidden">
+<img alt="User Avatar" class="w-full h-full rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNIVsyevS5JP9gNn8jGyBSDlzVfsBX_jQ4NA57K1c381VVtOr3FdlKqLJaiiFgPCFRHZHbKZKEcccZW64U1PETzjXGeUKoe0-p8vUpxA3CaqZJ3qCDfs1gmK6N2-H5onee4duA_Eqtb538tqtTOm99u-ArdemKoQZrK1gyrLWTzXGe0K4Wjj-nCxGs4xETEVR6vR6jXf2uDHQQy83MndZeADMJnpCWCB8vp1hXfIe-UaM2LqDmBgqa5k9N1izyRJU3dYa_eK0xQMw"/>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Content Area -->
+<div class="pt-24 px-margin-mobile md:px-margin-desktop pb-12 max-w-container-max mx-auto">
+<!-- Bento Dashboard Grid -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Left Column: Alerts & Matches -->
+<div class="md:col-span-8 space-y-gutter">
+<!-- Pending Alert - Refined -->
+<div class="bg-surface-container-highest/40 backdrop-blur-md p-6 rounded-2xl flex items-center justify-between border border-error/30 overflow-hidden relative group">
+<div class="flex items-center gap-5">
+<div class="bg-error/10 w-14 h-14 rounded-xl flex items-center justify-center text-error border border-error/20">
+<span class="material-symbols-outlined text-3xl" data-icon="pending_actions">pending_actions</span>
+</div>
+<div>
+<h3 class="font-headline-md text-xl text-white">Pendientes</h3>
+<p class="text-on-surface-variant text-sm mt-0.5">Tienes 3 partidos del Grupo C sin pronosticar.</p>
+</div>
+</div>
+<button class="relative z-10 bg-error text-white font-bold px-6 py-2.5 rounded-xl text-sm hover:brightness-110 shadow-lg shadow-error/20 transition-all active:scale-95">
+                        Completar ahora
+                    </button>
+<!-- Background Decoration -->
+<div class="absolute right-0 top-0 h-full w-1/3 bg-gradient-to-l from-error/5 to-transparent pointer-events-none"></div>
+</div>
+<!-- Próximos Partidos - Refined Match States -->
+<div class="glass-panel rounded-2xl overflow-hidden shadow-2xl">
+<div class="p-6 border-b border-white/5 flex items-center justify-between bg-surface-container/50">
+<div class="flex items-center gap-3">
+<h3 class="font-headline-md text-xl text-white">Próximos Partidos</h3>
+</div>
+<span class="font-label-md text-[10px] text-tertiary bg-tertiary/10 px-3 py-1 rounded-full border border-tertiary/20 uppercase tracking-widest">Live in 2h</span>
+</div>
+<div class="divide-y divide-white/5">
+<!-- Match Row 1: Upcoming (Active Focus) -->
+<div class="p-6 hover:bg-white/[0.03] transition-all group bg-primary/5">
+<div class="flex flex-col lg:flex-row items-center justify-between gap-6">
+<div class="flex items-center gap-6 w-full lg:w-1/3">
+<div class="flex -space-x-4">
+<div class="w-14 h-14 rounded-full border-4 border-surface bg-surface-variant overflow-hidden z-10 shadow-lg">
+<img alt="Argentina" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBa46lQSNrSpw-OpYkV1G6JwohsLeDm04znbVUXXA56tF0ME5p7sotm_FmaYZWn2vR9Y8BXyX7vWT10Sp44JuB9D8KeTVu8ZHEbw5TS_wNlm-W7pmBDmNY5AwwUvK8RmYWcdcWp739CJRuj2uBdSZpAEY1MglS6QOl0ypC_V0baF7lh6choHK7RaoRxJq5CbRWtu-ELzNEhjr0-zJLNM4kQ0AeW4K7tQWYSJanybmzgUoU9isi4jNEfcIsTxtoXE_aQ77Ybe7sqbns"/>
+</div>
+<div class="w-14 h-14 rounded-full border-4 border-surface bg-surface-variant overflow-hidden shadow-lg">
+<img alt="France" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZoK_y5wWLqt1ZQakgBjuNBuDgjPEaYAxYLyl8IRu0qxkXrR9dIaxd7vS9tD9_LiSmn9oA3BhozNfPBmkmm2RtVPtihQTs7t6hMwjYNzwc3Gjjza-7-KUNLy3frAMXKwauibkUgAgqOvaBabeti9_sxO294Kdjwlpd1m1iHK3rU4ij7zXjJFChifT4Uw3ok6iLxl79e7_6UqlkQkTVHNpxzUE8p4ocAxrsxOLZsgAHhPIfQRC_u9ViE0Y9iSVpqb-vZCbcq00LIlI"/>
+</div>
+</div>
+<div>
+<p class="font-bold text-lg text-white">ARG vs FRA</p>
+<p class="text-xs text-primary font-medium">HOY • 18:00</p>
+<p class="text-[10px] text-on-surface-variant uppercase mt-1">Estadio Azteca</p>
+</div>
+</div>
+<!-- Central Predict CTA -->
+<div class="flex items-center gap-4 bg-surface-container-lowest p-2.5 rounded-2xl border border-primary/20 shadow-xl ring-4 ring-primary/5">
+<div class="flex flex-col items-center">
+<input class="prediction-input-well w-14 h-14 rounded-xl border-none text-center font-display-lg text-2xl text-primary focus:ring-2 focus:ring-primary transition-all" type="number" value="2"/>
+</div>
+<span class="font-black text-on-surface-variant opacity-40 text-xl">X</span>
+<div class="flex flex-col items-center">
+<input class="prediction-input-well w-14 h-14 rounded-xl border-none text-center font-display-lg text-2xl text-primary focus:ring-2 focus:ring-primary transition-all" type="number" value="1"/>
+</div>
+</div>
+<div class="flex flex-col lg:items-end w-full lg:w-1/3">
+<button class="bg-primary text-on-primary px-8 py-2.5 rounded-xl font-bold text-sm shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-all">
+                                        PREDECIR AHORA
+                                    </button>
+<div class="flex items-center gap-2 mt-3 group/joker cursor-pointer">
+<span class="material-symbols-outlined text-[18px] text-tertiary" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-md text-[10px] text-on-surface-variant group-hover/joker:text-tertiary transition-colors uppercase tracking-widest">USAR JOKER (x2)</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Match Row 2: Finished / Static -->
+<div class="p-6 hover:bg-white/[0.02] transition-all group opacity-80 grayscale-[0.3]">
+<div class="flex flex-col lg:flex-row items-center justify-between gap-6">
+<div class="flex items-center gap-6 w-full lg:w-1/3">
+<div class="flex -space-x-4">
+<div class="w-14 h-14 rounded-full border-4 border-surface bg-surface-variant overflow-hidden z-10">
+<img alt="Brazil" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDT5lI0kkY3gFg2WuzXdq5JTJD2mIk7qzolRmFPpRDzk9V6uWiWK8bi4ZxPE8W2cOm18rVQS2u3UxkoqL0dtN5yhYumTZkgQFHLjWXIgrxwF68hRXxz5HKvwu1ZWDRxHW7b3kzQPUEgBcchoDflnJ91tvf99jwkSgpuQlNpo1W-41PN_KNDa9GlkKEqs8wWYtpbWzMA9l9OlA0cIaYHXK1Ri-sMZFQfUYe2iwyVAK01IT9BksNSui9EYXSB7dXIxi9Xxo-rLbufE9c"/>
+</div>
+<div class="w-14 h-14 rounded-full border-4 border-surface bg-surface-variant overflow-hidden">
+<img alt="Germany" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDL_Lma6vRH_N_n3jSAIIGTmtO2E6-FqKz4kH5PRj0qPgQXQC0TWS_ZzAxuMgzcQ6J2VGWm4V9_flCNCO0bcJhPv8rousHhSNecYsI5eUGVDgPXraNsKNgg7ZAgBdu4cmMe1JYCdtHrbaWY2Zs-Og-jwaFCPWWEfyGpmq5IDs6jYzDqZq4uhf-bXr9aRGcv7bk5bCJmgkjGrEUHzoRib22qQvPu5SDRevP4NH1f75MioF-uuSn3qs0NaCKVPLM-ArFmeCE8yqQ6e7k"/>
+</div>
+</div>
+<div>
+<p class="font-bold text-white">BRA vs GER</p>
+<p class="text-xs text-on-surface-variant">MAÑANA • 21:00</p>
+<span class="text-[9px] bg-white/5 px-2 py-0.5 rounded text-on-surface-variant border border-white/10 mt-1 inline-block uppercase">Upcoming</span>
+</div>
+</div>
+<div class="flex items-center gap-4 bg-surface-container-low p-2 rounded-xl border border-white/5 opacity-50">
+<div class="w-12 h-12 flex items-center justify-center font-display-lg text-xl text-on-surface-variant">?</div>
+<span class="font-black text-on-surface-variant opacity-20">-</span>
+<div class="w-12 h-12 flex items-center justify-center font-display-lg text-xl text-on-surface-variant">?</div>
+</div>
+<div class="flex flex-col lg:items-end w-full lg:w-1/3">
+<button class="bg-surface-container-highest text-on-surface hover:bg-primary/20 hover:text-primary px-6 py-2 rounded-lg font-bold text-xs transition-all border border-white/5">
+                                        CARGAR LUEGO
+                                    </button>
+<div class="w-full max-w-[120px] h-1.5 bg-surface-variant mt-4 rounded-full overflow-hidden">
+<div class="bg-primary/50 h-full" style="width: 15%;"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<button class="w-full py-4 bg-surface-container-highest/80 text-primary font-label-md text-[11px] tracking-[0.2em] uppercase hover:bg-primary/10 transition-colors border-t border-white/5">
+                        Ver fixture completo
+                    </button>
+</div>
+</div>
+<!-- Right Column: Ranking & Groups -->
+<div class="md:col-span-4 space-y-gutter">
+<!-- Ranking Widget - Enhanced Layout -->
+<div class="relative glass-panel p-6 rounded-2xl shadow-xl overflow-hidden group">
+<!-- Background Glow -->
+<div class="absolute -right-12 -top-12 w-32 h-32 bg-tertiary/10 blur-[60px] rounded-full group-hover:bg-tertiary/20 transition-all duration-700"></div>
+<div class="flex items-center justify-between mb-8 relative z-10">
+<div>
+<h3 class="font-headline-md text-white">Tu Ranking</h3>
+<p class="text-xs text-on-surface-variant">Actualizado hace 2h</p>
+</div>
+<div class="w-12 h-12 rounded-xl bg-tertiary/10 flex items-center justify-center text-tertiary border border-tertiary/20">
+<span class="material-symbols-outlined" data-icon="emoji_events">emoji_events</span>
+</div>
+</div>
+<div class="flex flex-col items-center pb-8 border-b border-white/5 relative z-10">
+<div class="flex items-baseline gap-1">
+<span class="text-tertiary font-display-lg text-2xl">#</span>
+<span class="text-[64px] font-display-lg text-white leading-none tracking-tighter">12</span>
+</div>
+<p class="text-on-surface-variant text-xs mt-3 uppercase tracking-[0.3em] font-bold">Global Ranking</p>
+<div class="mt-6 flex items-center gap-3 bg-green-500/10 text-green-400 px-4 py-2 rounded-full border border-green-500/20 shadow-sm">
+<span class="material-symbols-outlined text-base" data-icon="trending_up">trending_up</span>
+<span class="text-xs font-bold font-label-md">Subiste 4 puestos</span>
+</div>
+</div>
+<div class="mt-8 space-y-5 relative z-10">
+<div class="flex items-center justify-between text-xs font-medium">
+<span class="text-on-surface-variant">Próximo hito:</span>
+<span class="text-tertiary font-bold uppercase tracking-widest">TOP 10</span>
+</div>
+<div class="relative">
+<div class="w-full bg-surface-variant/30 h-3 rounded-full overflow-hidden p-0.5 border border-white/5">
+<div class="bg-gradient-to-r from-tertiary-container to-tertiary h-full rounded-full shadow-[0_0_12px_rgba(251,211,88,0.4)]" style="width: 85%;"></div>
+</div>
+<span class="absolute -top-6 right-0 text-[10px] text-on-surface-variant font-bold">Faltan 15 pts</span>
+</div>
+</div>
+</div>
+<!-- My Groups - Enhanced Hierarchy -->
+<div class="glass-panel p-6 rounded-2xl shadow-xl">
+<div class="flex items-center justify-between mb-6">
+<h3 class="font-headline-md text-lg text-white">Tus Grupos</h3>
+<span class="text-xs text-primary font-bold cursor-pointer hover:underline">Ver todos</span>
+</div>
+<div class="space-y-4">
+<!-- Group Item 1 -->
+<div class="group/item flex items-center justify-between p-4 rounded-xl bg-surface-container/30 border border-white/5 hover:border-primary/30 hover:bg-primary/5 transition-all cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary border border-primary/20 shadow-inner group-hover/item:scale-105 transition-transform">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+</div>
+<div>
+<p class="font-bold text-sm text-white group-hover/item:text-primary transition-colors">Amigos del Club</p>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="text-[10px] text-on-surface-variant font-bold uppercase tracking-wider">Puesto #2</span>
+<span class="w-1 h-1 rounded-full bg-white/20"></span>
+<span class="text-[10px] text-on-surface-variant">12 Miembros</span>
+</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant text-sm transform group-hover/item:translate-x-1 transition-transform" data-icon="arrow_forward_ios">arrow_forward_ios</span>
+</div>
+<!-- Group Item 2 -->
+<div class="group/item flex items-center justify-between p-4 rounded-xl bg-surface-container/30 border border-white/5 hover:border-tertiary/30 hover:bg-tertiary/5 transition-all cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-tertiary/10 flex items-center justify-center text-tertiary border border-tertiary/20 shadow-inner group-hover/item:scale-105 transition-transform">
+<span class="material-symbols-outlined" data-icon="work">work</span>
+</div>
+<div>
+<p class="font-bold text-sm text-white group-hover/item:text-tertiary transition-colors">Oficina Prode</p>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="text-[10px] text-tertiary font-bold uppercase tracking-wider">Puesto #1</span>
+<span class="w-1 h-1 rounded-full bg-white/20"></span>
+<span class="text-[10px] text-on-surface-variant">45 Miembros</span>
+</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant text-sm transform group-hover/item:translate-x-1 transition-transform" data-icon="arrow_forward_ios">arrow_forward_ios</span>
+</div>
+</div>
+<button class="w-full mt-6 bg-white/5 text-on-surface-variant py-3 rounded-xl text-xs font-bold hover:bg-white/10 transition-all uppercase tracking-[0.2em] border border-dashed border-white/10">
+                        + Crear Nuevo Grupo
+                    </button>
+</div>
+<!-- Activity Feed - Improved Visual Flow -->
+<div class="glass-panel p-6 rounded-2xl shadow-xl">
+<h3 class="font-headline-md text-lg text-white mb-6">Actividad</h3>
+<div class="space-y-6 max-h-72 overflow-y-auto custom-scrollbar pr-3">
+<div class="flex gap-4 relative">
+<!-- Timeline Line -->
+<div class="absolute left-[15px] top-8 bottom-[-24px] w-[2px] bg-white/5"></div>
+<img alt="User" class="w-8 h-8 rounded-full ring-2 ring-surface shadow-lg relative z-10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAts7Kdfbygocfw3FUaeIoDAJFSTcL1U-l5irR_mRJDe6MYISpmldyamtzyyIovNjSJXp1mhLF9tNhTbisDMpaDZZ5Lzl6E2b63A-IiblVni7pIu-dbWpRoyDlRT0v3IvSQUbZ3J53hDVVUDjND3pecGF9cH05B93Bmp6JR5Th_BeDprErnDZYP3DykAiDlI01CFkVBGiF7koS45vunEkrJu2pepqGuyrTn1OwFjbOWKSa3ZX_cRqutzyvd1yAChG9LQSuCY7d0S-Q"/>
+<div class="text-xs pt-1">
+<p><span class="font-bold text-white">Juan</span> sumó <span class="text-tertiary font-bold">+3 puntos</span></p>
+<p class="text-on-surface-variant mt-1 leading-relaxed">Acertó resultado exacto en FRA vs TUN</p>
+<p class="text-[10px] text-on-surface-variant/50 mt-1 uppercase tracking-tighter">Hace 12 min</p>
+</div>
+</div>
+<div class="flex gap-4 relative">
+<!-- Timeline Line -->
+<div class="absolute left-[15px] top-8 bottom-[-24px] w-[2px] bg-white/5"></div>
+<div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary ring-2 ring-surface shadow-lg relative z-10">
+<span class="material-symbols-outlined text-lg" data-icon="military_tech">military_tech</span>
+</div>
+<div class="text-xs pt-1">
+<p class="text-white font-bold">¡Nueva Racha!</p>
+<p class="text-on-surface-variant mt-1 leading-relaxed">Has acertado 5 predicciones consecutivas. ¡Impulso activado!</p>
+<p class="text-[10px] text-on-surface-variant/50 mt-1 uppercase tracking-tighter">Hace 1 hora</p>
+</div>
+</div>
+<div class="flex gap-4 relative">
+<img alt="User" class="w-8 h-8 rounded-full ring-2 ring-surface shadow-lg relative z-10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuUfP78pH-ld9mjEarN-dFFE0mcwHj_AjUsKAGhh9f94zaxg2sC7CUOAULFtnDGaBZdrGTsWLdFoWX-vS0lidpNhzDBnw1IZY-zs1NsY7c4KfvyU11THIHTDy9BEUGn4XDOfO9qYhhi0VC8JtOFLvDiLN2_ZX4C0BHYBQeyPNzRtFIVASzLuQ1yvNnb6E3cTzDfzuDpa_j8hgMSJ3YbusEfpC0pBJLLavObqDzyYrAbibgPdwwtV12K6Mtoyu66dntGRe47kpP-vQ"/>
+<div class="text-xs pt-1">
+<p><span class="font-bold text-white">Lucia</span> te desafió</p>
+<p class="text-on-surface-variant mt-1 leading-relaxed">Envió un reto directo en "Amigos del Club"</p>
+<p class="text-[10px] text-on-surface-variant/50 mt-1 uppercase tracking-tighter">Hace 3 horas</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Dashboard Visual Asset (Asymmetric Highlight) -->
+<section class="mt-stack-lg relative rounded-3xl overflow-hidden h-72 shadow-2xl group border border-white/5">
+<img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 brightness-50" data-alt="A wide angle perspective of a modern futuristic soccer stadium at night." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDI530c2nQ0ZJkDG0Pwsyr7YYKyLAEG73WE9yPJbGFy7t0WPA4lUy2qe1H_0mF9-c8dv9bHpxcSlo3VdJmMnx4Bb3XuRIGLufGYy0vo345wlGMzSP94w5LPFDflxpsdpD1TKj1hHxLPsmy4Z7wdksuAF8ApZqeqylcNr66b6kLFpfJ-VR5yy2q1c1qhLUPMik4TMZfRs6SqvGHN7f1nE5oCSWje055MLisd1DxiZMaGpbC_W0_IUbWkZ2IZEDpoBPrwLhJD-GJWnkE"/>
+<div class="absolute inset-0 bg-gradient-to-r from-background via-background/40 to-transparent"></div>
+<div class="relative h-full flex flex-col justify-center px-12 max-w-2xl">
+<div class="flex items-center gap-3 mb-4">
+<span class="w-8 h-[2px] bg-tertiary"></span>
+<span class="text-tertiary font-bold text-xs uppercase tracking-[0.3em]">Misión de Final</span>
+</div>
+<h2 class="font-display-lg text-4xl text-white mb-4 leading-tight">Prepárate para el Trono</h2>
+<p class="text-on-surface-variant mb-8 text-lg leading-relaxed">Los multiplicadores de puntos ya están activos para la fase de eliminatorias. <span class="text-white font-bold">¡No olvides usar tus Jokers!</span></p>
+<div>
+<button class="bg-tertiary text-on-tertiary px-10 py-4 rounded-xl font-extrabold shadow-2xl hover:scale-105 active:scale-95 transition-all uppercase tracking-widest text-sm">
+                        Cargar Pronóstico Final
+                    </button>
+</div>
+</div>
+</section>
+</div>
+<!-- Footer Shell -->
+<footer class="w-full py-16 px-margin-desktop bg-surface-container-lowest border-t border-white/5">
+<div class="max-w-container-max mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="flex flex-col items-center md:items-start gap-2">
+<span class="font-display-lg text-3xl font-bold text-primary">ElijoCreer</span>
+<p class="font-body-md text-on-surface-variant text-sm opacity-60">© 2026 ElijoCreer - The Ultimate Prode Experience</p>
+</div>
+<div class="flex gap-10">
+<a class="font-label-md text-xs text-on-surface-variant hover:text-tertiary transition-colors uppercase tracking-widest" href="#">Términos</a>
+<a class="font-label-md text-xs text-on-surface-variant hover:text-tertiary transition-colors uppercase tracking-widest" href="#">Privacidad</a>
+<a class="font-label-md text-xs text-on-surface-variant hover:text-tertiary transition-colors uppercase tracking-widest" href="#">Reglas</a>
+</div>
+</div>
+</footer>
+</main>
+<!-- Mobile Navigation (Bottom Bar) -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 h-20 bg-surface/90 backdrop-blur-2xl border-t border-white/10 z-50 flex items-center justify-around px-4 pb-4">
+<a class="flex flex-col items-center text-primary" href="#">
+<span class="material-symbols-outlined text-2xl" data-icon="dashboard">dashboard</span>
+<span class="text-[9px] font-bold mt-1 uppercase tracking-tighter">Inicio</span>
+</a>
+<a class="flex flex-col items-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined text-2xl" data-icon="sports_soccer">sports_soccer</span>
+<span class="text-[9px] font-medium mt-1 uppercase tracking-tighter">Partidos</span>
+</a>
+<div class="relative -top-8">
+<button class="w-16 h-16 bg-tertiary text-on-tertiary rounded-2xl shadow-2xl shadow-tertiary/40 flex items-center justify-center border-4 border-surface transform rotate-45 transition-transform hover:rotate-0">
+<span class="material-symbols-outlined font-black text-3xl -rotate-45" data-icon="add">add</span>
+</button>
+</div>
+<a class="flex flex-col items-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined text-2xl" data-icon="group">group</span>
+<span class="text-[9px] font-medium mt-1 uppercase tracking-tighter">Grupos</span>
+</a>
+<a class="flex flex-col items-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined text-2xl" data-icon="person">person</span>
+<span class="text-[9px] font-medium mt-1 uppercase tracking-tighter">Perfil</span>
+</a>
+</nav>
+<script>
+    // Micro-interactions for inputs
+    document.querySelectorAll('.prediction-input-well').forEach(input => {
+        input.addEventListener('focus', () => {
+            input.parentElement.parentElement.classList.add('ring-4', 'ring-primary/20', 'bg-surface-container-highest');
+        });
+        input.addEventListener('blur', () => {
+            input.parentElement.parentElement.classList.remove('ring-4', 'ring-primary/20', 'bg-surface-container-highest');
+        });
+    });
+</script>
+</body></html>

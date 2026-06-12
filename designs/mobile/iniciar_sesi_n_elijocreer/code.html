@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ElijoCreer - Login</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&amp;family=Hanken+Grotesk:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-container": "#c7a32b",
+                        "secondary": "#39618c",
+                        "tertiary-fixed": "#ffe088",
+                        "on-primary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "error-container": "#ffdad6",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed": "#001d32",
+                        "on-primary-container": "#003f65",
+                        "surface-container-low": "#f2f4f6",
+                        "primary": "#236391",
+                        "tertiary": "#735c00",
+                        "primary-container": "#74acdf",
+                        "on-background": "#191c1e",
+                        "surface-container": "#eceef0",
+                        "secondary-fixed": "#d2e4ff",
+                        "inverse-primary": "#96ccff",
+                        "tertiary-fixed-dim": "#e9c349",
+                        "surface": "#f7f9fb",
+                        "inverse-on-surface": "#eff1f3",
+                        "secondary-fixed-dim": "#a3c9fb",
+                        "on-secondary-container": "#2e5681",
+                        "on-error": "#ffffff",
+                        "surface-container-high": "#e6e8ea",
+                        "outline-variant": "#c1c7d0",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#574500",
+                        "on-tertiary-fixed": "#241a00",
+                        "on-secondary-fixed": "#001d36",
+                        "surface-variant": "#e0e3e5",
+                        "surface-container-lowest": "#ffffff",
+                        "outline": "#717880",
+                        "on-primary-fixed-variant": "#004a75",
+                        "on-surface": "#191c1e",
+                        "on-surface-variant": "#41474f",
+                        "background": "#f7f9fb",
+                        "inverse-surface": "#2d3133",
+                        "surface-dim": "#d8dadc",
+                        "surface-bright": "#f7f9fb",
+                        "primary-fixed-dim": "#96ccff",
+                        "primary-fixed": "#cee5ff",
+                        "error": "#ba1a1a",
+                        "secondary-container": "#a6ccfe",
+                        "on-tertiary-container": "#4b3a00"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "container-padding": "20px",
+                        "base": "4px",
+                        "section-margin": "32px",
+                        "card-gap": "12px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Montserrat"],
+                        "label-sm": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Montserrat"],
+                        "headline-lg": ["Montserrat"],
+                        "body-lg": ["Hanken Grotesk"],
+                        "label-md": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "display-lg": ["Montserrat"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "700"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .btn-gradient {
+            background: linear-gradient(135deg, #236391 0%, #1e4973 100%);
+        }
+        .input-focus-ring:focus-within {
+            box-shadow: 0 0 0 2px rgba(35, 99, 145, 0.2);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md overflow-x-hidden">
+<!-- Subtle Background Elements -->
+<div class="fixed inset-0 pointer-events-none z-0">
+<div class="absolute top-[-10%] right-[-10%] w-[60%] h-[60%] rounded-full bg-primary/5 blur-[120px]"></div>
+<div class="absolute bottom-[-5%] left-[-5%] w-[50%] h-[50%] rounded-full bg-secondary/5 blur-[100px]"></div>
+</div>
+<!-- Login Container -->
+<main class="relative z-10 flex-grow flex items-center justify-center p-gutter">
+<div class="w-full max-w-[480px] bg-surface-container-lowest rounded-xl shadow-lg p-8 flex flex-col gap-8">
+<!-- Logo Section -->
+<header class="flex flex-col items-center gap-2">
+<div class="w-16 h-16 bg-primary-container rounded-xl flex items-center justify-center mb-2 shadow-sm">
+<span class="material-symbols-outlined text-on-primary-container text-4xl" data-icon="sports_soccer">sports_soccer</span>
+</div>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary tracking-tight">ElijoCreer</h1>
+<p class="font-body-md text-on-surface-variant text-center opacity-80">Únete a la pasión del 2026</p>
+</header>
+<!-- Login Form -->
+<form class="flex flex-col gap-6" onsubmit="event.preventDefault();">
+<div class="flex flex-col gap-4">
+<!-- Email Field -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface" for="email">Email</label>
+<div class="relative flex items-center group input-focus-ring rounded-lg border border-outline-variant bg-surface-container-low transition-all">
+<span class="material-symbols-outlined absolute left-3 text-outline group-focus-within:text-primary" data-icon="mail">mail</span>
+<input class="w-full bg-transparent border-none focus:ring-0 py-3 pl-10 pr-4 text-on-surface placeholder:text-outline/50" id="email" placeholder="tu@email.com" required="" type="email"/>
+</div>
+</div>
+<!-- Password Field -->
+<div class="flex flex-col gap-1.5">
+<div class="flex justify-between items-center">
+<label class="font-label-md text-label-md text-on-surface" for="password">Password</label>
+<a class="font-label-sm text-label-sm text-primary hover:underline transition-all" href="#">Olvidé mi contraseña</a>
+</div>
+<div class="relative flex items-center group input-focus-ring rounded-lg border border-outline-variant bg-surface-container-low transition-all">
+<span class="material-symbols-outlined absolute left-3 text-outline group-focus-within:text-primary" data-icon="lock">lock</span>
+<input class="w-full bg-transparent border-none focus:ring-0 py-3 pl-10 pr-12 text-on-surface placeholder:text-outline/50" id="password" placeholder="••••••••" required="" type="password"/>
+<button class="absolute right-3 text-outline hover:text-on-surface" type="button">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Main CTA -->
+<button class="btn-gradient w-full py-4 rounded-xl text-on-primary font-headline-md text-headline-md shadow-md active:scale-[0.98] transition-transform duration-200" type="submit">
+                    Iniciar Sesión
+                </button>
+</form>
+<!-- Divider -->
+<div class="flex items-center gap-4">
+<div class="h-[1px] flex-grow bg-outline-variant"></div>
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-widest">O continúa con</span>
+<div class="h-[1px] flex-grow bg-outline-variant"></div>
+</div>
+<!-- Social Login -->
+<div class="grid grid-cols-2 gap-4">
+<button class="flex items-center justify-center gap-3 py-3 border border-outline-variant rounded-xl hover:bg-surface-container transition-colors duration-200">
+<img alt="Google Logo" class="w-5 h-5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAD39slegBfkDI_ZoH0eAjsBwvwBX35A45RAMs2Sf8U_zxjHYNArIR48E3x4g7vBEDsQ_N0r-3BiaTTfJrplGsRYNdPQDb8y0Mja12_4AMaAEQjZh-BR8piRyut12rUcGUFZNwl3WUKCUoK_rA9j15wILVmJk_7pbzEWJ9xRhxeP8QedtaHvTu7WIbD4YChbXuDqbwxBniWPRVBxsQekRecuhMAO8F_xNY9x9RpTxVC9XZnAl4uBpyYfcmCZhbhz5LN9Dl_W30iTYA"/>
+<span class="font-label-md text-label-md text-on-surface">Google</span>
+</button>
+<button class="flex items-center justify-center gap-3 py-3 border border-outline-variant rounded-xl hover:bg-surface-container transition-colors duration-200">
+<span class="material-symbols-outlined text-[#1877F2]" data-icon="facebook" style="font-variation-settings: 'FILL' 1;">face_nod</span>
+<span class="font-label-md text-label-md text-on-surface">Facebook</span>
+</button>
+</div>
+<!-- Footer Link -->
+<footer class="text-center">
+<p class="font-body-md text-on-surface-variant">
+                    ¿No tienes una cuenta? 
+                    <a class="font-label-md text-primary font-bold hover:underline" href="#">Regístrate</a>
+</p>
+</footer>
+</div>
+</main>
+<!-- Visual Anchor - Hero Image Overlay (Simplified for Login) -->
+<div class="hidden lg:block fixed right-0 top-0 w-1/3 h-full overflow-hidden">
+<img class="w-full h-full object-cover grayscale-[20%] contrast-[110%]" data-alt="A cinematic, wide-angle shot of a majestic football stadium at dusk, with the bright floodlights illuminating the pristine green pitch. The atmosphere is filled with a soft blue and gold haze, capturing the epic feeling of a World Cup championship evening. The sky is a deep navy gradient, blending seamlessly with the professional athletic branding of the app." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDez16dlisiOtx-egmUWAgoh-kNefa2h7Wn3eQKw4hS5sJdq7HimL9uFjY3_LTXU1LW6lAkodXnLO8yH3Nz7sBugY1Pt9qHydK45Pg0a0RjP0aw8FKLG7hQ1EaLbqr6QFgdgD81cUqzIXb21gSMBLOAJhR5wKlkkiK9HtSlrbgAJX0aSN4L6h22yKQo_wvoupxifgKydY03JI3N2RoRCeCeT6UY3M9GpR3Y0C_1o6kGTM97Gm6PcCpGap4TAAAE9Lc9VcYJlOP-LEg"/>
+<div class="absolute inset-0 bg-gradient-to-l from-transparent to-background"></div>
+</div>
+<!-- Micro-interaction script -->
+<script>
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.classList.add('border-primary');
+                input.parentElement.classList.remove('border-outline-variant');
+            });
+            input.addEventListener('blur', () => {
+                input.parentElement.classList.remove('border-primary');
+                input.parentElement.classList.add('border-outline-variant');
+            });
+        });
+        
+        // Simple password toggle logic
+        const toggleBtn = document.querySelector('button[type="button"]');
+        const passInput = document.querySelector('input[type="password"]');
+        if(toggleBtn && passInput) {
+            toggleBtn.addEventListener('click', () => {
+                const isPass = passInput.type === 'password';
+                passInput.type = isPass ? 'text' : 'password';
+                toggleBtn.querySelector('span').innerText = isPass ? 'visibility_off' : 'visibility';
+            });
+        }
+    </script>
+</body></html>

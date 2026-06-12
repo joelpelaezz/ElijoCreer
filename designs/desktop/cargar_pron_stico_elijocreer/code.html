@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ElijoCreer - Cargar Pronóstico</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&amp;family=Sora:wght@600;700;800&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(17, 34, 64, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .gold-glow {
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+        }
+        .celeste-glow:hover {
+            box-shadow: 0 4px 20px rgba(123, 196, 238, 0.15);
+        }
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+        .success-overlay {
+            display: none;
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container-low": "#0d1c32",
+                      "on-surface": "#d6e3ff",
+                      "inverse-on-surface": "#233148",
+                      "error-container": "#93000a",
+                      "surface-variant": "#27354c",
+                      "primary-fixed": "#c4e7ff",
+                      "on-secondary": "#2f3131",
+                      "surface-container": "#112036",
+                      "secondary-fixed-dim": "#c6c6c7",
+                      "error": "#ffb4ab",
+                      "inverse-surface": "#d6e3ff",
+                      "on-primary-fixed": "#001e2c",
+                      "tertiary-fixed-dim": "#e9c349",
+                      "on-primary-container": "#00516f",
+                      "surface-dim": "#041329",
+                      "secondary-container": "#454747",
+                      "outline-variant": "#40484e",
+                      "surface-container-highest": "#27354c",
+                      "on-primary-fixed-variant": "#004c69",
+                      "surface-container-high": "#1c2a41",
+                      "outline": "#899298",
+                      "on-tertiary": "#3c2f00",
+                      "primary-container": "#7bc4ee",
+                      "background": "#041329",
+                      "on-tertiary-fixed": "#241a00",
+                      "on-surface-variant": "#bfc8cf",
+                      "on-tertiary-container": "#5d4900",
+                      "inverse-primary": "#00658b",
+                      "on-background": "#d6e3ff",
+                      "surface": "#041329",
+                      "surface-bright": "#2c3951",
+                      "primary": "#aadeff",
+                      "primary-fixed-dim": "#86cffa",
+                      "secondary": "#c6c6c7",
+                      "on-primary": "#00344a",
+                      "on-error": "#690005",
+                      "tertiary": "#fbd358",
+                      "on-secondary-fixed-variant": "#454747",
+                      "secondary-fixed": "#e2e2e2",
+                      "on-secondary-container": "#b4b5b5",
+                      "on-error-container": "#ffdad6",
+                      "surface-tint": "#86cffa",
+                      "surface-container-lowest": "#010e24",
+                      "on-secondary-fixed": "#1a1c1c",
+                      "tertiary-container": "#deb83f",
+                      "on-tertiary-fixed-variant": "#574500",
+                      "tertiary-fixed": "#ffe088"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "stack-lg": "48px",
+                      "margin-mobile": "16px",
+                      "gutter": "24px",
+                      "margin-desktop": "40px",
+                      "stack-sm": "12px",
+                      "stack-md": "24px",
+                      "container-max": "1280px",
+                      "base": "8px"
+              },
+              "fontFamily": {
+                      "body-md": ["Hanken Grotesk"],
+                      "body-lg": ["Hanken Grotesk"],
+                      "display-lg": ["Sora"],
+                      "headline-md": ["Sora"],
+                      "headline-lg-mobile": ["Sora"],
+                      "headline-lg": ["Sora"],
+                      "label-md": ["JetBrains Mono"]
+              },
+              "fontSize": {
+                      "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                      "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                      "headline-lg-mobile": ["28px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                      "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                      "label-md": ["14px", {"lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col overflow-x-hidden">
+<!-- TopNavBar -->
+<nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-desktop h-20 bg-surface/80 backdrop-blur-xl border-b border-white/5 shadow-sm">
+<div class="flex items-center gap-stack-md">
+<span class="font-display-lg text-headline-md italic font-black text-primary tracking-tighter">ElijoCreer</span>
+<div class="hidden md:flex gap-6 items-center">
+<a class="text-primary font-bold border-b-2 border-tertiary pb-1 font-label-md text-label-md" href="#">Matches</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md text-label-md" href="#">Leagues</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md text-label-md" href="#">Rankings</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md text-label-md" href="#">Rules</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="bg-primary text-on-primary font-bold px-6 py-2 rounded-lg hover:scale-95 transition-transform font-label-md text-label-md">Predict Now</button>
+<div class="flex gap-2">
+<span class="material-symbols-outlined p-2 hover:bg-white/5 rounded-full cursor-pointer transition-colors" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined p-2 hover:bg-white/5 rounded-full cursor-pointer transition-colors" data-icon="account_circle">account_circle</span>
+</div>
+</div>
+</nav>
+<!-- Content Canvas -->
+<main class="flex-grow pt-32 pb-20 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto w-full relative">
+<!-- Background Animation -->
+
+<!-- Back Button -->
+<button class="flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors mb-8">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+<span class="font-label-md text-label-md">VOLVER A PARTIDOS</span>
+</button>
+<section class="max-w-4xl mx-auto">
+<!-- Header Section -->
+<div class="text-center mb-12">
+<span class="inline-block bg-tertiary-container text-on-tertiary-container px-3 py-1 rounded-full font-label-md text-label-md mb-4 uppercase tracking-widest">Gran Final - Copa del Mundo 2026</span>
+<h1 class="font-headline-lg text-headline-lg text-on-surface mb-2">Carga tu Pronóstico</h1>
+<p class="text-on-surface-variant font-body-md text-body-md">Estás a un paso de la gloria. Define el destino de este encuentro.</p>
+</div>
+<!-- Prediction Module -->
+<div class="glass-card rounded-2xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
+<div class="grid grid-cols-1 md:grid-cols-3 items-center gap-12 relative z-10">
+<!-- Team Home -->
+<div class="flex flex-col items-center gap-6">
+<div class="w-32 h-32 md:w-48 md:h-48 rounded-full overflow-hidden border-4 border-primary/20 shadow-xl bg-surface-container flex items-center justify-center p-2">
+<img alt="Argentina" class="w-full h-full object-cover rounded-full" data-alt="A highly detailed cinematic shot of the Argentinian flag, with its vibrant sky blue and white stripes and the central sun emblem, captured with dramatic studio lighting that highlights the texture of the fabric. The background is a deep navy blue with soft golden bokeh light, echoing a premium sports broadcast aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJRKbmD-osKRD3GIjwyc4-Tl54nuFeLxYpZhJNNC4vZjdxvF6Jnbm6HlQEYx6KbDJ7sRbx261rc-xlZNejuDQ2nt4N7XnahJGpVe8BLsbax3U34bR3k_ytYulNmf4eWSf-i9844kE80O2UzaCYWlpqvkb_lFvZYH4Mtd0mrFOjazo9I0Qvf9jdOgEG00V2P1Xew9KFUy49byUvyMmT86u7EQ3aHq7EiFciyTAZBlUL5w3ulinWMbm-Jg9FpnqfhFXuY2Hr17EPeQU"/>
+</div>
+<h2 class="font-headline-md text-headline-md text-center">Argentina</h2>
+<div class="relative group">
+<div class="absolute -inset-1 bg-gradient-to-r from-primary to-primary-container rounded-lg blur opacity-20 group-focus-within:opacity-50 transition duration-1000"></div>
+<input class="relative w-24 h-24 bg-surface-dim border-2 border-primary/30 rounded-xl text-center text-4xl font-display-lg font-black text-primary focus:border-primary focus:ring-0 transition-all" max="20" min="0" type="number" value="0"/>
+</div>
+</div>
+<!-- Versus / Info -->
+<div class="flex flex-col items-center gap-8 py-4">
+<div class="text-on-surface-variant font-display-lg text-headline-md opacity-20">VS</div>
+<div class="flex flex-col items-center text-center gap-2">
+<div class="flex items-center gap-2 text-tertiary font-label-md text-label-md">
+<span class="material-symbols-outlined text-[18px]" data-icon="timer">timer</span>
+<span id="countdown">02:45:12</span>
+</div>
+<span class="text-on-surface-variant text-[12px] font-label-md">TIEMPO RESTANTE</span>
+</div>
+<!-- Joker Toggle -->
+<div class="cursor-pointer group flex flex-col items-center gap-3 p-4 rounded-xl border border-white/5 hover:bg-white/5 transition-all" id="joker-toggle">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-tertiary transition-colors" data-icon="star" id="joker-icon">star</span>
+<span class="font-label-md text-label-md text-on-surface-variant">USAR JOKER</span>
+</div>
+<div class="w-12 h-6 bg-surface-container rounded-full relative transition-colors duration-300" id="joker-track">
+<div class="absolute top-1 left-1 w-4 h-4 bg-on-surface-variant rounded-full transition-all duration-300 transform" id="joker-thumb"></div>
+</div>
+<p class="text-[10px] text-on-surface-variant text-center leading-tight">Activa para duplicar<br/>tus puntos en este partido.</p>
+</div>
+</div>
+<!-- Team Away -->
+<div class="flex flex-col items-center gap-6">
+<div class="w-32 h-32 md:w-48 md:h-48 rounded-full overflow-hidden border-4 border-error/20 shadow-xl bg-surface-container flex items-center justify-center p-2">
+<img alt="Francia" class="w-full h-full object-cover rounded-full" data-alt="A premium close-up of the French tricolor flag, showing the rich blue, white, and red vertical bands with sharp clarity and elegant fabric folds. The lighting is sophisticated and editorial, with a dark, moody stadium background that features subtle Celeste glow effects on the edges of the frame to maintain a high-end sport feeling." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB90Gfy7RESo76X7roWquUE61X58NvzE4QyEoK1i4c2O692eyQnrRAaGfysf8Y2IqcD4i55Kxn_RecUeDoEL2ewmhxjPBgX5XFh5OUU0xVUyzQv9uG1yVjj8VavDAQrFyUHk7IT9daamfKJ6vFn2mBkR9dsVgpoQTBf16C4sY1ae8thQi6DYaoa-M0nMRLq_Fm3AWHpzFL0w8IjHCYeGjIRjEYrZoe3oMF7Op1cxe_vCVI2TK0WpgY8nQOySTK4CsO32sIGw3nxUmo"/>
+</div>
+<h2 class="font-headline-md text-headline-md text-center">Francia</h2>
+<div class="relative group">
+<div class="absolute -inset-1 bg-gradient-to-r from-error to-error-container rounded-lg blur opacity-20 group-focus-within:opacity-50 transition duration-1000"></div>
+<input class="relative w-24 h-24 bg-surface-dim border-2 border-white/10 rounded-xl text-center text-4xl font-display-lg font-black text-on-surface focus:border-primary focus:ring-0 transition-all" max="20" min="0" type="number" value="0"/>
+</div>
+</div>
+</div>
+<!-- Footer Action -->
+<div class="mt-12 flex flex-col items-center gap-6 relative z-10">
+<button class="w-full max-w-sm bg-tertiary text-on-tertiary-fixed font-display-lg text-headline-md py-4 px-8 rounded-xl gold-glow hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3" id="confirm-btn">
+                        Confirmar Pronóstico
+                    </button>
+<p class="text-on-surface-variant font-label-md text-label-md flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]" data-icon="lock">lock</span>
+                        Se podrá editar hasta 15 min antes del inicio.
+                    </p>
+</div>
+<!-- Success Overlay -->
+<div class="success-overlay absolute inset-0 z-20 bg-background/95 flex flex-col items-center justify-center text-center p-8 backdrop-blur-md" id="success-view">
+<div class="w-24 h-24 bg-primary rounded-full flex items-center justify-center mb-6 shadow-[0_0_40px_rgba(170,222,255,0.4)]">
+<span class="material-symbols-outlined text-on-primary text-[48px] font-bold" data-icon="check">check</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg text-primary mb-2">¡Pronóstico Guardado!</h3>
+<p class="text-on-surface-variant text-body-lg max-w-xs mb-8">Has registrado tu predicción para Argentina vs Francia exitosamente.</p>
+<div class="flex gap-4">
+<button class="bg-surface-variant text-on-surface px-6 py-3 rounded-lg font-label-md hover:bg-surface-bright transition-colors">Ver mis Jugadas</button>
+<button class="bg-white/5 border border-white/10 text-on-surface px-6 py-3 rounded-lg font-label-md hover:bg-white/10 transition-colors" onclick="window.location.reload()">Cerrar</button>
+</div>
+</div>
+</div>
+<!-- Stats/Insight Section (Bento Style) -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-stack-md mt-stack-md">
+<div class="glass-card p-6 rounded-xl flex items-center gap-6">
+<div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[32px]" data-icon="groups">groups</span>
+</div>
+<div>
+<p class="text-on-surface-variant font-label-md text-label-md uppercase mb-1">Tendencia de Comunidad</p>
+<div class="flex items-center gap-3">
+<span class="font-headline-md text-headline-md">68%</span>
+<div class="flex-grow h-2 bg-surface-container rounded-full overflow-hidden w-32">
+<div class="h-full bg-primary w-[68%]"></div>
+</div>
+<span class="text-primary font-bold">Arg</span>
+</div>
+</div>
+</div>
+<div class="glass-card p-6 rounded-xl flex items-center gap-6">
+<div class="w-16 h-16 rounded-full bg-tertiary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary text-[32px]" data-icon="bolt">bolt</span>
+</div>
+<div>
+<p class="text-on-surface-variant font-label-md text-label-md uppercase mb-1">Impacto Global</p>
+<p class="font-headline-md text-headline-md text-on-surface">Subirás <span class="text-tertiary">+125</span> puestos</p>
+<p class="text-[12px] text-on-surface-variant">Si aciertas el resultado exacto.</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-12 px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-base bg-surface-container-lowest border-t border-white/5">
+<div class="flex flex-col gap-2">
+<span class="font-display-lg text-headline-md font-bold text-primary">ElijoCreer</span>
+<p class="font-body-md text-body-md opacity-60">© 2026 ElijoCreer - The Ultimate Prode Experience</p>
+</div>
+<div class="flex gap-8">
+<a class="text-on-surface-variant hover:text-tertiary font-label-md text-label-md transition-colors" href="#">Terms of Service</a>
+<a class="text-on-surface-variant hover:text-tertiary font-label-md text-label-md transition-colors" href="#">Privacy Policy</a>
+<a class="text-on-surface-variant hover:text-tertiary font-label-md text-label-md transition-colors" href="#">Tournament Rules</a>
+<a class="text-on-surface-variant hover:text-tertiary font-label-md text-label-md transition-colors" href="#">Contact Support</a>
+</div>
+</footer>
+<script>
+        // Joker Interaction
+        const jokerToggle = document.getElementById('joker-toggle');
+        const jokerTrack = document.getElementById('joker-track');
+        const jokerThumb = document.getElementById('joker-thumb');
+        const jokerIcon = document.getElementById('joker-icon');
+        let jokerActive = false;
+
+        jokerToggle.addEventListener('click', () => {
+            jokerActive = !jokerActive;
+            if(jokerActive) {
+                jokerTrack.classList.replace('bg-surface-container', 'bg-tertiary');
+                jokerThumb.classList.replace('left-1', 'left-7');
+                jokerThumb.classList.replace('bg-on-surface-variant', 'bg-on-tertiary');
+                jokerIcon.classList.add('text-tertiary');
+                jokerIcon.style.fontVariationSettings = "'FILL' 1";
+            } else {
+                jokerTrack.classList.replace('bg-tertiary', 'bg-surface-container');
+                jokerThumb.classList.replace('left-7', 'left-1');
+                jokerThumb.classList.replace('bg-on-tertiary', 'bg-on-surface-variant');
+                jokerIcon.classList.remove('text-tertiary');
+                jokerIcon.style.fontVariationSettings = "'FILL' 0";
+            }
+        });
+
+        // Submit Action
+        const confirmBtn = document.getElementById('confirm-btn');
+        const successView = document.getElementById('success-view');
+
+        confirmBtn.addEventListener('click', () => {
+            confirmBtn.innerHTML = '<span class="material-symbols-outlined animate-spin" data-icon="progress_activity">progress_activity</span> Guardando...';
+            confirmBtn.disabled = true;
+            confirmBtn.style.opacity = '0.7';
+            
+            setTimeout(() => {
+                successView.style.display = 'flex';
+            }, 1500);
+        });
+
+        // Simple Countdown logic
+        let time = 9912; // seconds
+        const countdownEl = document.getElementById('countdown');
+        setInterval(() => {
+            time--;
+            const h = Math.floor(time / 3600).toString().padStart(2, '0');
+            const m = Math.floor((time % 3600) / 60).toString().padStart(2, '0');
+            const s = (time % 60).toString().padStart(2, '0');
+            countdownEl.innerText = `${h}:${m}:${s}`;
+        }, 1000);
+
+        // Input effects
+        document.querySelectorAll('input[type="number"]').forEach(input => {
+            input.addEventListener('focus', () => input.select());
+            input.addEventListener('change', (e) => {
+                if(e.target.value < 0) e.target.value = 0;
+            });
+        });
+    </script>
+</body></html>

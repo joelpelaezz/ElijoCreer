@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ElijoCreer - World Cup 2026</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&amp;family=Sora:wght@600;700;800&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(17, 34, 64, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .gold-glow {
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+        }
+        .celeste-glow:hover {
+            box-shadow: 0 4px 20px rgba(123, 196, 238, 0.15);
+        }
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+        .success-overlay {
+            display: none;
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .score-input:focus {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(170, 222, 255, 0.4);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error": "#690005",
+                        "on-tertiary": "#3c2f00",
+                        "on-primary-fixed": "#001e2c",
+                        "primary": "#aadeff",
+                        "on-secondary-fixed": "#1a1c1c",
+                        "surface-container-highest": "#27354c",
+                        "tertiary-fixed-dim": "#e9c349",
+                        "on-surface-variant": "#bfc8cf",
+                        "on-surface": "#d6e3ff",
+                        "inverse-surface": "#d6e3ff",
+                        "surface-bright": "#2c3951",
+                        "surface": "#041329",
+                        "surface-container-lowest": "#010e24",
+                        "on-primary": "#00344a",
+                        "on-secondary-fixed-variant": "#454747",
+                        "error-container": "#93000a",
+                        "on-tertiary-fixed": "#241a00",
+                        "on-tertiary-container": "#5d4900",
+                        "on-secondary-container": "#b4b5b5",
+                        "outline": "#899298",
+                        "on-background": "#d6e3ff",
+                        "outline-variant": "#40484e",
+                        "on-secondary": "#2f3131",
+                        "on-primary-container": "#00516f",
+                        "tertiary": "#fbd358",
+                        "surface-container-low": "#0d1c32",
+                        "surface-container-high": "#1c2a41",
+                        "primary-fixed-dim": "#86cffa",
+                        "tertiary-fixed": "#ffe088",
+                        "inverse-primary": "#00658b",
+                        "surface-dim": "#041329",
+                        "on-primary-fixed-variant": "#004c69",
+                        "secondary-container": "#454747",
+                        "inverse-on-surface": "#233148",
+                        "surface-tint": "#86cffa",
+                        "surface-container": "#112036",
+                        "on-tertiary-fixed-variant": "#574500",
+                        "surface-variant": "#27354c",
+                        "error": "#ffb4ab",
+                        "tertiary-container": "#deb83f",
+                        "background": "#041329",
+                        "secondary-fixed-dim": "#c6c6c7",
+                        "secondary": "#c6c6c7",
+                        "on-error-container": "#ffdad6",
+                        "primary-container": "#7bc4ee",
+                        "secondary-fixed": "#e2e2e2",
+                        "primary-fixed": "#c4e7ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "8px",
+                        "stack-sm": "12px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "40px",
+                        "stack-md": "24px",
+                        "stack-lg": "48px",
+                        "container-max": "1280px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Sora"],
+                        "headline-md": ["Sora"],
+                        "body-md": ["Hanken Grotesk"],
+                        "display-lg": ["Sora"],
+                        "label-md": ["JetBrains Mono"],
+                        "headline-lg-mobile": ["Sora"],
+                        "body-lg": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "label-md": ["14px", {"lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col overflow-x-hidden">
+<!-- TopNavBar -->
+<nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-desktop h-20 bg-surface/80 backdrop-blur-xl border-b border-white/5 shadow-sm">
+<div class="flex items-center gap-stack-md">
+<span class="font-display-lg text-headline-md italic font-black text-primary tracking-tighter">ElijoCreer</span>
+<div class="hidden md:flex gap-6 items-center">
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md text-label-md" href="#">Matches</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md text-label-md" href="#">Leagues</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md text-label-md" href="#">Rankings</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md text-label-md" href="#">Rules</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="bg-primary text-on-primary font-bold px-6 py-2 rounded-lg hover:scale-95 transition-transform font-label-md text-label-md">Predict Now</button>
+<div class="flex gap-2">
+<span class="material-symbols-outlined p-2 hover:bg-white/5 rounded-full cursor-pointer transition-colors" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined p-2 hover:bg-white/5 rounded-full cursor-pointer transition-colors" data-icon="account_circle">account_circle</span>
+</div>
+</div>
+</nav>
+<!-- Content Canvas -->
+<main class="flex-grow pt-32 pb-20 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto w-full relative">
+<!-- Back Button -->
+<button class="flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors mb-8 group">
+<span class="material-symbols-outlined group-hover:-translate-x-1 transition-transform" data-icon="arrow_back">arrow_back</span>
+<span class="font-label-md text-label-md uppercase">Volver a Partidos</span>
+</button>
+<section class="max-w-4xl mx-auto">
+<!-- Header Section -->
+<div class="text-center mb-8">
+<div class="flex flex-col items-center gap-2 mb-6">
+<span class="inline-block bg-primary/10 text-primary px-4 py-1.5 rounded-full font-label-md text-label-md uppercase tracking-widest border border-primary/20">Copa del Mundo 2026 - Gran Final</span>
+<div class="flex items-center gap-3 text-on-surface-variant/80 font-label-md text-label-md">
+<span class="material-symbols-outlined text-[18px]" data-icon="location_on">location_on</span>
+<span>Estadio Azteca, Ciudad de México</span>
+</div>
+</div>
+<h1 class="font-headline-lg text-headline-lg md:text-5xl text-on-surface mb-2">Carga tu Pronóstico</h1>
+<p class="text-on-surface-variant font-body-md text-body-lg">Define el destino de este encuentro antes del pitazo inicial.</p>
+</div>
+<!-- Prediction Module -->
+<div class="glass-card rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
+<div class="grid grid-cols-1 md:grid-cols-3 items-center gap-8 md:gap-12 relative z-10">
+<!-- Team Home -->
+<div class="flex flex-col items-center gap-6">
+<div class="relative">
+<div class="w-32 h-32 md:w-44 md:h-44 rounded-full overflow-hidden border-4 border-primary shadow-2xl bg-surface-container flex items-center justify-center p-1">
+<img alt="Argentina" class="w-full h-full object-cover rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJRKbmD-osKRD3GIjwyc4-Tl54nuFeLxYpZhJNNC4vZjdxvF6Jnbm6HlQEYx6KbDJ7sRbx261rc-xlZNejuDQ2nt4N7XnahJGpVe8BLsbax3U34bR3k_ytYulNmf4eWSf-i9844kE80O2UzaCYWlpqvkb_lFvZYH4Mtd0mrFOjazo9I0Qvf9jdOgEG00V2P1Xew9KFUy49byUvyMmT86u7EQ3aHq7EiFciyTAZBlUL5w3ulinWMbm-Jg9FpnqfhFXuY2Hr17EPeQU"/>
+</div>
+<div class="absolute -bottom-2 -right-2 bg-primary text-on-primary text-[10px] font-bold px-2 py-1 rounded shadow-lg uppercase">Local</div>
+</div>
+<h2 class="font-headline-md text-headline-md text-center">Argentina</h2>
+<div class="relative group w-full flex justify-center">
+<input class="score-input relative w-24 h-24 md:w-32 md:h-32 bg-surface-dim border-2 border-primary/30 rounded-2xl text-center text-5xl md:text-6xl font-display-lg font-black text-primary focus:border-primary focus:ring-0 transition-all duration-300" id="home-score" max="20" min="0" placeholder="-" type="number"/>
+</div>
+</div>
+<!-- Central Info / Status -->
+<div class="flex flex-col items-center justify-center h-full py-4 gap-8">
+<div class="text-on-surface-variant font-display-lg text-headline-md opacity-20 hidden md:block">VS</div>
+<!-- Prediction Status Indicator -->
+<div class="flex flex-col items-center gap-2" id="prediction-status">
+<div class="flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container border border-outline-variant text-on-surface-variant font-label-md text-[12px] uppercase tracking-wider" id="status-badge">
+<span class="w-2 h-2 rounded-full bg-on-surface-variant" id="status-dot"></span>
+<span id="status-text">Pending</span>
+</div>
+</div>
+<!-- Timer -->
+<div class="flex flex-col items-center text-center gap-4 w-full">
+<div class="flex flex-col items-center p-4 rounded-2xl bg-error/10 border border-error/20 w-full">
+<div class="flex items-center gap-2 text-error font-bold font-label-md text-label-md mb-1 uppercase">
+<span class="material-symbols-outlined text-[20px]" data-icon="timer">timer</span>
+<span>Cierra al inicio del partido:</span>
+</div>
+<span class="font-display-lg text-3xl font-black text-on-surface tracking-widest" id="countdown">02:45:12</span>
+</div>
+</div>
+</div>
+<!-- Team Away -->
+<div class="flex flex-col items-center gap-6">
+<div class="relative">
+<div class="w-32 h-32 md:w-44 md:h-44 rounded-full overflow-hidden border-4 border-error/40 shadow-2xl bg-surface-container flex items-center justify-center p-1">
+<img alt="Francia" class="w-full h-full object-cover rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB90Gfy7RESo76X7roWquUE61X58NvzE4QyEoK1i4c2O692eyQnrRAaGfysf8Y2IqcD4i55Kxn_RecUeDoEL2ewmhxjPBgX5XFh5OUU0xVUyzQv9uG1yVjj8VavDAQrFyUHk7IT9daamfKJ6vFn2mBkR9dsVgpoQTBf16C4sY1ae8thQi6DYaoa-M0nMRLq_Fm3AWHpzFL0w8IjHCYeGjIRjEYrZoe3oMF7Op1cxe_vCVI2TK0WpgY8nQOySTK4CsO32sIGw3nxUmo"/>
+</div>
+<div class="absolute -bottom-2 -left-2 bg-error text-white text-[10px] font-bold px-2 py-1 rounded shadow-lg uppercase">Visitante</div>
+</div>
+<h2 class="font-headline-md text-headline-md text-center">Francia</h2>
+<div class="relative group w-full flex justify-center">
+<input class="score-input relative w-24 h-24 md:w-32 md:h-32 bg-surface-dim border-2 border-white/10 rounded-2xl text-center text-5xl md:text-6xl font-display-lg font-black text-on-surface focus:border-primary focus:ring-0 transition-all duration-300" id="away-score" max="20" min="0" placeholder="-" type="number"/>
+</div>
+</div>
+</div>
+<!-- Footer Action -->
+<div class="mt-12 flex flex-col items-center gap-6 relative z-10">
+<button class="w-full max-w-md bg-primary text-on-primary font-display-lg text-headline-md py-5 px-8 rounded-2xl shadow-lg hover:scale-[1.03] active:scale-95 transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed" id="confirm-btn">
+                    Confirmar Pronóstico
+                </button>
+<p class="text-on-surface-variant font-label-md text-label-md flex items-center gap-2 opacity-60 uppercase tracking-tight">
+<span class="material-symbols-outlined text-[16px]" data-icon="lock">lock</span>
+                    El pronóstico se bloquea al inicio del partido.
+                </p>
+</div>
+<!-- Success Overlay -->
+<div class="success-overlay absolute inset-0 z-20 bg-surface-container-lowest/95 flex flex-col items-center justify-center text-center p-8 backdrop-blur-xl" id="success-view">
+<div class="w-24 h-24 bg-primary rounded-full flex items-center justify-center mb-6 shadow-[0_0_50px_rgba(170,222,255,0.4)]">
+<span class="material-symbols-outlined text-on-primary text-[52px] font-bold" data-icon="check">check</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg text-primary mb-3">¡Pronóstico Guardado!</h3>
+<p class="text-on-surface-variant text-body-lg max-w-sm mb-10 leading-relaxed">Tu fe ha sido registrada. Puedes modificar tu elección hasta el comienzo del partido.</p>
+<div class="flex flex-col md:flex-row gap-4 w-full max-w-md">
+<button class="flex-1 bg-primary text-on-primary px-8 py-4 rounded-xl font-bold font-label-md hover:scale-[1.02] transition-transform shadow-lg uppercase">Ir a mis jugadas</button>
+<button class="flex-1 bg-surface-variant text-on-surface px-8 py-4 rounded-xl font-bold font-label-md hover:bg-surface-bright transition-colors uppercase" onclick="window.location.reload()">Cerrar</button>
+</div>
+</div>
+</div>
+<!-- Stats/Insight Section -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter mt-stack-md">
+<!-- Community Trend -->
+<div class="glass-card p-6 rounded-2xl flex flex-col gap-4 celeste-glow transition-all">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[24px]" data-icon="groups">groups</span>
+</div>
+<p class="text-on-surface font-headline-md text-body-lg">Tendencia de la Comunidad</p>
+</div>
+<span class="text-primary font-black text-xl">68%</span>
+</div>
+<div class="w-full h-3 bg-surface-container-highest rounded-full overflow-hidden flex">
+<div class="h-full bg-primary" style="width: 68%"></div>
+<div class="h-full bg-error/40" style="width: 32%"></div>
+</div>
+<div class="flex justify-between text-[11px] font-label-md text-on-surface-variant uppercase tracking-wider">
+<span>Argentina</span>
+<span>Francia</span>
+</div>
+</div>
+<!-- Impact Widget -->
+<div class="glass-card p-6 rounded-2xl flex flex-col gap-4 celeste-glow transition-all">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-tertiary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary text-[24px]" data-icon="leaderboard">leaderboard</span>
+</div>
+<p class="text-on-surface font-headline-md text-body-lg">Impacto en el Ranking</p>
+</div>
+<div class="flex flex-col items-end">
+<span class="text-tertiary font-black text-xl">+125</span>
+<span class="text-[10px] text-on-surface-variant font-label-md uppercase">Puestos potenciales</span>
+</div>
+</div>
+<p class="text-sm text-on-surface-variant/80">Acertar este resultado exacto te catapultaría al <span class="text-on-surface font-bold">Top 500</span> de la liga actual.</p>
+<div class="flex items-center gap-2 mt-auto">
+<span class="material-symbols-outlined text-tertiary text-[18px]" data-icon="info">info</span>
+<span class="text-[11px] text-on-surface-variant italic">Basado en tu puntaje actual y tendencias.</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-12 px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-base bg-surface-container-lowest border-t border-white/5">
+<div class="flex flex-col gap-2">
+<span class="font-display-lg text-headline-md font-bold text-primary">ElijoCreer</span>
+<p class="font-body-md text-body-md opacity-40">© 2026 ElijoCreer - World Cup Experience</p>
+</div>
+<div class="flex flex-wrap justify-center gap-x-8 gap-y-4">
+<a class="text-on-surface-variant hover:text-primary font-label-md text-label-md transition-colors uppercase" href="#">Terms</a>
+<a class="text-on-surface-variant hover:text-primary font-label-md text-label-md transition-colors uppercase" href="#">Privacy</a>
+<a class="text-on-surface-variant hover:text-primary font-label-md text-label-md transition-colors uppercase" href="#">Rules</a>
+<a class="text-on-surface-variant hover:text-primary font-label-md text-label-md transition-colors uppercase" href="#">Support</a>
+</div>
+</footer>
+<script>
+    const homeInput = document.getElementById('home-score');
+    const awayInput = document.getElementById('away-score');
+    const statusText = document.getElementById('status-text');
+    const statusDot = document.getElementById('status-dot');
+    const statusBadge = document.getElementById('status-badge');
+    const confirmBtn = document.getElementById('confirm-btn');
+    const successView = document.getElementById('success-view');
+
+    function updateState() {
+        const homeVal = homeInput.value;
+        const awayVal = awayInput.value;
+        
+        if (homeVal !== "" && awayVal !== "") {
+            // Saved State (Simulated as "Saved" once inputs are filled for this UI refinement)
+            statusText.innerText = "Saved";
+            statusDot.className = "w-2 h-2 rounded-full bg-primary animate-pulse";
+            statusBadge.className = "flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/30 text-primary font-label-md text-[12px] uppercase tracking-wider";
+            confirmBtn.disabled = false;
+        } else {
+            // Pending State
+            statusText.innerText = "Pending";
+            statusDot.className = "w-2 h-2 rounded-full bg-on-surface-variant";
+            statusBadge.className = "flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container border border-outline-variant text-on-surface-variant font-label-md text-[12px] uppercase tracking-wider";
+            confirmBtn.disabled = true;
+        }
+    }
+
+    [homeInput, awayInput].forEach(input => {
+        input.addEventListener('input', updateState);
+        input.addEventListener('focus', () => input.select());
+    });
+
+    confirmBtn.addEventListener('click', () => {
+        confirmBtn.innerHTML = '<span class="material-symbols-outlined animate-spin" data-icon="progress_activity">progress_activity</span> Guardando...';
+        confirmBtn.disabled = true;
+        
+        setTimeout(() => {
+            successView.style.display = 'flex';
+        }, 1000);
+    });
+
+    // Countdown logic
+    let time = 9912; // seconds
+    const countdownEl = document.getElementById('countdown');
+    setInterval(() => {
+        time--;
+        if (time < 0) time = 0;
+        const h = Math.floor(time / 3600).toString().padStart(2, '0');
+        const m = Math.floor((time % 3600) / 60).toString().padStart(2, '0');
+        const s = (time % 60).toString().padStart(2, '0');
+        countdownEl.innerText = `${h}:${m}:${s}`;
+    }, 1000);
+
+    // Initial check
+    updateState();
+</script>
+</body></html>

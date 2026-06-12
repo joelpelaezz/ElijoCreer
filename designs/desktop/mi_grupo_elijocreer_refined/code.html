@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>La Scaloneta de la Oficina - ElijoCreer</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Hanken+Grotesk:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-low": "#0d1c32",
+                    "on-surface": "#d6e3ff",
+                    "inverse-on-surface": "#233148",
+                    "error-container": "#93000a",
+                    "surface-variant": "#27354c",
+                    "primary-fixed": "#c4e7ff",
+                    "on-secondary": "#2f3131",
+                    "surface-container": "#112036",
+                    "secondary-fixed-dim": "#c6c6c7",
+                    "error": "#ffb4ab",
+                    "inverse-surface": "#d6e3ff",
+                    "on-primary-fixed": "#001e2c",
+                    "tertiary-fixed-dim": "#e9c349",
+                    "on-primary-container": "#00516f",
+                    "surface-dim": "#041329",
+                    "secondary-container": "#454747",
+                    "outline-variant": "#40484e",
+                    "surface-container-highest": "#27354c",
+                    "on-primary-fixed-variant": "#004c69",
+                    "surface-container-high": "#1c2a41",
+                    "outline": "#899298",
+                    "on-tertiary": "#3c2f00",
+                    "primary-container": "#7bc4ee",
+                    "background": "#041329",
+                    "on-tertiary-fixed": "#241a00",
+                    "on-surface-variant": "#bfc8cf",
+                    "on-tertiary-container": "#5d4900",
+                    "inverse-primary": "#00658b",
+                    "on-background": "#d6e3ff",
+                    "surface": "#041329",
+                    "surface-bright": "#2c3951",
+                    "primary": "#aadeff",
+                    "primary-fixed-dim": "#86cffa",
+                    "secondary": "#c6c6c7",
+                    "on-primary": "#00344a",
+                    "on-error": "#690005",
+                    "tertiary": "#fbd358",
+                    "on-secondary-fixed-variant": "#454747",
+                    "secondary-fixed": "#e2e2e2",
+                    "on-secondary-container": "#b4b5b5",
+                    "on-error-container": "#ffdad6",
+                    "surface-tint": "#86cffa",
+                    "surface-container-lowest": "#010e24",
+                    "on-secondary-fixed": "#1a1c1c",
+                    "tertiary-container": "#deb83f",
+                    "on-tertiary-fixed-variant": "#574500",
+                    "tertiary-fixed": "#ffe088"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-lg": "48px",
+                    "margin-mobile": "16px",
+                    "gutter": "24px",
+                    "margin-desktop": "40px",
+                    "stack-sm": "12px",
+                    "stack-md": "24px",
+                    "container-max": "1280px",
+                    "base": "8px"
+            },
+            "fontFamily": {
+                    "body-md": ["Hanken Grotesk"],
+                    "body-lg": ["Hanken Grotesk"],
+                    "display-lg": ["Sora"],
+                    "headline-md": ["Sora"],
+                    "headline-lg-mobile": ["Sora"],
+                    "headline-lg": ["Sora"],
+                    "label-md": ["JetBrains Mono"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "label-md": ["14px", {"lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #041329;
+            color: #d6e3ff;
+            -webkit-font-smoothing: antialiased;
+        }
+        .glass-card {
+            background: rgba(17, 32, 54, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .celeste-glow:hover {
+            box-shadow: 0px 4px 20px rgba(123, 196, 238, 0.15);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="font-body-md overflow-x-hidden">
+<!-- Sidebar Navigation Shell -->
+<nav class="hidden lg:flex flex-col h-full fixed left-0 top-0 z-40 py-8 bg-surface-container border-r border-white/5 w-64 shadow-xl">
+<div class="px-6 mb-10">
+<h1 class="font-display-lg text-headline-md font-extrabold text-tertiary tracking-tighter">ElijoCreer</h1>
+<p class="font-label-md text-label-md text-on-surface-variant mt-1">World Cup 2026</p>
+</div>
+<div class="flex flex-col flex-grow">
+<a class="flex items-center text-on-surface-variant hover:text-on-surface py-3 px-6 transition-all hover:bg-surface-bright/50" href="#">
+<span class="material-symbols-outlined mr-4">dashboard</span>
+<span class="font-label-md">Dashboard</span>
+</a>
+<a class="flex items-center text-on-surface-variant hover:text-on-surface py-3 px-6 transition-all hover:bg-surface-bright/50" href="#">
+<span class="material-symbols-outlined mr-4">sports_soccer</span>
+<span class="font-label-md">My Predictions</span>
+</a>
+<a class="flex items-center text-on-surface-variant hover:text-on-surface py-3 px-6 transition-all hover:bg-surface-bright/50" href="#">
+<span class="material-symbols-outlined mr-4">leaderboard</span>
+<span class="font-label-md">Global Rankings</span>
+</a>
+<a class="flex items-center text-primary font-bold border-l-4 border-primary bg-primary/10 py-3 px-6 translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined mr-4">group</span>
+<span class="font-label-md">Private Leagues</span>
+</a>
+<a class="flex items-center text-on-surface-variant hover:text-on-surface py-3 px-6 transition-all hover:bg-surface-bright/50" href="#">
+<span class="material-symbols-outlined mr-4">analytics</span>
+<span class="font-label-md">Tournament Stats</span>
+</a>
+</div>
+<div class="mt-auto px-6 space-y-4">
+<button class="w-full py-4 bg-tertiary text-on-tertiary font-bold rounded-xl celeste-glow transition-all active:scale-95">
+            Place Joker Prediction
+        </button>
+<div class="pt-6 border-t border-white/5">
+<a class="flex items-center text-on-surface-variant hover:text-on-surface py-2 transition-colors" href="#">
+<span class="material-symbols-outlined mr-3 text-sm">settings</span>
+<span class="font-label-md text-sm">Settings</span>
+</a>
+<a class="flex items-center text-on-surface-variant hover:text-on-surface py-2 transition-colors" href="#">
+<span class="material-symbols-outlined mr-3 text-sm">help</span>
+<span class="font-label-md text-sm">Support</span>
+</a>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="lg:ml-64 min-h-screen pb-margin-desktop">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 right-0 w-full lg:w-[calc(100%-16rem)] z-50 h-20 bg-surface/80 backdrop-blur-xl border-b border-white/5 flex justify-between items-center px-margin-desktop shadow-sm">
+<div class="flex items-center gap-10">
+<div class="hidden md:flex gap-8">
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md" href="#">Matches</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md" href="#">Leagues</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md" href="#">Rankings</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md" href="#">Rules</a>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="hidden sm:flex items-center text-primary font-bold border-b-2 border-tertiary pb-1 font-label-md transition-transform active:scale-95">
+                Predict Now
+            </button>
+<div class="flex items-center gap-4 text-on-surface-variant">
+<span class="material-symbols-outlined cursor-pointer hover:text-primary">notifications</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary">account_circle</span>
+</div>
+</div>
+</header>
+<!-- Page Content -->
+<div class="pt-24 px-margin-desktop max-w-container-max mx-auto">
+<!-- Group Header Section -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-stack-md mb-stack-lg bg-surface-container/30 p-6 rounded-2xl border border-white/5">
+<div class="space-y-4">
+<div class="flex flex-wrap items-center gap-3">
+<span class="bg-tertiary/20 text-tertiary px-3 py-1 rounded-full font-label-md text-[11px] border border-tertiary/30">PRIVATE LEAGUE</span>
+<div class="flex items-center gap-2 px-3 py-1 bg-surface-bright/30 rounded-full border border-white/10 group cursor-pointer">
+<span class="text-on-surface-variant font-label-md text-[11px]">Invite: SCALONETA26</span>
+<span class="material-symbols-outlined text-[14px] text-primary">content_copy</span>
+</div>
+<a class="flex items-center gap-1 text-[11px] font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[14px]">info</span>
+                        Reglas del Grupo
+                    </a>
+</div>
+<h2 class="font-display-lg text-headline-lg font-extrabold text-primary tracking-tight">La Scaloneta de la Oficina</h2>
+<div class="flex gap-10 pt-2">
+<div class="text-center md:text-left">
+<p class="font-label-md text-on-surface-variant text-[11px] uppercase tracking-wider mb-1">Active Members</p>
+<p class="font-headline-md text-on-surface">24</p>
+</div>
+<div class="text-center md:text-left">
+<p class="font-label-md text-on-surface-variant text-[11px] uppercase tracking-wider mb-1">Avg. Accuracy</p>
+<p class="font-headline-md text-tertiary">68%</p>
+</div>
+<div class="text-center md:text-left">
+<p class="font-label-md text-on-surface-variant text-[11px] uppercase tracking-wider mb-1">Group Rank</p>
+<p class="font-headline-md text-on-surface">#12</p>
+</div>
+</div>
+</div>
+<button class="w-full md:w-auto px-8 py-4 bg-tertiary text-on-tertiary font-bold rounded-xl celeste-glow flex items-center justify-center gap-2 transition-all active:scale-95 shadow-lg shadow-tertiary/10">
+<span class="material-symbols-outlined">add_circle</span>
+                Cargar Pronósticos
+            </button>
+</div>
+<!-- Bento Dashboard Layout -->
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Top Rankings (Col 1-8) -->
+<div class="col-span-12 lg:col-span-8 space-y-gutter">
+<div class="glass-card rounded-xl overflow-hidden">
+<div class="p-6 border-b border-white/5 flex justify-between items-center">
+<h3 class="font-headline-md text-on-surface flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary p-2 bg-tertiary/10 rounded-lg">emoji_events</span>
+                            Tabla de Posiciones
+                        </h3>
+<div class="flex items-center gap-4">
+<select class="bg-surface-bright/30 border-none rounded-lg text-[12px] font-label-md text-on-surface-variant py-1 focus:ring-1 focus:ring-primary">
+<option>General</option>
+<option>Fase de Grupos</option>
+</select>
+<a class="text-primary font-label-md text-[13px] hover:underline" href="#">Ver ranking completo</a>
+</div>
+</div>
+<div class="p-4 space-y-2">
+<!-- Header analytical read -->
+<div class="grid grid-cols-12 px-4 py-2 font-label-md text-[11px] text-on-surface-variant uppercase tracking-widest border-b border-white/5">
+<div class="col-span-1">#</div>
+<div class="col-span-7">Participante</div>
+<div class="col-span-2 text-right">Aciertos</div>
+<div class="col-span-2 text-right">Puntos</div>
+</div>
+<!-- User Row (Highlighted) -->
+<div class="grid grid-cols-12 items-center py-4 px-4 bg-primary/10 border-l-4 border-primary rounded-lg relative group">
+<div class="col-span-1 font-label-md text-primary font-bold">1</div>
+<div class="col-span-7 flex items-center gap-3">
+<div class="relative">
+<div class="w-10 h-10 rounded-full bg-surface-bright flex items-center justify-center border border-primary/30 text-primary font-bold">TU</div>
+<div class="absolute -top-1 -right-1 w-4 h-4 bg-tertiary rounded-full flex items-center justify-center border-2 border-[#112036]">
+<span class="material-symbols-outlined text-[8px] text-on-tertiary" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+<div>
+<span class="font-body-md font-bold text-on-surface block">Federico G. (Vos)</span>
+<span class="text-[11px] text-primary/70 font-label-md">+120 pts esta fecha</span>
+</div>
+</div>
+<div class="col-span-2 text-right">
+<p class="font-body-md font-semibold text-on-surface">128</p>
+</div>
+<div class="col-span-2 text-right">
+<p class="font-headline-md text-primary drop-shadow-[0_0_8px_rgba(170,222,255,0.3)]">2,450</p>
+</div>
+</div>
+<!-- Other Rows -->
+<div class="grid grid-cols-12 items-center py-4 px-4 hover:bg-white/5 rounded-lg transition-colors border-b border-white/5 last:border-0">
+<div class="col-span-1 font-label-md text-on-surface-variant">2</div>
+<div class="col-span-7 flex items-center gap-3">
+<img alt="Avatar" class="w-10 h-10 rounded-full bg-surface-bright border border-white/10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAl1DqVT1WDJwRIeeORrAa5xOkPZ2zVOvlkL_yP3Q169pffaR-E-skZLr_gucTHmMaskL5Ws60gZUJdPJqzmpTpYLR3Ai1Shnx75S3VED315WY9TB-VlCA_-cBadUCJUiJgKup5NHxNgXflZC-H7SsCAUI8vs0DFLn6RIGdbSif7xfJSXvP7RH-mNK9-Z_z4rc9cE6AOgdb--DoL24ykTs3sciNqHg3KC-QT_K1q289JFfARiT3pzcpxjBNgDJ4TFSHbmOxwIMaN0Y"/>
+<span class="font-body-md text-on-surface">Martín S.</span>
+</div>
+<div class="col-span-2 text-right">
+<p class="font-body-md text-on-surface-variant">122</p>
+</div>
+<div class="col-span-2 text-right font-headline-md text-on-surface">2,310</div>
+</div>
+<div class="grid grid-cols-12 items-center py-4 px-4 hover:bg-white/5 rounded-lg transition-colors border-b border-white/5 last:border-0">
+<div class="col-span-1 font-label-md text-on-surface-variant">3</div>
+<div class="col-span-7 flex items-center gap-3">
+<img alt="Avatar" class="w-10 h-10 rounded-full bg-surface-bright border border-white/10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3YbtWEXDeEgQvruoHLGQp9knL-eKyXkRnVQCSM5DJ3q9vahpY-hhkng2Tbhp6ySqQGLAnxz9qkW8F9fl3gp3cjgMXocOmIaMLxrlG4KMZMD79NRZnc1N1D_wFSg6rrWli33CNWZQQosqXROrPQ6p8uhdTs9z2jkNacZ5PiNhoWjwWezWyYN-cYNgcj47xstbL2BsW9tGMw6DQmwPSq4T9jbz5Wy-ciEE2oT_phtfZ7Z8mOhxF_V6OWyvKKipxrh9G_ZEAtoKIciI"/>
+<span class="font-body-md text-on-surface">Carla L.</span>
+</div>
+<div class="col-span-2 text-right">
+<p class="font-body-md text-on-surface-variant">130</p>
+</div>
+<div class="col-span-2 text-right font-headline-md text-on-surface">2,285</div>
+</div>
+</div>
+</div>
+<!-- Next Matches Widget -->
+<div class="glass-card rounded-xl">
+<div class="p-6 border-b border-white/5 flex justify-between items-center">
+<h3 class="font-headline-md text-on-surface flex items-center gap-3">
+<span class="material-symbols-outlined text-primary p-2 bg-primary/10 rounded-lg">calendar_month</span>
+                            Próximos Partidos
+                        </h3>
+<span class="bg-green-500/10 text-green-400 font-label-md text-[11px] px-3 py-1 rounded-full border border-green-500/20">PRONÓSTICOS ABIERTOS</span>
+</div>
+<div class="p-6 grid md:grid-cols-2 gap-stack-md">
+<!-- Match Card 1 - Active -->
+<div class="bg-surface-container-high rounded-xl p-5 border border-primary/20 relative group overflow-hidden">
+<div class="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-[60px] text-primary">sports_soccer</span>
+</div>
+<div class="flex justify-between items-center mb-4 relative z-10">
+<span class="bg-primary/20 text-primary font-label-md text-[10px] px-2 py-0.5 rounded uppercase">Grupo A</span>
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+<span class="text-on-surface-variant font-label-md text-[11px]">Hoy 16:00 HS</span>
+</div>
+</div>
+<div class="flex items-center justify-between gap-4 mb-6 relative z-10">
+<div class="flex flex-col items-center gap-2 flex-1">
+<img alt="ARG" class="w-12 h-12 rounded-full shadow-lg border border-white/10 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA78GS9A9LwLLM1M7OiCwh5ea8wjBbiijSBIsg2jL1LeF-lR1XGKWI1lR1FTS1O-hcw28TDc5bfbtULNIKueU0IYvvA4Ieltw7anHFD-ZBvVP1dhhr9PYhRyx0RIQNWHsCTsMKMZabfgvDdkR8rQleZCbLv__Hx2ug5HDO3m9OR5GlUpmkqhDoOk7awFbx9NcJgugHT4wIcmBiKGVMaT1531o0hgkuPvdCziAWnsUztUXOFP7frvVKAHlboH7DZyA619OGL4VDhfj0"/>
+<span class="font-bold text-on-surface text-center text-sm">Argentina</span>
+</div>
+<div class="text-on-surface-variant font-label-md text-headline-md italic opacity-50">VS</div>
+<div class="flex flex-col items-center gap-2 flex-1">
+<img alt="CAN" class="w-12 h-12 rounded-full shadow-lg border border-white/10 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFHbN2fZRDmi-v9gmuIjF6QcPwnLL0oVbKFG1Bki-YpAJ4RKTgtG420OjNoJbjEYp0NxxzeBgaZ4RCmHSoK62TB45Ci4pN4Q5yLKaM9wnKbiiOYl5axjEURPYDkM7XL1B-7UYUWMM77p1DopRY-vdRBi0FsC1UqWIYKGj3369bqVLSHe5ao6FIyvFonDMAAN16iPGB5HxN0imd617A3KGko5F2rkllvzTq3sGTEBwNdiLjxwSBhs7jm3Na2XA6wWLXRGmICshX-wk"/>
+<span class="font-bold text-on-surface text-center text-sm">Canadá</span>
+</div>
+</div>
+<button class="w-full py-3 bg-primary text-on-primary rounded-lg font-bold hover:bg-primary-container transition-all shadow-md relative z-10">
+                                Pronosticar
+                            </button>
+</div>
+<!-- Match Card 2 - Joker Available -->
+<div class="bg-surface-container-high rounded-xl p-5 border border-white/5 celeste-glow transition-all">
+<div class="flex justify-between items-center mb-4">
+<span class="bg-primary/20 text-primary font-label-md text-[10px] px-2 py-0.5 rounded uppercase">Grupo B</span>
+<span class="text-on-surface-variant font-label-md text-[11px]">Mañana 13:00 HS</span>
+</div>
+<div class="flex items-center justify-between gap-4 mb-6">
+<div class="flex flex-col items-center gap-2 flex-1">
+<img alt="ESP" class="w-12 h-12 rounded-full shadow-lg border border-white/10 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBM_IFSYO65GsgWyEjMLdR6TgwVdLaw03XnXjjdephA7yUY-9ZStXi4deGb-RuXcnNE8gGhwYkUeTuIq-U4DvvMzg1wq6iYSz2OcxmqLsQaVLLoJ0O7b7F1prns5YF0p5bfDXHeK6pE5_qSn3330WDRE-jxZWbojJ-79UB9AG2udhRUUr-5tNM1ve26Wo7Nvgjv5ZRl_1o2dlYF-52Nx56CfRQeVlFpWvIJHAEwjfKqEGpOxzlk1vJOA0Qe9AqFhuvsZN7A8pz_aXY"/>
+<span class="font-bold text-on-surface text-center text-sm">España</span>
+</div>
+<div class="text-on-surface-variant font-label-md text-headline-md italic opacity-50">VS</div>
+<div class="flex flex-col items-center gap-2 flex-1">
+<img alt="JPN" class="w-12 h-12 rounded-full shadow-lg border border-white/10 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4cq8buc2IeWIjvTG3_sFjczGSOeOEFTTh395XjAMZsSddq8roNGsYY6Zy6KpSEvRFXrQKethAc2Y-4a2Eguezeu8OWBEvBF3JKs1nETpDx6xYnbSVxdi0zkX9LAVXMJZn5uCydgSZNVferRa3BPabiFIWHnCfiIgUBZml2MmhGjD7Qz4RsxdMusO1ZZoiHUe_EjICXro3n0xrCpInFEaNVJG5XJSLeXbvhE26VIRef_ogCjMJzUv3mGES7x6fCi7Prs49w_tQzA4"/>
+<span class="font-bold text-on-surface text-center text-sm">Japón</span>
+</div>
+</div>
+<div class="space-y-2">
+<button class="w-full py-2 bg-surface-bright text-primary border border-primary/20 rounded-lg font-bold hover:bg-primary/10 transition-colors text-sm">
+                                    Pronosticar
+                                </button>
+<div class="flex items-center justify-center gap-2 bg-tertiary/10 border border-tertiary/20 py-1.5 rounded-lg">
+<span class="material-symbols-outlined text-tertiary text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-tertiary font-label-md text-[10px] font-bold tracking-tight">JOKER DISPONIBLE</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column (Social Feed & Members) -->
+<div class="col-span-12 lg:col-span-4 space-y-gutter">
+<!-- Activity Social Feed -->
+<div class="glass-card rounded-xl flex flex-col h-[480px]">
+<div class="p-6 border-b border-white/5">
+<h3 class="font-headline-md text-on-surface flex items-center gap-3">
+<span class="material-symbols-outlined text-primary p-2 bg-primary/10 rounded-lg">forum</span>
+                            Actividad
+                        </h3>
+</div>
+<div class="flex-grow overflow-y-auto p-6 space-y-6 custom-scrollbar">
+<!-- Feed Item -->
+<div class="flex gap-3 items-start">
+<img alt="User" class="w-8 h-8 rounded-full border border-white/10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCEu6j8_v0IIL-2_J8faT4jAT3cCCo0cxxwiRb3Hu-voimuhxWIQHwVu5VHc4bEbcaYZYbbKTT2ebu9vSMA8vkdJOUqfW5D8mfMVAZdfd636kK1KtComdq7GtvW-2fx_NvuXnheddhgt34ngiaiNPt7oPfsjm_gZ2j6TmKqU57peDeF-a-8dczPVp9GkLt2RJTpQB8s_BVE98EiVP5M4hNX0DidJGHasNmUyqTaSezy-hN95e_c18qWbY1pbAoBuSosoM8Pbv5tKSg"/>
+<div class="flex-1">
+<p class="text-[14px] leading-snug">
+<span class="font-bold text-on-surface">Juan P.</span>
+<span class="text-on-surface-variant">cargó su pronóstico:</span>
+<span class="text-primary font-semibold block mt-1">ARG 2 - 0 CAN</span>
+</p>
+<span class="text-[11px] text-on-surface-variant/60 font-label-md mt-1 block">Hace 5 min</span>
+</div>
+</div>
+<div class="flex gap-3 items-start">
+<div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">trending_up</span>
+</div>
+<div class="flex-1">
+<p class="text-[14px] leading-snug">
+<span class="font-bold text-on-surface">Santiago M.</span>
+<span class="text-on-surface-variant">subió <span class="text-green-400 font-bold">4 puestos</span> en el ranking del grupo.</span>
+</p>
+<span class="text-[11px] text-on-surface-variant/60 font-label-md mt-1 block">Hace 2 horas</span>
+</div>
+</div>
+<div class="flex gap-3 items-start">
+<div class="w-8 h-8 rounded-full bg-tertiary/20 flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">stars</span>
+</div>
+<div class="flex-1">
+<p class="text-[14px] leading-snug">
+<span class="font-bold text-on-surface text-tertiary">Lucía F.</span>
+<span class="text-on-surface-variant">activó su Joker para la final. 🔥</span>
+</p>
+<span class="text-[11px] text-on-surface-variant/60 font-label-md mt-1 block">Hace 5 horas</span>
+</div>
+</div>
+</div>
+<div class="p-4 bg-surface-container-highest/30 border-t border-white/5">
+<div class="relative">
+<input class="w-full bg-surface-container-low border-white/10 rounded-xl py-3 pl-4 pr-12 font-label-md text-sm text-on-surface placeholder:text-on-surface-variant/40 focus:ring-primary focus:border-primary transition-all" placeholder="Escribí un mensaje..." type="text"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-primary hover:text-primary-container">
+<span class="material-symbols-outlined">send</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Member List -->
+<div class="glass-card rounded-xl">
+<div class="p-6 border-b border-white/5 flex justify-between items-center">
+<h3 class="font-headline-md text-on-surface">Miembros</h3>
+<span class="bg-surface-bright/50 text-on-surface-variant font-label-md text-[12px] px-2.5 py-0.5 rounded-full">24</span>
+</div>
+<div class="p-6 space-y-5">
+<div class="flex items-center justify-between group">
+<div class="flex items-center gap-3">
+<div class="relative">
+<img alt="Admin" class="w-10 h-10 rounded-full border-2 border-tertiary" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDb4Ulb4_kgp3P6GwfwyEZIioP6I3uRj8dq-3QUL113BytgwFjbnk23cUZJ6RNLwDefbCvn3mqrmzkmV_tA64H0dtsbGNLhH-Gbqu0RV4JWm6POFVFd5SQZy3kLhqlumcJrAD_jLy0EVXIjHo-hzkvCXWVPXWHUKMC8KiHCGbcLfdCinbaDnKg4A8mt_Ml_GgYukHB4i_NcDhW44zLjAjkiQ4pFjGF6zlIUkW2WvmTaMKZV-9T89DceE2W5R7ZDhhWTtxPfHtbOQpA"/>
+<span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-[#112036]"></span>
+</div>
+<div>
+<p class="font-body-md font-bold text-on-surface text-sm">Federico G.</p>
+<p class="font-label-md text-[10px] text-tertiary uppercase tracking-tighter">Administrador</p>
+</div>
+</div>
+<button class="opacity-0 group-hover:opacity-100 transition-opacity text-on-surface-variant hover:text-primary">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+<div class="flex items-center justify-between group">
+<div class="flex items-center gap-3">
+<div class="relative">
+<img alt="User" class="w-10 h-10 rounded-full border border-white/10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBTBCajk-vSknanS6LLCHna9-6vLUKkHzwMvIiuqUwISFxxDSV_6TiGZ-zyQE-Kf-krkpAayukE03j7pXsVW0c1RC2RaHt15kPFvo7Fk_u5tfB3vyLo9BOd6mxX77QnPGh_TJtaIiqqGAXIjxUDqiX8cqGjZ4x9F7SPUjQYxyPkdD3HVTjPnimxVI45yxczT_oofhgnFZhCSB7vltCM1ffG68utbHunxLgBtp1rTs3wHnQG9R4d_-aKwsVk2Sho8o99Go5rn0w1bc"/>
+<span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-[#112036]"></span>
+</div>
+<div>
+<p class="font-body-md font-bold text-on-surface text-sm">Martín S.</p>
+<p class="font-label-md text-[10px] text-on-surface-variant/60 uppercase tracking-tighter">Miembro</p>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between opacity-60 grayscale-[0.5]">
+<div class="flex items-center gap-3">
+<img alt="User" class="w-10 h-10 rounded-full border border-white/10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuByxwjyr1_GM6_GP71Yd6tE30FnZdmFQANIX_vvIGhYhVm-hTt_OD3X-U-AvMcR1CmEN_T7wPI8c_0oL_wjT-bd6k8GNE3d9TwysTLyIadAmVfleZdFJjg8R82aY2e4AR16_KFCZN7OVh_CV0JwKhovFmsQPdadKCwSeEJEWhadKKFr-ty-14RL8JlOUN3GvJ9pcYWt8mDy7AMpd0bC2U7gJcqF8EFc60XXk5q3E_fypKnJm95bioTGIM-Dj88zToNPzItY-TDxp04"/>
+<div>
+<p class="font-body-md font-bold text-on-surface-variant text-sm">Carla L.</p>
+<p class="font-label-md text-[10px] text-on-surface-variant/40 uppercase tracking-tighter">Offline</p>
+</div>
+</div>
+</div>
+<button class="w-full py-3 border border-white/10 rounded-xl font-label-md text-[12px] text-on-surface-variant hover:bg-white/5 hover:text-on-surface transition-all">
+                            Ver todos los miembros
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer class="w-full py-12 px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-base mt-stack-lg border-t border-white/5 bg-surface-container-lowest">
+<div class="flex flex-col items-center md:items-start gap-2">
+<h4 class="font-display-lg text-headline-md font-bold text-primary">ElijoCreer</h4>
+<p class="font-body-md text-on-surface-variant text-sm opacity-80">© 2026 ElijoCreer - The Ultimate Prode Experience</p>
+</div>
+<div class="flex gap-8">
+<a class="font-label-md text-on-surface-variant hover:text-tertiary transition-colors" href="#">Terms of Service</a>
+<a class="font-label-md text-on-surface-variant hover:text-tertiary transition-colors" href="#">Privacy Policy</a>
+<a class="font-label-md text-on-surface-variant hover:text-tertiary transition-colors" href="#">Tournament Rules</a>
+</div>
+</footer>
+</main>
+<!-- Bottom Navigation (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-surface/80 backdrop-blur-xl border-t border-white/5 z-50 flex justify-around items-center h-16">
+<a class="flex flex-col items-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[10px] font-label-md">Home</span>
+</a>
+<a class="flex flex-col items-center text-primary" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="text-[10px] font-label-md">Leagues</span>
+</a>
+<a class="flex flex-col items-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">sports_soccer</span>
+<span class="text-[10px] font-label-md">Predict</span>
+</a>
+<a class="flex flex-col items-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">leaderboard</span>
+<span class="text-[10px] font-label-md">Rank</span>
+</a>
+</nav>
+<script>
+    document.querySelectorAll('button, a').forEach(elem => {
+        elem.addEventListener('mousedown', () => {
+            elem.style.transform = 'scale(0.96)';
+        });
+        elem.addEventListener('mouseup', () => {
+            elem.style.transform = '';
+        });
+        elem.addEventListener('mouseleave', () => {
+            elem.style.transform = '';
+        });
+    });
+</script>
+</body></html>

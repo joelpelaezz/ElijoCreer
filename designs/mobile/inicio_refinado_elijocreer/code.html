@@ -1,0 +1,359 @@
+<!DOCTYPE html><html class="light" lang="es"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>ElijoCreer - Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&amp;family=Hanken+Grotesk:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-container": "#c7a32b",
+                    "secondary": "#39618c",
+                    "tertiary-fixed": "#ffe088",
+                    "on-primary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "error-container": "#ffdad6",
+                    "surface-container-highest": "#e0e3e5",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-fixed": "#001d32",
+                    "on-primary-container": "#003f65",
+                    "surface-container-low": "#f2f4f6",
+                    "primary": "#236391",
+                    "tertiary": "#735c00",
+                    "primary-container": "#74acdf",
+                    "on-background": "#191c1e",
+                    "surface-container": "#eceef0",
+                    "secondary-fixed": "#d2e4ff",
+                    "inverse-primary": "#96ccff",
+                    "tertiary-fixed-dim": "#e9c349",
+                    "surface": "#f7f9fb",
+                    "inverse-on-surface": "#eff1f3",
+                    "secondary-fixed-dim": "#a3c9fb",
+                    "on-secondary-container": "#2e5681",
+                    "on-error": "#ffffff",
+                    "surface-container-high": "#e6e8ea",
+                    "outline-variant": "#c1c7d0",
+                    "on-secondary": "#ffffff",
+                    "on-tertiary-fixed-variant": "#574500",
+                    "on-tertiary-fixed": "#241a00",
+                    "on-secondary-fixed": "#001d36",
+                    "surface-variant": "#e0e3e5",
+                    "surface-container-lowest": "#ffffff",
+                    "outline": "#717880",
+                    "on-primary-fixed-variant": "#004a75",
+                    "on-surface": "#191c1e",
+                    "on-secondary-fixed-variant": "#1e4973",
+                    "surface-tint": "#236391",
+                    "on-surface-variant": "#41474f",
+                    "background": "#f7f9fb",
+                    "inverse-surface": "#2d3133",
+                    "surface-dim": "#d8dadc",
+                    "surface-bright": "#f7f9fb",
+                    "primary-fixed-dim": "#96ccff",
+                    "primary-fixed": "#cee5ff",
+                    "error": "#ba1a1a",
+                    "secondary-container": "#a6ccfe",
+                    "on-tertiary-container": "#4b3a00"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "16px",
+                    "container-padding": "20px",
+                    "base": "4px",
+                    "section-margin": "32px",
+                    "card-gap": "12px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Montserrat"],
+                    "label-sm": ["Hanken Grotesk"],
+                    "headline-lg-mobile": ["Montserrat"],
+                    "headline-lg": ["Montserrat"],
+                    "body-lg": ["Hanken Grotesk"],
+                    "label-md": ["Hanken Grotesk"],
+                    "body-md": ["Hanken Grotesk"],
+                    "display-lg": ["Montserrat"]
+            },
+            "fontSize": {
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "700"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #F8FAFC;
+            color: #191c1e;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .card-shadow {
+            box-shadow: 0 4px 12px rgba(35, 99, 145, 0.08);
+        }
+        .pulse-live {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .5; }
+        }
+        .glass-nav {
+            backdrop-filter: blur(8px);
+            background: rgba(247, 249, 251, 0.8);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="font-body-md text-body-md-mobile md:text-body-md overflow-x-hidden">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-background shadow-sm w-full top-0 sticky z-50">
+<div class="flex justify-between items-center px-container-padding h-16 w-full max-w-[480px] mx-auto">
+<button aria-label="menu" class="material-symbols-outlined text-primary dark:text-primary-fixed-dim active:scale-95 duration-200">menu</button>
+<h1 class="font-headline-md text-headline-md text-primary dark:text-primary-fixed-dim font-bold">ElijoCreer</h1>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest overflow-hidden active:scale-95 duration-200">
+<img alt="User profile photo" class="w-full h-full object-cover" data-alt="A professional and clean circular profile avatar of a young adult sports enthusiast with a friendly smile. The background is a soft, out-of-focus stadium lighting setup, maintaining the premium social sports dashboard aesthetic. The lighting is natural and bright, matching the high-key white and sky blue color palette of the app." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBoDYb40rhqr47ziSosWXeZzNfiFIrQ2qWK3QlmG4xItOFeRm6e4DD9bwFu3doE6dQNkDymL_PRUKT1JJeXaQfLjU7pTO69PYBTcBCGgbbFvZCGaRngefBU5PqzXWi1BnnQb2dvQwfp6MEt_jNMPHxLP9nik5yraMSpwXdlUk9ZQj1eoXT8t-pcL3FgdzpPaPqdzpCcF0e1vQAFyNsfSMvQ1A6qoCxpC-RuYMq_J1Q_DiFvDBsr1gfNIZyiuf7doDz_0Ay2VpC6RI">
+</div>
+</div>
+</header>
+<main class="w-full max-w-[480px] mx-auto px-container-padding pb-32 pt-4 space-y-section-margin">
+<!-- Welcome & Status Indicator -->
+<section class="space-y-4">
+<div class="flex justify-between items-end">
+<div>
+<p class="text-on-surface-variant font-label-md text-label-md">Hola, Mateo 👋</p>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">Tu Resumen</h2>
+</div>
+<div class="bg-tertiary-fixed text-on-tertiary-fixed border border-tertiary rounded-xl px-3 py-2 flex items-center gap-2 shadow-sm">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">notification_important</span>
+<span class="font-label-sm text-label-sm font-bold">3 Pendientes</span>
+</div>
+</div>
+<!-- Quick Ranking Bento Card -->
+<div class="bg-primary text-on-primary rounded-xl p-5 card-shadow flex justify-between items-center relative overflow-hidden">
+<div class="z-10">
+<p class="font-label-sm text-label-sm opacity-80 uppercase tracking-wider">Ranking Global</p>
+<p class="font-display-lg text-[40px] leading-none mb-1">#124</p>
+<p class="font-label-md text-label-md">Top 5% de Argentina</p>
+</div>
+<div class="bg-tertiary-fixed text-on-tertiary-fixed border border-tertiary rounded-xl px-3 py-2 flex items-center gap-2 shadow-sm">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">notification_important</span>
+<span class="font-label-sm text-label-sm font-bold">3 Pendientes</span>
+</div>
+<!-- Abstract background shape -->
+<div class="absolute -right-10 -bottom-10 w-40 h-40 bg-primary-container/30 rounded-full blur-3xl"></div>
+</div>
+</section>
+<!-- Active Groups Summary -->
+<section class="space-y-card-gap">
+<div class="flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md text-on-surface">Mis Grupos</h3>
+<button class="text-primary font-label-md text-label-md hover:underline">Ver todos</button>
+</div>
+<div class="flex gap-4 overflow-x-auto pb-2 no-scrollbar"><!-- Group Card 1 -->
+<div class="min-w-[140px] bg-white rounded-xl p-4 card-shadow border-l-4 border-tertiary flex flex-col justify-between">
+<div>
+<span class="text-[10px] uppercase tracking-widest text-outline font-bold block mb-1">Grupo Creado</span><p class="font-label-sm text-label-sm text-on-surface-variant">La Scaloneta</p>
+<p class="font-headline-md text-headline-md mt-1">2º</p>
+</div>
+<p class="text-[10px] text-tertiary font-bold mt-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">trending_up</span> +3 pos.
+</p>
+</div>
+<!-- Group Card 2 -->
+<div class="min-w-[140px] bg-white rounded-xl p-4 card-shadow border-l-4 border-primary flex flex-col justify-between">
+<div>
+<span class="text-[10px] uppercase tracking-widest text-outline font-bold block mb-1">Grupo Creado</span><p class="font-label-sm text-label-sm text-on-surface-variant">Oficina WC26</p>
+<p class="font-headline-md text-headline-md mt-1">14º</p>
+</div>
+<p class="text-[10px] text-outline font-bold mt-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">remove</span> estable
+</p>
+</div>
+<!-- Group Card 3 -->
+<div class="min-w-[140px] bg-white rounded-xl p-4 card-shadow border-l-4 border-secondary flex flex-col justify-between">
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Amigos FC</p>
+<p class="font-headline-md text-headline-md mt-1">1º</p>
+</div>
+<p class="text-[10px] text-tertiary font-bold mt-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">military_tech</span> Líder
+</p>
+</div></div>
+</section>
+<!-- Upcoming Matches (Próximos Partidos) -->
+<section class="space-y-card-gap">
+<div class="flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md text-on-surface">Próximos Partidos</h3>
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-[18px] pulse-live" style="font-variation-settings: 'FILL' 1;">fiber_manual_record</span>
+<span class="font-label-sm text-label-sm">En Vivo</span>
+</div>
+</div>
+<!-- Match Card Live -->
+<div class="bg-white rounded-xl p-4 card-shadow border border-primary/10 space-y-4">
+<div class="flex justify-between items-center border-b border-surface-container pb-3">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Grupo C • 72'</span>
+<span class="bg-primary text-on-primary px-2 py-0.5 rounded font-bold text-[10px] uppercase tracking-widest pulse-live">Live</span>
+</div>
+<div class="flex justify-around items-center py-2">
+<div class="flex flex-col items-center gap-2 w-1/3">
+<div class="w-12 h-12 rounded-full shadow-sm bg-surface overflow-hidden">
+<img alt="Argentina" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDakIR2nzY0vIvQPspqyRNA4Uz_P7HoJGze5gV7bDD51pSxwiMxgraxxjZq3zxWv6uFk-uIgX9HKdepVWUQ-2zg1dUGE5ipRFF9Onaynnpd9Hrza_4uo__-LX4yWxMJUaTVlZf2GhelM-a_Nb7R-YU3a2I8oIiGkVYp76aZKIexjtMnk-PYoJg3saccWOBtWHoIpb1AmC0FuB0aIEAQ67jVmLfKamWhS68icA8OEf13Fx0WAS5t0qebERz7Z95IupNdEOrTbPxqd0w">
+</div>
+<span class="font-bold text-center leading-tight">Argentina</span>
+</div>
+<div class="flex flex-col items-center w-1/3">
+<span class="font-display-lg text-[32px] text-primary">2 - 0</span>
+<span class="text-[10px] text-outline font-bold uppercase">Predicción: 3-1</span>
+</div>
+<div class="flex flex-col items-center gap-2 w-1/3">
+<div class="w-12 h-12 rounded-full shadow-sm bg-surface overflow-hidden">
+<img alt="México" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCyLGmTK7MI6ZRhhP_6W-HD_9qZmqmVWewfEWI3tA6T_PT5yLJZvuMdtO-2wrjdJfhHrEUvTPu2I6FCJoZxs4d4YHWJAXUHby2Q6-5Ej5yjrg8RiVlBXjHU-899MRDcMcJyLLSXRBwbYQNyemO1AZxoSN1ZYAaj03DKBHg1vLg7HeWE687OryOXocLKxHcFzXNhk38zNO80tFwThfE91MINzjvUEGODqPrV66dOP1q85mPfWSXB0H-mfIrmz-5th2FiRDET6lZpVTQ">
+</div>
+<span class="font-bold text-center leading-tight">México</span>
+</div>
+</div>
+</div>
+<!-- Match Card Upcoming / Needs Prediction -->
+<div class="bg-white rounded-xl p-4 card-shadow border-2 border-dashed border-primary/20 space-y-4 relative">
+<div class="flex justify-between items-center border-b border-surface-container pb-3">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Mañana, 16:00 hs</span>
+<span class="bg-tertiary-fixed text-on-tertiary-fixed px-2 py-0.5 rounded text-[10px] font-bold uppercase">Pendiente</span>
+</div>
+<div class="flex justify-around items-center py-2 opacity-60">
+<div class="flex flex-col items-center gap-2 w-1/3">
+<div class="w-12 h-12 rounded-full shadow-sm bg-surface overflow-hidden">
+<img alt="Brasil" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZ7HAGR8IeNyYlr5ZoRrjZzZkukQeTxSg1dh8mtmzlFH6uldg2U6ncirvBB3mB7X1eMQwF3xeUYFhrDeBTBfBOloH1JpUCPYdeOY9ITxA8CFCNaqzxKv9ZZFKs11-w-bZUEBFLNTq9NmqSDClswTxbUPh5rq1CGVREkfpVptxZW-q-5JI1MaauM46dGeZ7CIZ01PPTJamsbBFber7oZVDuTSYNZ1avK3d6Sq3bqQIEKKQbDvSmUHSqMr8oWmY480BVYsO9Frl1AvY">
+</div>
+<span class="font-bold text-center">Brasil</span>
+</div>
+<div class="w-1/3 flex justify-center">
+<div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center font-bold text-outline">VS</div>
+</div>
+<div class="flex flex-col items-center gap-2 w-1/3">
+<div class="w-12 h-12 rounded-full shadow-sm bg-surface overflow-hidden">
+<img alt="Francia" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAOCwsfRmb7R4gHGWSvMpAzhHEUE1xluZ9wi5zoF2_VLhOIkVEQrvUopZJ6PTBdFZyeUgKMusypYUzfUisi4Y1EYKTYq8T2gi56833BRVobtzltnPRSHOTZJ8k40ppJVYfyN2EiLSM5uPi5zDpYOzoUG5FeiQ4MfYDK6tK4jKr51_Nn6JKSeOpZcc3pY4x-3jO23V34d6TCafRl_0DyEcVQHA_4O6Ad8_NR2pLvGbNt1zoARQIS0qRmdDXuNHJYI8RROn2FpJXL6I">
+</div>
+<span class="font-bold text-center">Francia</span>
+</div>
+</div>
+<button class="w-full py-3 bg-primary text-on-primary rounded-xl font-bold text-label-md flex items-center justify-center gap-2 hover:bg-secondary transition-all shadow-lg active:scale-95">
+<span class="material-symbols-outlined text-[18px]">edit_square</span>
+                    Cargar Pronóstico
+                </button>
+</div>
+</section>
+<!-- Recent Activity Feed -->
+<section class="space-y-card-gap">
+<h3 class="font-headline-md text-headline-md text-on-surface">Actividad Reciente</h3>
+<div class="space-y-3"><!-- Activity Item 1 -->
+<div class="flex gap-4 items-center bg-white p-4 rounded-xl border border-surface-container shadow-sm">
+<div class="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 border border-surface-container">
+<img alt="Friend profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDj0H4AKMSTofiAZXM0yii31qQU0CplfnU1QwjaDRqrpXpzMcspudUZqr978UlY6VMsJLLbaomu2GSMn3dF28Z-Eu0aZDV99P69pSiaee2DfJGKX1yS_4inkq57_3N4r1Rh-Dfa2SVItFftCBKvoX3_97t0V5iBT_ivj3RYoGRi5uoIfbPFdXEx-Bn7rm5vylB4j0s7BK8rcXIPIC1LCqikU-EveNExoJzud63ck2qXllubdrHhliGivIEj3q-Lx4C-QKFiYIKynI">
+</div>
+<div class="flex-1">
+<p class="text-on-surface text-[14px] leading-tight">
+<span class="font-bold">Julian Alvarez</span> predijo para el partido <span class="font-semibold text-primary">ARG vs POL</span>
+</p>
+<p class="text-outline text-[12px] mt-0.5">Hace 15 minutos</p>
+</div>
+<span class="material-symbols-outlined text-primary/40 text-[20px]">edit_square</span>
+</div>
+<!-- Activity Item 2 -->
+<div class="flex gap-4 items-center bg-white p-4 rounded-xl border border-surface-container shadow-sm">
+<div class="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 border border-surface-container">
+<img alt="Friend profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuArMNW-0xx4IyZR97IeZ11VU1UvV2x2K9W8Ffq5oCN3AIYn5tjWELwoHhqMC2P2mRm1T6wt9D7vrOdesA2v74OvB2To6eozcAxLQ4oa1RyL_kvbVlNKmDiQSU99vL3xcR1NgXRM6CTUrf6MFndkNPjxu3FJNW607-YDWsqzFgaOdLPtMOBILWeekUfcLPaVC_7N2xav6PSxm6_c8lU_q8dwOVv9PZ6pyqJP3CWc-kne5Jy_7v8j149Dx0XaFdCyk7OqYACF7PMRuyU">
+</div>
+<div class="flex-1">
+<p class="text-on-surface text-[14px] leading-tight">
+<span class="font-bold">Sofi Martínez</span> se unió al grupo <span class="text-primary font-semibold">Oficina WC26</span>
+</p>
+<p class="text-outline text-[12px] mt-0.5">Hace 2 horas</p>
+</div>
+<span class="material-symbols-outlined text-primary/40 text-[20px]">group_add</span>
+</div>
+<!-- Activity Item 3 -->
+<div class="flex gap-4 items-center bg-white p-4 rounded-xl border border-surface-container shadow-sm">
+<div class="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 border border-surface-container">
+<div class="w-full h-full bg-primary-container/30 flex items-center justify-center text-primary font-bold">M</div>
+</div>
+<div class="flex-1">
+<p class="text-on-surface text-[14px] leading-tight">
+<span class="font-bold">Mateo</span> actualizó su predicción para <span class="font-semibold text-primary">BRA vs FRA</span>
+</p>
+<p class="text-outline text-[12px] mt-0.5">Hace 3 horas</p>
+</div>
+<span class="material-symbols-outlined text-primary/40 text-[20px]">update</span>
+</div></div>
+</section>
+</main>
+<!-- FAB: Cargar Pronóstico -->
+<button class="fixed bottom-24 right-6 w-14 h-14 bg-tertiary-container text-on-tertiary shadow-xl rounded-full flex items-center justify-center active:scale-90 transition-all z-40 group">
+<span class="material-symbols-outlined text-[32px]">add</span>
+<span class="absolute right-full mr-3 bg-inverse-surface text-inverse-on-surface px-3 py-1 rounded-lg text-label-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">Cargar Pronóstico</span>
+</button>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center px-4 py-3 bg-surface dark:bg-background rounded-t-xl shadow-[0_-4px_12px_rgba(35,99,145,0.1)] max-w-[480px] left-1/2 -translate-x-1/2">
+<a class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed-dim font-bold scale-110 transition-transform active:scale-90" href="#" title="Matches">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">sports_soccer</span>
+<span class="font-label-sm text-label-sm">Matches</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline opacity-70 hover:opacity-100 transition-all active:scale-90" href="#" title="Leagues">
+<span class="material-symbols-outlined">leaderboard</span>
+<span class="font-label-sm text-label-sm">Leagues</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline opacity-70 hover:opacity-100 transition-all active:scale-90" href="#" title="Social">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-sm text-label-sm">Social</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline opacity-70 hover:opacity-100 transition-all active:scale-90" href="#" title="Profile">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</a>
+</nav>
+<script>
+        // Micro-interactions for navigation
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                document.querySelectorAll('nav a').forEach(l => {
+                    l.classList.remove('text-primary', 'font-bold', 'scale-110', 'opacity-100');
+                    l.classList.add('text-on-surface-variant', 'opacity-70');
+                    l.querySelector('span.material-symbols-outlined').style.fontVariationSettings = "'FILL' 0";
+                });
+                link.classList.add('text-primary', 'font-bold', 'scale-110', 'opacity-100');
+                link.classList.remove('text-on-surface-variant', 'opacity-70');
+                link.querySelector('span.material-symbols-outlined').style.fontVariationSettings = "'FILL' 1";
+            });
+        });
+
+        // Toggle mobile menu simulation
+        document.querySelector('header button').addEventListener('click', () => {
+            alert('Navigation Drawer would open here.');
+        });
+    </script>
+
+
+</body></html>

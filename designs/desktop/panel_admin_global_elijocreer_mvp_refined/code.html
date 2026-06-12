@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ElijoCreer | Staff Admin Panel</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Hanken+Grotesk:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-on-surface": "#233148",
+                    "on-tertiary-fixed": "#241a00",
+                    "on-secondary-fixed": "#1a1c1c",
+                    "background": "#041329",
+                    "primary-fixed": "#c4e7ff",
+                    "on-primary-fixed-variant": "#004c69",
+                    "surface-container": "#112036",
+                    "on-error-container": "#ffdad6",
+                    "error-container": "#93000a",
+                    "tertiary-fixed": "#ffe088",
+                    "surface-container-lowest": "#010e24",
+                    "tertiary-container": "#deb83f",
+                    "secondary-fixed-dim": "#c6c6c7",
+                    "tertiary": "#fbd358",
+                    "on-error": "#690005",
+                    "inverse-surface": "#d6e3ff",
+                    "inverse-primary": "#00658b",
+                    "surface": "#041329",
+                    "primary-fixed-dim": "#86cffa",
+                    "on-secondary-container": "#b4b5b5",
+                    "on-surface-variant": "#bfc8cf",
+                    "surface-container-high": "#1c2a41",
+                    "outline-variant": "#40484e",
+                    "primary": "#aadeff",
+                    "on-tertiary": "#3c2f00",
+                    "on-secondary-fixed-variant": "#454747",
+                    "secondary-fixed": "#e2e2e2",
+                    "secondary-container": "#454747",
+                    "on-primary-fixed": "#001e2c",
+                    "surface-container-low": "#0d1c32",
+                    "on-tertiary-fixed-variant": "#574500",
+                    "on-primary": "#00344a",
+                    "surface-tint": "#86cffa",
+                    "on-secondary": "#2f3131",
+                    "on-tertiary-container": "#5d4900",
+                    "tertiary-fixed-dim": "#e9c349",
+                    "secondary": "#c6c6c7",
+                    "on-surface": "#d6e3ff",
+                    "error": "#ffb4ab",
+                    "surface-dim": "#041329",
+                    "on-primary-container": "#00516f",
+                    "surface-container-highest": "#27354c",
+                    "surface-bright": "#2c3951",
+                    "on-background": "#d6e3ff",
+                    "outline": "#899298",
+                    "primary-container": "#7bc4ee",
+                    "surface-variant": "#27354c"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.5rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-desktop": "40px",
+                    "base": "8px",
+                    "stack-md": "24px",
+                    "stack-sm": "12px",
+                    "margin-mobile": "16px",
+                    "container-max": "1280px",
+                    "stack-lg": "48px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Sora"],
+                    "display-lg": ["Sora"],
+                    "headline-lg-mobile": ["Sora"],
+                    "headline-md": ["Sora"],
+                    "body-lg": ["Hanken Grotesk"],
+                    "label-md": ["JetBrains Mono"],
+                    "body-md": ["Hanken Grotesk"]
+            },
+            "fontSize": {
+                    "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                    "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                    "headline-lg-mobile": ["28px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                    "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                    "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                    "label-md": ["14px", { "lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                    "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body {
+            background-color: #041329;
+            color: #d6e3ff;
+            font-family: 'Sora', sans-serif;
+            overflow-x: hidden;
+        }
+        .glass-panel {
+            background: rgba(17, 34, 64, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(170, 222, 255, 0.2);
+            border-radius: 20px;
+        }
+        .active-nav-glow {
+            box-shadow: -4px 0 12px -2px rgba(170, 222, 255, 0.4);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col md:flex-row">
+<!-- SideNavBar -->
+<aside class="hidden lg:flex flex-col h-full fixed left-0 top-0 z-40 py-8 bg-surface-container border-r border-white/5 shadow-xl w-64">
+<div class="px-6 mb-10">
+<h1 class="font-display-lg text-headline-md font-extrabold text-tertiary tracking-tight">ElijoCreer</h1>
+<p class="text-on-surface-variant font-label-md text-sm opacity-70">Admin Operations</p>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center text-primary font-bold border-l-4 border-primary bg-primary/10 py-3 px-6 active-nav-glow transition-all" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="dashboard">dashboard</span>
+<span class="font-label-md">Dashboard</span>
+</a>
+<a class="flex items-center text-on-surface-variant hover:text-on-surface py-3 px-6 hover:bg-surface-bright/50 transition-all" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="sports_soccer">sports_soccer</span>
+<span class="font-label-md">Fixture Control</span>
+</a>
+<a class="flex items-center text-on-surface-variant hover:text-on-surface py-3 px-6 hover:bg-surface-bright/50 transition-all" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="fact_check">fact_check</span>
+<span class="font-label-md">Official Results</span>
+</a>
+<a class="flex items-center text-on-surface-variant hover:text-on-surface py-3 px-6 hover:bg-surface-bright/50 transition-all" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="assignment_late">assignment_late</span>
+<span class="font-label-md">Pending Tasks</span>
+</a>
+</nav>
+<div class="px-6 mt-auto space-y-4">
+<button class="w-full bg-tertiary text-on-tertiary-container font-bold py-3 px-4 rounded-lg flex items-center justify-center gap-2 hover:brightness-110 transition-all active:scale-95 shadow-lg shadow-tertiary/10">
+<span class="material-symbols-outlined text-xl" data-icon="sync">sync</span>
+<span class="font-label-md">Push Live Updates</span>
+</button>
+<div class="pt-6 border-t border-white/5 space-y-2">
+<a class="flex items-center text-on-surface-variant hover:text-tertiary transition-colors py-2" href="#">
+<span class="material-symbols-outlined mr-3 text-lg" data-icon="settings">settings</span>
+<span class="font-label-md">Settings</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- TopNavBar Mobile -->
+<header class="lg:hidden fixed top-0 left-0 w-full z-50 flex justify-between items-center px-4 h-16 bg-surface/80 backdrop-blur-xl border-b border-white/5 shadow-sm">
+<span class="font-display-lg text-headline-md italic font-black text-primary tracking-tighter">ElijoCreer</span>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-primary" data-icon="menu">menu</span>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 lg:ml-64 pt-20 lg:pt-0 min-h-screen">
+<!-- Header -->
+<div class="px-margin-desktop py-10 flex flex-col md:flex-row justify-between items-end gap-6">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-2">Operational Dashboard</h2>
+<div class="flex items-center gap-3">
+<span class="flex items-center gap-1.5 px-3 py-1 bg-green-500/10 text-green-400 rounded-full text-xs font-label-md border border-green-500/20">
+<span class="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></span>
+                    SYSTEMS ONLINE
+                </span>
+<span class="text-on-surface-variant font-body-md opacity-60">Admin: Session Active</span>
+</div>
+</div>
+<div class="flex gap-4 bg-surface-container-high p-1.5 rounded-xl border border-white/5">
+<button class="px-6 py-2 bg-primary text-on-primary font-bold rounded-lg font-label-md shadow-lg shadow-primary/20">Operational View</button>
+</div>
+</div>
+<!-- Status Cards -->
+<section class="px-margin-desktop grid grid-cols-1 md:grid-cols-3 gap-gutter mb-12">
+<div class="glass-panel p-6 rounded-xl">
+<div class="flex justify-between items-start mb-4">
+<span class="text-on-surface-variant font-label-md uppercase text-xs tracking-wider">Live Matches</span>
+<span class="material-symbols-outlined text-primary" data-icon="live_tv">live_tv</span>
+</div>
+<div class="text-headline-md font-headline-md text-on-surface">02</div>
+<div class="text-sm text-primary mt-2 font-body-md">Currently active</div>
+</div>
+<div class="glass-panel p-6 rounded-xl">
+<div class="flex justify-between items-start mb-4">
+<span class="text-on-surface-variant font-label-md uppercase text-xs tracking-wider">Upcoming Today</span>
+<span class="material-symbols-outlined text-tertiary" data-icon="calendar_month">calendar_month</span>
+</div>
+<div class="text-headline-md font-headline-md text-on-surface">06</div>
+<div class="text-sm text-on-surface-variant mt-2 font-body-md">Scheduled for today</div>
+</div>
+<div class="glass-panel p-6 rounded-xl border-error/30">
+<div class="flex justify-between items-start mb-4">
+<span class="text-on-surface-variant font-label-md uppercase text-xs tracking-wider">Pending Tasks</span>
+<span class="material-symbols-outlined text-error" data-icon="warning">warning</span>
+</div>
+<div class="text-headline-md font-headline-md text-error">03</div>
+<div class="text-sm text-error mt-2 font-body-md">Action required</div>
+</div>
+</section>
+<!-- Workspace -->
+<div class="px-margin-desktop grid grid-cols-1 xl:grid-cols-3 gap-gutter pb-20">
+<!-- Match Control -->
+<div class="xl:col-span-2 space-y-gutter">
+<div class="glass-panel rounded-2xl overflow-hidden shadow-2xl">
+<div class="px-8 py-6 border-b border-white/5 bg-white/5 flex justify-between items-center">
+<h3 class="font-headline-md text-on-surface flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="sports_score">sports_score</span>
+                        Match Status &amp; Control
+                    </h3>
+<span class="text-xs font-label-md text-on-surface-variant bg-surface-container-high px-3 py-1 rounded-full border border-white/5">MATCHDAY 12</span>
+</div>
+<div class="p-8 space-y-6">
+<!-- Live Match -->
+<div class="grid grid-cols-12 gap-6 items-center p-6 bg-surface-container-low rounded-xl border border-primary/20 transition-all group">
+<div class="col-span-12 md:col-span-4 flex items-center gap-4">
+<div class="w-14 h-14 rounded-full overflow-hidden bg-white/10 p-0.5 ring-2 ring-primary/40">
+<img alt="Argentina" class="w-full h-full object-cover rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuABFDHjIWHmvjAkN3JwxDHFSt_M6nw9UJ7ZmaOIGETp0Ks9SJl4ocb7HvS8kvYAY27eJ3r-JyB3XDoIaS_5m9BMsFmANJdzW7qtcpcSp2ZVJDBUaCKANsAzjZFaOhO5ZR5KSU0Y_9tX_5gLW00Jg5zZee-6Nx3xSQERYcAIgZ_DLOf7qzSjpbwLcRs3JS0VdOX2SZIFMTB49O899-BQ6ytGstHuBrpRwyPtdKH2IpBmHf8R_mpXBr1dyw98NAySG4z0UAigr1rxJ8g"/>
+</div>
+<div>
+<h4 class="font-headline-md text-lg text-on-surface">Argentina</h4>
+<span class="text-xs font-label-md text-primary/70 uppercase">Live: 72'</span>
+</div>
+</div>
+<div class="col-span-12 md:col-span-4 flex items-center justify-center gap-6">
+<input class="w-16 h-16 bg-surface-container-lowest border border-white/10 rounded-xl text-center text-2xl font-headline-md text-tertiary focus:border-tertiary focus:ring-0" type="number" value="2"/>
+<span class="text-xl font-bold text-on-surface-variant/30">VS</span>
+<input class="w-16 h-16 bg-surface-container-lowest border border-white/10 rounded-xl text-center text-2xl font-headline-md text-on-surface focus:border-primary focus:ring-0" type="number" value="1"/>
+</div>
+<div class="col-span-12 md:col-span-4 flex items-center justify-end gap-4">
+<div class="text-right">
+<h4 class="font-headline-md text-lg text-on-surface">France</h4>
+<span class="text-xs font-label-md text-on-surface-variant">Group A</span>
+</div>
+<div class="w-14 h-14 rounded-full overflow-hidden bg-white/10 p-0.5">
+<img alt="France" class="w-full h-full object-cover rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAyyfR6dVVBINEiBalFitsmTFAq1Dq42SGw1Hgc_vQCZp19nqfBQmH6cglIYivIAnsYQ-x2tUwydiKnNGdeEv3LMixjwbB1lA2radz8oQPXtcAAYsK8wnc51qbGxPIHsmmkIPDvtLzzOyoF9J3dyBn4PpcolyIvioTjgyVFz1WaRU2vOsUzOkmQcaBGE47nfWucmUGDzsOeCrDrc4K23mZnFVVszKIvJzFoKR8PLKEhACznfawy7YTi95Bpoz3w6HRKKQVIa7Ah0Lc"/>
+</div>
+</div>
+<div class="col-span-12 pt-4 border-t border-white/5 flex justify-end">
+<button class="px-8 py-2.5 bg-primary text-on-primary rounded-lg font-label-md hover:brightness-110 transition-all shadow-lg active:scale-95">Finalize Result</button>
+</div>
+</div>
+<!-- Upcoming Match -->
+<div class="grid grid-cols-12 gap-6 items-center p-6 bg-surface-container-low/40 rounded-xl border border-white/5 opacity-80">
+<div class="col-span-12 md:col-span-4 flex items-center gap-4">
+<div class="w-14 h-14 rounded-full overflow-hidden bg-white/10 p-0.5">
+<img alt="Brazil" class="w-full h-full object-cover rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvvrOILE3OS6tQvx2WORzLXj6fGjx-M0ZVibd4RGshxJz3y5FOPm3UNusl1ePJ7bUe9ajOoJ4z5Karir4dYHXUk7-9vJCKjZlmm6pQTaaTpQ4RD_3DBwIh3ieIw7q1FO66uQI2n4LG436MATUZBYgI5VNggpwe6PH-HHLrWS-5kamDZ1eiP_mU1AWAD7WThNgqA2lqUbQLf8eQgpNr_Qy8XxX3eKnWWnPiCVy5G3bXcU78vo1Pn2RRTGeo_9Xbh2p2FPdBt8KkYp8"/>
+</div>
+<div>
+<h4 class="font-headline-md text-lg text-on-surface">Brazil</h4>
+<span class="text-xs font-label-md text-on-surface-variant uppercase">Today 23:45</span>
+</div>
+</div>
+<div class="col-span-12 md:col-span-4 flex items-center justify-center gap-6">
+<div class="w-16 h-16 bg-surface-container-lowest/50 border border-white/5 rounded-xl flex items-center justify-center text-2xl font-headline-md text-on-surface-variant/50">0</div>
+<span class="text-xl font-bold text-on-surface-variant/10">VS</span>
+<div class="w-16 h-16 bg-surface-container-lowest/50 border border-white/5 rounded-xl flex items-center justify-center text-2xl font-headline-md text-on-surface-variant/50">0</div>
+</div>
+<div class="col-span-12 md:col-span-4 flex items-center justify-end gap-4">
+<div class="text-right">
+<h4 class="font-headline-md text-lg text-on-surface">Japan</h4>
+<span class="text-xs font-label-md text-on-surface-variant">Group B</span>
+</div>
+<div class="w-14 h-14 rounded-full overflow-hidden bg-white/10 p-0.5">
+<img alt="Japan" class="w-full h-full object-cover rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAChygnbHvROgLgPBUvj2OAl9J7yZbFtgFuBTZ1mmbXExtHYL35TCfmn3apL0-DwJ9YhXid9zaPXNOWFlGv-kEIrush_cDMWZ_yHxxX-Q7r9cfE-kR8Do9B8-omwpyovt3g-L7Lvn4mC66C79xGeIABC_GCQv_Tii2rHA097Rjy9REM0tH2HcKl9ADxlzt0bf9Ci5lnMb_pnWA8o0CGT8eZIP2qWB20qkKKEAHiAZXSp4Y-wcl7sBk5JRFLr45ssVPVcoTgY2tVdN8"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Operations Log -->
+<div class="glass-panel rounded-2xl overflow-hidden">
+<div class="px-8 py-6 border-b border-white/5 bg-white/5 flex justify-between items-center">
+<h3 class="font-headline-md text-on-surface flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="history_edu">history_edu</span>
+                        Recent Actions
+                    </h3>
+</div>
+<div class="max-h-[300px] overflow-y-auto custom-scrollbar">
+<table class="w-full text-left border-collapse">
+<thead class="sticky top-0 bg-surface-container-high text-on-surface-variant font-label-md text-[10px] uppercase tracking-widest border-b border-white/5">
+<tr>
+<th class="px-8 py-4">Timestamp</th>
+<th class="px-8 py-4">Agent</th>
+<th class="px-8 py-4">Action</th>
+<th class="px-8 py-4">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-white/5">
+<tr class="hover:bg-white/5 transition-colors">
+<td class="px-8 py-4 text-xs font-label-md text-on-surface-variant">14:23:12</td>
+<td class="px-8 py-4 text-sm font-body-md text-on-surface">System</td>
+<td class="px-8 py-4 text-sm font-body-md text-on-surface">Auto-Sync Results GER vs ESP</td>
+<td class="px-8 py-4"><span class="px-2 py-0.5 bg-green-500/10 text-green-400 text-[10px] font-bold rounded">SUCCESS</span></td>
+</tr>
+<tr class="hover:bg-white/5 transition-colors">
+<td class="px-8 py-4 text-xs font-label-md text-on-surface-variant">12:10:45</td>
+<td class="px-8 py-4 text-sm font-body-md text-on-surface">@Juani_Ops</td>
+<td class="px-8 py-4 text-sm font-body-md text-on-surface">Manual score edit: ARG 2-1 FRA</td>
+<td class="px-8 py-4"><span class="px-2 py-0.5 bg-tertiary/10 text-tertiary text-[10px] font-bold rounded">PENDING</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Sidebar Tasks -->
+<div class="space-y-gutter">
+<!-- Pending Tasks -->
+<div class="bg-surface-container rounded-2xl border border-white/5 p-8">
+<h3 class="font-headline-md text-on-surface mb-6 flex items-center gap-3">
+<span class="material-symbols-outlined text-error" data-icon="rule">rule</span>
+                    Priority Tasks
+                </h3>
+<div class="space-y-4">
+<div class="p-4 rounded-lg bg-surface-container-low border border-white/5 hover:border-error/30 transition-all cursor-pointer">
+<p class="font-body-md text-sm text-on-surface mb-1">Verify FIFA Data Relay Delay</p>
+<span class="text-[10px] font-label-md text-error uppercase">High Priority</span>
+</div>
+<div class="p-4 rounded-lg bg-surface-container-low border border-white/5 hover:border-primary/30 transition-all cursor-pointer">
+<p class="font-body-md text-sm text-on-surface mb-1">Approve Matchday 13 Fixtures</p>
+<span class="text-[10px] font-label-md text-primary uppercase">Needs Review</span>
+</div>
+<div class="p-4 rounded-lg bg-surface-container-low border border-white/5 hover:border-tertiary/30 transition-all cursor-pointer">
+<p class="font-body-md text-sm text-on-surface mb-1">Update Team Logos (Group C)</p>
+<span class="text-[10px] font-label-md text-on-surface-variant uppercase">Maintenance</span>
+</div>
+</div>
+</div>
+<!-- Team Visibility -->
+<div class="glass-panel rounded-2xl p-8">
+<h3 class="font-headline-md text-on-surface mb-6 flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="group">group</span>
+                    Staff Online
+                </h3>
+<div class="flex -space-x-2 mb-4">
+<img alt="User" class="w-10 h-10 rounded-full border-2 border-surface-container object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNgGkaKNo84kG-POdH9v4-t49oQqibzjKqZzU4u9jlbs8Fe1ZcYJykBOoOGmXtcdfgsUAmQI3f_pkHX63zUvk_EF9CQkpu5jVxJ4iIRHovjSNSKx1x6HLG59ibpoIic0yjLXn3uWXASwKJkBqg1_o7DwP_Um-fHhFOdrL4Bva8zo75VrojYahtafvib-eNlFLaIIzBDT9bvMIUcCkvsrzoAkyuAJ-yAOOSxtCGqSwpAfdSfLLUf9lEF9Df-okhOtvQyjzjN5RY1tc"/>
+<img alt="User" class="w-10 h-10 rounded-full border-2 border-surface-container object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSNdSdBYEH-lgg-yE4y_aho_SqFBcWaOupDY2qhiT8c3uxKPTebosgjSMXd7GacSL-V31g72hjIRtho0WCmrQos4noAi8RBcjIAm5toYsbn70xHqTSU_MQsViH-IarhT84JooRQkWKSHMslL3qcm2jwfYSkCX-IwH4F8gWR4YMRZwf8YDYpIpXyCvpKjI_C0TJ_1TOQoBDjf5VtKq0cD5Z8Rb2bDZUmlSvayyq-PeMCmG0fKOBH8J3yiRg9C8sxkFrLv-fFWUaHNA"/>
+<div class="w-10 h-10 rounded-full border-2 border-surface-container bg-surface-bright flex items-center justify-center text-xs font-bold text-primary">+1</div>
+</div>
+<p class="text-xs font-body-md text-on-surface-variant">Active monitoring session v4.2.0</p>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer class="w-full py-10 px-margin-desktop bg-surface-container-lowest border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-base">
+<div class="flex flex-col items-center md:items-start">
+<span class="font-display-lg text-headline-md font-bold text-primary">ElijoCreer</span>
+<span class="text-on-surface-variant font-body-md text-xs opacity-60">Internal Operational Panel</span>
+</div>
+<div class="flex gap-6">
+<a class="text-on-surface-variant hover:text-primary font-label-md text-xs transition-colors" href="#">System Status</a>
+<a class="text-on-surface-variant hover:text-primary font-label-md text-xs transition-colors" href="#">Internal Wiki</a>
+<a class="text-on-surface-variant hover:text-primary font-label-md text-xs transition-colors" href="#">Support</a>
+</div>
+</footer>
+</main>
+<script>
+    document.querySelectorAll('input[type="number"]').forEach(input => {
+        input.addEventListener('focus', function() { this.select(); });
+        input.addEventListener('input', function() {
+            if(this.value < 0) this.value = 0;
+            this.classList.add('border-primary/40');
+            this.classList.add('bg-primary/5');
+        });
+    });
+</script>
+</body></html>

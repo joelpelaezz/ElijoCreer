@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Perfil - ElijoCreer</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&amp;family=Hanken+Grotesk:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "on-tertiary-container": "#4b3a00",
+                "inverse-primary": "#96ccff",
+                "on-error": "#ffffff",
+                "secondary-container": "#a6ccfe",
+                "tertiary-fixed": "#ffe088",
+                "primary-fixed-dim": "#96ccff",
+                "surface-variant": "#e0e3e5",
+                "on-tertiary-fixed": "#241a00",
+                "surface": "#f7f9fb",
+                "on-background": "#191c1e",
+                "inverse-on-surface": "#eff1f3",
+                "on-secondary-fixed": "#001d36",
+                "on-tertiary-fixed-variant": "#574500",
+                "surface-container-highest": "#e0e3e5",
+                "surface-container-high": "#e6e8ea",
+                "tertiary-container": "#c7a32b",
+                "surface-dim": "#d8dadc",
+                "primary": "#236391",
+                "on-primary-fixed-variant": "#004a75",
+                "tertiary-fixed-dim": "#e9c349",
+                "tertiary": "#735c00",
+                "surface-container-lowest": "#ffffff",
+                "on-tertiary": "#ffffff",
+                "error": "#ba1a1a",
+                "on-surface-variant": "#41474f",
+                "on-primary-container": "#003f65",
+                "background": "#f7f9fb",
+                "primary-container": "#74acdf",
+                "surface-container-low": "#f2f4f6",
+                "on-secondary-container": "#2e5681",
+                "on-error-container": "#93000a",
+                "on-surface": "#191c1e",
+                "outline-variant": "#c1c7d0",
+                "secondary-fixed": "#d2e4ff",
+                "on-primary": "#ffffff",
+                "surface-bright": "#f7f9fb",
+                "secondary-fixed-dim": "#a3c9fb",
+                "primary-fixed": "#cee5ff",
+                "on-secondary": "#ffffff",
+                "on-primary-fixed": "#001d32",
+                "surface-tint": "#236391",
+                "surface-container": "#eceef0",
+                "on-secondary-fixed-variant": "#1e4973",
+                "error-container": "#ffdad6",
+                "outline": "#717880",
+                "secondary": "#39618c",
+                "inverse-surface": "#2d3133"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+            },
+            "spacing": {
+                "gutter": "16px",
+                "section-margin": "32px",
+                "container-padding": "20px",
+                "card-gap": "12px",
+                "base": "4px"
+            },
+            "fontFamily": {
+                "display-lg": ["Montserrat"],
+                "headline-lg-mobile": ["Montserrat"],
+                "label-md": ["Hanken Grotesk"],
+                "headline-md": ["Montserrat"],
+                "body-lg": ["Hanken Grotesk"],
+                "label-sm": ["Hanken Grotesk"],
+                "headline-lg": ["Montserrat"],
+                "body-md": ["Hanken Grotesk"]
+            },
+            "fontSize": {
+                "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "700" }],
+                "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .glass-card {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+      .gold-frame {
+        background: linear-gradient(135deg, #e9c349 0%, #735c00 100%);
+        padding: 4px;
+      }
+      .custom-scrollbar::-webkit-scrollbar {
+        height: 4px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #236391;
+        border-radius: 10px;
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body-md min-h-screen pb-24">
+<!-- Top App Bar -->
+<header class="w-full top-0 sticky z-50 bg-surface shadow-sm h-16 flex justify-between items-center px-container-padding max-w-[480px] mx-auto">
+<button class="material-symbols-outlined text-primary hover:bg-surface-container-low transition-colors p-2 rounded-full">menu</button>
+<span class="font-headline-md text-headline-md-mobile text-primary font-bold">ElijoCreer</span>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary">
+<img alt="User profile photo" class="w-full h-full object-cover" data-alt="A professional studio portrait of a confident young man with a warm smile, set against a clean minimalist gray background. The lighting is soft and even, highlighting premium facial features. The style is modern and high-end, fitting for a prestigious social sports platform with a clean blue and white aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAn5CJ_L5NR3wZqEdw4FFddEJ0lGIjQ0tGL6wcXACt_W-d4Q7clLNRPPh7gV_CJckXReoburBfpFvC2sXPbILfqRVpb6bsuJIV-5wxf8yjXDf7sszbWGQUi84Frr9oGO8YOr1FqQx9VP0MbBIFAkJaLqdna4fccqfDUSFL2mwNoXQKiPMdQBVknAW7BVzp5T3iEB05l0d7xuLz75Daj5Bs-lurDQY3JLVafEJVnEbRhoH4e3vX55kXFoXjiI8QgnORUbx5TJFocesI"/>
+</div>
+</header>
+<main class="max-w-[480px] mx-auto px-container-padding space-y-6 mt-4">
+<!-- Profile Hero Section -->
+<section class="flex flex-col items-center text-center space-y-3">
+<div class="relative group">
+<div class="w-32 h-32 rounded-full gold-frame shadow-xl transform group-hover:scale-105 transition-transform duration-300">
+<div class="w-full h-full rounded-full overflow-hidden border-4 border-white">
+<img alt="User profile photo" class="w-full h-full object-cover" data-alt="A high-detail close-up portrait of an athletic man representing an 'Expert' level user. He has a determined expression and is wearing a sleek navy blue polo shirt. The setting is an abstract digital arena with soft golden light flares, evoking a sense of championship and elite sports status." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOFNw0pqKg8Hf4vLC4I7n_EL2v2k_T7_P4TDIJgixA1BDt43LhLzmjy7cl09W_ISqn_9vzUJtSUf2-7ddCI26Jru1QS7t46wjv5Te8KVMd-meV2XXsy5o6XmWbJQLBEvBCtPUaZ8G9eky3NX_J3N9BQ_HjJp4nHckd-T9Hw-1bILJs3usFmAbocFj4O4Og2mGcDcDdI78qaY5qzbX-8qjgs8ugfrSMyByhOvXmdhkwP6U98ew1w5rqJTTrWUnYFKqJbqMV9hoIEFs"/>
+</div>
+</div>
+<div class="absolute -bottom-1 right-2 bg-tertiary-container text-on-tertiary-container px-3 py-1 rounded-full font-label-sm text-label-sm shadow-md flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+                    Experto
+                </div>
+</div>
+<div class="space-y-1">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-background">Prediction Master</h1>
+<p class="text-on-surface-variant font-body-md">Argentina Fan • Miembro desde 2022</p>
+</div>
+</section>
+<!-- Stats Bento Grid -->
+<section class="grid grid-cols-2 gap-card-gap">
+<div class="col-span-2 glass-card rounded-xl p-4 flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-3">
+<div class="p-3 bg-primary-container/20 rounded-lg text-primary">
+<span class="material-symbols-outlined text-[32px]" style="font-variation-settings: 'FILL' 1;">leaderboard</span>
+</div>
+<div>
+<p class="text-on-surface-variant font-label-md text-label-md">Ranking Global</p>
+<p class="text-primary font-headline-md text-headline-md">#124</p>
+</div>
+</div>
+<div class="text-right">
+<span class="text-tertiary font-bold">+12 pos.</span>
+<p class="text-on-surface-variant font-label-sm text-label-sm">esta semana</p>
+</div>
+</div>
+<div class="glass-card rounded-xl p-4 shadow-sm border-l-4 border-primary">
+<p class="text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">Aciertos</p>
+<p class="text-on-background font-headline-md text-headline-md mt-1">75%</p>
+<div class="w-full bg-surface-container-highest h-1.5 rounded-full mt-2 overflow-hidden">
+<div class="bg-primary h-full w-3/4"></div>
+</div>
+</div>
+<div class="glass-card rounded-xl p-4 shadow-sm border-l-4 border-tertiary">
+<p class="text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">Puntos Totales</p>
+<p class="text-on-background font-headline-md text-headline-md mt-1">2,450</p>
+<p class="text-tertiary font-label-sm text-label-sm mt-2">Nivel Diamante</p>
+</div>
+</section>
+<!-- Active Groups -->
+<section class="space-y-3">
+<div class="flex justify-between items-center px-1">
+<h2 class="font-headline-md text-headline-md text-on-background">Mis Grupos</h2>
+<button class="text-primary font-label-md text-label-md hover:underline">Ver todos</button>
+</div>
+<div class="flex gap-4 overflow-x-auto pb-2 custom-scrollbar">
+<!-- Group 1 -->
+<div class="flex-shrink-0 w-32 glass-card rounded-xl p-3 flex flex-col items-center gap-2 shadow-sm border border-surface-container-high active:scale-95 transition-all">
+<div class="relative flex -space-x-2">
+<img class="w-8 h-8 rounded-full border-2 border-white" data-alt="Small avatar of a sports fan profile." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCv5zli7uCTmWKldAlqTgAfZM0Sp5Q0T9s70d8NgHIw4Dhrat7YkR3Qs2IsgzZ1Wyr9aqlUY05Hy3hCjLtJzUb4R84oYyNUohSkKKjGIxt9S6cUb7rUqytUUbvsH7K2iQrWONBKuGNr90YVSEOJ8S3MLH3h-nPIPRAClGJf0Wz3FRJOACmgi1CcjYkGg788VuyaUZiBR5RLoeivusdP6Yy_s7YtR2TbFHI8Ku9wUKlRFwTBEFyRwTHHcl-dcG05OahHoWsfP9r3My0"/>
+<img class="w-8 h-8 rounded-full border-2 border-white" data-alt="Small avatar of a sports fan profile." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTZPDuDFP0ck1RQ4TAXEwNUWVwtQzDdQgdDqOh3HZtrWaX1xT5iQ7ZRNoayuyw82snH0T9fKrCc4XWn39M3oU3rw5GbU4Q9Jf4gtxfmrQgiANib-IjZcrB9MpCRm8Rlt8IjXeTdSdeVb-beBOfKEZqQnMz2JRgqHu-GcoacoamIN9Zv0m61kUy8SHyXRKx84N2cSF4U8QQykDbvrNoKaEpRBJbCAWvw5cs34ti_hK7hOe3H5J_BfxwdyWy5TEp8nqqfXVmPLdeWaA"/>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest border-2 border-white flex items-center justify-center text-[10px] font-bold">+12</div>
+</div>
+<p class="font-label-md text-label-md text-center line-clamp-1">Mundial 2026</p>
+</div>
+<!-- Group 2 -->
+<div class="flex-shrink-0 w-32 glass-card rounded-xl p-3 flex flex-col items-center gap-2 shadow-sm border border-surface-container-high active:scale-95 transition-all">
+<div class="relative flex -space-x-2">
+<img class="w-8 h-8 rounded-full border-2 border-white" data-alt="Small avatar of a sports fan profile." src="https://lh3.googleusercontent.com/aida-public/AB6AXuArQpC5j2KiBad6bVknOg71WfXbOKtQrYsUkvtO53dgv0nWhK0iOt6CiP_2eupIHK5QmU9rEMxLdwObZSjcAZ1-VmmfFwCz7RlVGH6BpEDb0AFa8BZFJie95BfUQFBGOeZdjcjI-ZjXUjlQLKLue9qgRgtBlJLenHF9kiMet1C8jJod6qGErGWGIPf0VAuHUizimob9jZHYFca9JC-eMyYd5mN8dDdBeOGnQ7sqtxBLQOfRQtOCLWKTrgmtjvbxbmttQ5XZZrP2dS0"/>
+<img class="w-8 h-8 rounded-full border-2 border-white" data-alt="Small avatar of a sports fan profile." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfsn95RnF4Z6eKFEKcy3tF0p-31xWv7yWi1g1OdJdkp5n3pVNI50VpJFZ_qUqmdrOUatU7M1s-oZiw8_0khJ6DGCgLITfmWDGs1HtmvdtNlQBgP6-tOILq6hWrRy7V6R63iucthdqOhTUXHvXRQ6TuoYiye-ogAdheXROdfE9HiGUQKRkVHE3nNejlxSFVBZwS4Bergqr72uU0FbRIM6PJCuZ8H5oq8iusDMh_slhbrGMIgSJHzksaMI9or3uRK80OvSMuP8lWJD0"/>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest border-2 border-white flex items-center justify-center text-[10px] font-bold">+5</div>
+</div>
+<p class="font-label-md text-label-md text-center line-clamp-1">Los Galácticos</p>
+</div>
+<!-- Group 3 -->
+<div class="flex-shrink-0 w-32 glass-card rounded-xl p-3 flex flex-col items-center gap-2 shadow-sm border border-surface-container-high active:scale-95 transition-all">
+<div class="relative flex -space-x-2">
+<img class="w-8 h-8 rounded-full border-2 border-white" data-alt="Small avatar of a sports fan profile." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwogBlDrFyRxHQtbasGnv1uoKKsKpaBqauuwL-AcSVogjJiVmsfsm9sSwsgq5P-Uu-_r6h8hwXax-18dKZ8eld9L_RIqLYAowP8n3YOSCJgur0VItybV9OXtJBGpVGYnBY3W5y6Mn8Kn_cNh_V9d4Ax7i1BwWSAxj2G-kMETJ87XKnbPefizj_my0pK_zQvqHTljN7KIJJ9X36CXhtRC-XCTeBpenC24uWowgyptZPdYqb3griQW8vqpB0uzSd-V5bLl7D8Fi5w2M"/>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest border-2 border-white flex items-center justify-center text-[10px] font-bold">+24</div>
+</div>
+<p class="font-label-md text-label-md text-center line-clamp-1">Oficina Q3</p>
+</div>
+</div>
+</section>
+<!-- Prediction History -->
+<section class="space-y-4">
+<div class="flex justify-between items-center px-1">
+<h2 class="font-headline-md text-headline-md text-on-background">Últimos Pronósticos</h2>
+<span class="material-symbols-outlined text-outline">history</span>
+</div>
+<div class="space-y-3">
+<!-- Scoreboard 1 -->
+<div class="glass-card rounded-xl p-4 shadow-sm border-r-4 border-green-500">
+<div class="flex justify-between items-center mb-3">
+<span class="text-label-sm font-label-sm text-on-surface-variant">Finalizado • Copa América</span>
+<span class="bg-green-100 text-green-700 px-2 py-0.5 rounded font-label-sm text-label-sm">+150 pts</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex flex-col items-center w-1/3 gap-1">
+<img alt="Argentina" class="w-10 h-7 object-cover rounded shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSrwO2AR5di_0aHeXqmAKoBWKp6hVjgcDOGePjQrujXWe4YAp0bmjJPqoWa2SerdQkMm5uGqUQwnra5NcMYTXyQASdTEzLzTgEk8nS85WK2lpEApAwI0miFII6lbCzZMx9wtwwTG20N9xuMpXCf1ubnOqoWW8Rok6OlrCnq3S5R-eHco2VIWJqcgE2EwQwj9kgCGGZgwobp1dACjiuVD158Y2VYMjAMMzQsTyN4xhXdArEHcLR_wX5OVcEhVDcgpkyJHOS8HB_Tgc"/>
+<span class="font-bold text-label-md">ARG</span>
+</div>
+<div class="flex flex-col items-center w-1/3">
+<div class="text-headline-md font-headline-md flex items-center gap-3">
+<span>2</span>
+<span class="text-outline text-label-md">vs</span>
+<span>0</span>
+</div>
+<p class="text-[10px] text-primary font-bold uppercase mt-1">Acertaste Resultado</p>
+</div>
+<div class="flex flex-col items-center w-1/3 gap-1">
+<img alt="Canada" class="w-10 h-7 object-cover rounded shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCM-8w6ffxzKjgtd8_UK-bGpzFwobdXtTft1Bux1cOuMeW4JvgIjDEajArOaJ2MwV6Rq9grjzAlmttCz60DWTEd7vAH3Al3zVX6-IDqWtT2shVwyzfpALy0Vue1EgMuKcYntC9ydMDF0Guo5ovSHcWlYUrV69DfMGEwP35DFRWU2y6aL6y_uZ6hkezwjfGZWpfr-cTanDAQ9-cZXSljLxOOOHVass2l6zQRWHHaSCkc8_FRA08VXBpY0pPe2Qd-otZHVMvWHQ1Dsqw"/>
+<span class="font-bold text-label-md">CAN</span>
+</div>
+</div>
+</div>
+<!-- Scoreboard 2 -->
+<div class="glass-card rounded-xl p-4 shadow-sm border-r-4 border-red-500 opacity-90">
+<div class="flex justify-between items-center mb-3">
+<span class="text-label-sm font-label-sm text-on-surface-variant">Finalizado • Euro 2024</span>
+<span class="bg-red-100 text-red-700 px-2 py-0.5 rounded font-label-sm text-label-sm">0 pts</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex flex-col items-center w-1/3 gap-1">
+<img alt="Spain" class="w-10 h-7 object-cover rounded shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBI8MVMmvI52JOq-4umsSeXNn3-UjJzYLsJdF7M39trcDuS_HWjX8VQRwA1V35Bef5HQGqe9Et1hGMHWqPKjtK5lY8UPT2-KaN0qS-73D_HeW4V5_Tv5_BNiAKCt-COjZaeEOmKeCcWqPOiq4qoFwu_kKpCL8gBUqakiC9y4OI44hCbaV1gjl_f54N3hCTRmyADtOLbx5VJBwpyGIcpdwRv06xObkh49qckTbHeOxeKIlciE_ZrNBORupyUOYYbtAjc87Cb90ZkR2I"/>
+<span class="font-bold text-label-md">ESP</span>
+</div>
+<div class="flex flex-col items-center w-1/3">
+<div class="text-headline-md font-headline-md flex items-center gap-3">
+<span>2</span>
+<span class="text-outline text-label-md">vs</span>
+<span>1</span>
+</div>
+<p class="text-[10px] text-error font-bold uppercase mt-1">Dijiste: 1 - 1</p>
+</div>
+<div class="flex flex-col items-center w-1/3 gap-1">
+<img alt="England" class="w-10 h-7 object-cover rounded shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVbAfMrYHRqn8gIL8naWiRBqNdzRxcu-yUdXhjTunIm1cwusEo3l8LbskxJDwEb6u6JlZaYSCxJXcSUnZok41QxsKMg_wJBROaj-zHLU5xmO4fCsiZOzLBtjBRJC2vp3VABH0bW3-L5S0csrnEYKUSnS-5VxSzodmZDrJzUdc1Wmgof-YXa4ymO6uBBZXZXn7yzNZaj790m45OpgOk8V923jeGip-7s3ZzjhqBzp4VtD2TAWU1YXB7wz_6bU4H9pDfv3xfn6du8eU"/>
+<span class="font-bold text-label-md">ENG</span>
+</div>
+</div>
+</div>
+<!-- Scoreboard 3 -->
+<div class="glass-card rounded-xl p-4 shadow-sm border-r-4 border-green-500">
+<div class="flex justify-between items-center mb-3">
+<span class="text-label-sm font-label-sm text-on-surface-variant">Finalizado • Euro 2024</span>
+<span class="bg-green-100 text-green-700 px-2 py-0.5 rounded font-label-sm text-label-sm">+50 pts</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex flex-col items-center w-1/3 gap-1">
+<img alt="Netherlands" class="w-10 h-7 object-cover rounded shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_tbxxsAShT5h11F2jcysHgtN3dggiu9KvWWQrKae3Q2zEChH5LzijFEUta7U-HKDH2pM43dSPS7YQIEJ-gAyrdSApGtjDkJOe5TzDxcRnVOLAUoEKnIa-elAJF1BJEcEUJiYPptIGV9So5WRZStZ_IfaOptSC3xSEsBp6h8f2VKEg8Cl1ZKbg7eLeofuEmgq8FADgf8fjKOYyAhWCwucMKgmJbmwKsIyue4-1XufcQFkJw4NxN8BtsURU_WJeLAJpXfFr2K1YJgw"/>
+<span class="font-bold text-label-md">NED</span>
+</div>
+<div class="flex flex-col items-center w-1/3">
+<div class="text-headline-md font-headline-md flex items-center gap-3">
+<span>1</span>
+<span class="text-outline text-label-md">vs</span>
+<span>2</span>
+</div>
+<p class="text-[10px] text-primary font-bold uppercase mt-1">Acertaste Ganador</p>
+</div>
+<div class="flex flex-col items-center w-1/3 gap-1">
+<img alt="England" class="w-10 h-7 object-cover rounded shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB62Nndy7HTqS8m78ETGnLBqDA_xXNDOKqSoq6IaptDfIsoJ2_gnn0DeXJJkUQFM5WTClntUsNeCmkVScWuV91h5mChbWXb8w0cv4ti3jq7SPRwaAVCSsEdc-YoNFZRex_HHgTOj4etKKhbkqfwHv6tZngScetRnKjHyHpapuIkzdHsjdmaft9SBW49x-HRpz_qXWoEsy3SMA-c7t9G21UzE4JC8u4_3Y73w0o07b9JGXFU31qweBAe6birEiCv62kOw6V5oUwrjIo"/>
+<span class="font-bold text-label-md">ENG</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center px-4 py-3 bg-surface shadow-[0_-4px_12px_rgba(35,99,145,0.1)] max-w-[480px] left-1/2 -translate-x-1/2 rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-70 hover:opacity-100 transition-all active:scale-90" href="#">
+<span class="material-symbols-outlined">sports_soccer</span>
+<span class="font-label-sm text-label-sm">Matches</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-70 hover:opacity-100 transition-all active:scale-90" href="#">
+<span class="material-symbols-outlined">leaderboard</span>
+<span class="font-label-sm text-label-sm">Leagues</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-70 hover:opacity-100 transition-all active:scale-90" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-sm text-label-sm">Social</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary font-bold scale-110 transition-transform active:scale-90" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</a>
+</nav>
+<script>
+        // Micro-interactions
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('touchstart', () => {
+                card.style.transform = 'scale(0.98)';
+            });
+            card.addEventListener('touchend', () => {
+                card.style.transform = 'scale(1)';
+            });
+        });
+
+        // Pulsing Live Indicator for active groups or stats if needed
+        // No live indicators currently requested but keeping system ready
+    </script>
+</body></html>

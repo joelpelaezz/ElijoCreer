@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ElijoCreer - Fixture Mundial 2026</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&amp;family=Hanken+Grotesk:wght@400;600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@100..900&amp;family=Montserrat:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface": "#191c1e",
+                        "on-secondary": "#ffffff",
+                        "background": "#f7f9fb",
+                        "on-error-container": "#93000a",
+                        "primary-container": "#74acdf",
+                        "tertiary": "#735c00",
+                        "on-primary-fixed-variant": "#004a75",
+                        "surface-dim": "#d8dadc",
+                        "surface": "#f7f9fb",
+                        "secondary-fixed": "#d2e4ff",
+                        "primary-fixed-dim": "#96ccff",
+                        "on-secondary-container": "#2e5681",
+                        "on-background": "#191c1e",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed": "#ffe088",
+                        "on-error": "#ffffff",
+                        "tertiary-container": "#c7a32b",
+                        "on-tertiary-fixed": "#241a00",
+                        "tertiary-fixed-dim": "#e9c349",
+                        "inverse-surface": "#2d3133",
+                        "outline": "#717880",
+                        "on-primary-fixed": "#001d32",
+                        "surface-container": "#eceef0",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-tertiary-container": "#4b3a00",
+                        "primary": "#236391",
+                        "on-secondary-fixed": "#001d36",
+                        "on-primary-container": "#003f65",
+                        "on-surface-variant": "#41474f",
+                        "secondary-container": "#a6ccfe",
+                        "on-secondary-fixed-variant": "#1e4973",
+                        "surface-variant": "#e0e3e5",
+                        "secondary": "#39618c",
+                        "surface-bright": "#f7f9fb",
+                        "surface-container-high": "#e6e8ea",
+                        "inverse-primary": "#96ccff",
+                        "surface-container-low": "#f2f4f6",
+                        "surface-container-highest": "#e0e3e5",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed-dim": "#a3c9fb",
+                        "on-tertiary": "#ffffff",
+                        "primary-fixed": "#cee5ff",
+                        "outline-variant": "#c1c7d0",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed-variant": "#574500",
+                        "error": "#ba1a1a",
+                        "surface-tint": "#236391"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "section-margin": "32px",
+                        "gutter": "16px",
+                        "container-padding": "20px",
+                        "base": "4px",
+                        "card-gap": "12px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Montserrat"],
+                        "display-lg": ["Montserrat"],
+                        "label-md": ["Hanken Grotesk"],
+                        "headline-lg": ["Montserrat"],
+                        "headline-md": ["Montserrat"],
+                        "label-sm": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "700"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .live-pulse {
+            animation: pulse-red 2s infinite;
+        }
+        @keyframes pulse-red {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(186, 26, 26, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(186, 26, 26, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(186, 26, 26, 0); }
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        /* Glassmorphism for filters */
+        .glass-nav {
+            backdrop-filter: blur(8px);
+            background: rgba(247, 249, 251, 0.8);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen">
+<!-- Top App Bar -->
+<header class="w-full top-0 sticky z-50 bg-surface shadow-sm flex justify-between items-center px-container-padding h-16 w-full max-w-[480px] mx-auto transition-colors">
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-surface-container-low transition-colors rounded-full active:scale-95 duration-200">
+<span class="material-symbols-outlined text-primary">menu</span>
+</button>
+<h1 class="font-headline-md text-headline-md-mobile text-primary font-bold">ElijoCreer</h1>
+</div>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-container shadow-sm">
+<img alt="User profile photo" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD673-wfuW9sVEs5JwoiZM_cZzZehTMZypC9zKC3n2Xq6I1yKJy6-AyPSpLeKmmMR3anUrFkf42IaPynBHMDyA4QLSTGWNvIN_wLVwvwyWWfTQcko7JMJ-p9dwg646IcxjPMz1Ar4-3z2eAJrlBzu8PzpqfsJ5kj_EbsuHpnMUGM5XlCYBaGqRTJW1MxjNesv4BxJBKlJ2wwnLOaL8g2cBMV9X3YWdk-D7XV0-Wu4zLgS6ARymWlmQNT7Jl50u401I0q3QfY-1tNes"/>
+</div>
+</header>
+<main class="max-w-[480px] mx-auto pb-24 min-h-screen overflow-x-hidden">
+<!-- Header Section with Animation Background -->
+<div class="relative h-48 w-full overflow-hidden flex items-end p-container-padding bg-primary">
+<div class="absolute inset-0 opacity-40">
+<!-- Abstract sports motion background -->
+
+</div>
+<div class="relative z-10">
+<span class="bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm px-3 py-1 rounded-full uppercase mb-2 inline-block">Mundial 2026</span>
+<h2 class="font-headline-lg text-headline-lg-mobile text-on-primary">Fixture Completo</h2>
+</div>
+</div>
+<!-- Sticky Filter Tabs -->
+<nav class="glass-nav sticky top-16 z-40 px-container-padding py-4 flex gap-2 overflow-x-auto no-scrollbar border-b border-surface-variant/30">
+<button class="flex-shrink-0 px-4 py-2 bg-primary text-on-primary rounded-full font-label-md text-label-md shadow-md active:scale-95 transition-all">Todos</button>
+<button class="flex-shrink-0 px-4 py-2 bg-surface-container-highest text-on-surface-variant rounded-full font-label-md text-label-md hover:bg-surface-variant transition-colors">Fase de Grupos</button>
+<button class="flex-shrink-0 px-4 py-2 bg-surface-container-highest text-on-surface-variant rounded-full font-label-md text-label-md hover:bg-surface-variant transition-colors">Octavos</button>
+<button class="flex-shrink-0 px-4 py-2 bg-surface-container-highest text-on-surface-variant rounded-full font-label-md text-label-md hover:bg-surface-variant transition-colors">Cuartos</button>
+</nav>
+<!-- Group Selectors -->
+<div class="px-container-padding py-4 flex gap-2 overflow-x-auto no-scrollbar">
+<button class="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-lg border-2 border-primary text-primary font-bold">A</button>
+<button class="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-lg border border-outline text-on-surface-variant hover:bg-surface-container-low">B</button>
+<button class="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-lg border border-outline text-on-surface-variant hover:bg-surface-container-low">C</button>
+<button class="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-lg border border-outline text-on-surface-variant hover:bg-surface-container-low">D</button>
+<button class="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-lg border border-outline text-on-surface-variant hover:bg-surface-container-low">E</button>
+<button class="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-lg border border-outline text-on-surface-variant hover:bg-surface-container-low">F</button>
+<button class="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-lg border border-outline text-on-surface-variant hover:bg-surface-container-low">G</button>
+<button class="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-lg border border-outline text-on-surface-variant hover:bg-surface-container-low">H</button>
+</div>
+<!-- Fixture List -->
+<div class="space-y-8 px-container-padding pt-4">
+<!-- Date Group 1 -->
+<section>
+<div class="flex items-center gap-3 mb-4">
+<div class="h-[2px] flex-grow bg-surface-variant"></div>
+<h3 class="font-label-md text-label-md text-outline uppercase tracking-wider">Jueves 11 de Junio</h3>
+<div class="h-[2px] flex-grow bg-surface-variant"></div>
+</div>
+<div class="space-y-4">
+<!-- Match Card: Live -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-surface-variant/50 overflow-hidden active:scale-[0.98] transition-transform duration-200">
+<div class="px-4 py-2 flex justify-between items-center bg-surface-container-low border-b border-surface-variant/30">
+<span class="font-label-sm text-label-sm text-outline uppercase">Grupo A • Match 01</span>
+<div class="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-error/10 text-error live-pulse">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+<span class="font-label-sm text-label-sm font-bold uppercase">En Vivo</span>
+</div>
+</div>
+<div class="p-4 grid grid-cols-7 items-center">
+<div class="col-span-3 flex flex-col items-center gap-2">
+<div class="w-16 h-12 bg-surface-container-high rounded-md overflow-hidden shadow-inner flex items-center justify-center">
+<img alt="Mexico Flag" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8njxWjcFgxK29Q9QZlHHHCWzelFML2dfT_dTZ_veP7V45cOT8LcReV50vDS_3zBKFF-fdUuRZoN346ELzWn9cwSPnwSVQwb4oP_gqeTkVOpz2_CfQBe7UMuA9B_NvjKZ6VjYI-IvxD5eNUsSlU_0Dg5-HkboJOg2-1MD8C4idzGuApP1sta1T990zKdTFjGGjvXvm65cWPw0GACcwWnwQMN2IZjJCX8P4f_aPxlWi_oEy31dgIvq9Ktn1CT_PJVTPWe4R0fGxzXY"/>
+</div>
+<span class="font-headline-md text-center text-on-surface truncate w-full">México</span>
+</div>
+<div class="col-span-1 flex flex-col items-center justify-center">
+<div class="text-2xl font-black text-primary">2 - 1</div>
+<span class="text-xs text-outline font-bold">72'</span>
+</div>
+<div class="col-span-3 flex flex-col items-center gap-2">
+<div class="w-16 h-12 bg-surface-container-high rounded-md overflow-hidden shadow-inner flex items-center justify-center">
+<img alt="South Africa Flag" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-70prHyAPpbOu_bIneQvnejM1aq7hj8iCWaj4nqhCYFjCV9Ig6qEXpkwA8DMKHwWPB_LzrkqW0aRhT2XGXS-bpe2s5giiP-OU7l49NI5XzcBp2ZyYs8jAF_-zEym9Cdmu2mZ51ytn-c8onmSR7FHqw5s4W_i2V80eodZwAkhV-nhgTeswvkb8m3KdyiixALgGf2ZMzXh51ZO-hfPlELV31-WDSMbV3luB5fbiZ57co2YmyHBv2mixxSVs4Nq-050IenMLBoPW97I"/>
+</div>
+<span class="font-headline-md text-center text-on-surface truncate w-full">Sudáfrica</span>
+</div>
+</div>
+<div class="px-4 py-2 bg-surface-container-lowest text-center border-t border-dashed border-surface-variant">
+<div class="flex items-center justify-center gap-2 text-outline">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+<span class="text-label-sm font-label-sm">Estadio Azteca, CDMX</span>
+</div>
+</div>
+</div>
+<!-- Match Card: Upcoming -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-surface-variant/50 overflow-hidden active:scale-[0.98] transition-transform duration-200">
+<div class="px-4 py-2 flex justify-between items-center bg-surface-container-low border-b border-surface-variant/30">
+<span class="font-label-sm text-label-sm text-outline uppercase">Grupo A • Match 02</span>
+<div class="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-primary/10 text-primary">
+<span class="font-label-sm text-label-sm font-bold uppercase">Próximo</span>
+</div>
+</div>
+<div class="p-4 grid grid-cols-7 items-center">
+<div class="col-span-3 flex flex-col items-center gap-2">
+<div class="w-16 h-12 bg-surface-container-high rounded-md overflow-hidden shadow-inner">
+<img alt="USA Flag" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzjgOzEPWASRMAFx3sDRWhsTVmyJaJQDZBFzCz_9m6APgL_wGl4V7EWQu1f1Itl-J6L0eHM74Vkpu5NDbI__zuKuA0pIa4Uw5Vpo055SATkF1YFe-k-omAbe49V64EypiS8_tk2U458u5p9NU51MgJ44Bn36DhZxg0nALZuplCgLwgjAf65HY7YsqAFvQkShBSEmGhIa60LjDvs6rTYiOPVOqAVS9hMNnOspBqZ9Is7AIZM2FkI6pf_quxRL2kViWlOgLYYqVk_LQ"/>
+</div>
+<span class="font-headline-md text-center text-on-surface truncate w-full">EE.UU.</span>
+</div>
+<div class="col-span-1 flex flex-col items-center justify-center">
+<div class="text-xl font-bold text-outline">VS</div>
+<span class="text-xs text-outline font-bold">21:00</span>
+</div>
+<div class="col-span-3 flex flex-col items-center gap-2">
+<div class="w-16 h-12 bg-surface-container-high rounded-md overflow-hidden shadow-inner">
+<img alt="Australia Flag" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBY6ewpDJ6gQjDrq1IbiuqXKWcBmQDbpXOpe_aZdvyEefEHt6L9a7ieKOKeZZGai4W37UwAeZQ7-39jdhGTmdc4rlzdGPVxFGgElxsKx1jDrLeM42D0g_BRSfWG4wZ0k8C9PfsPGZxOcxN2s25NWgoo45U0uMbjAmHMmK-n_Qyy9owxxXj9vPVB-CtKgBgkgywL2Ys9uI6fn-3atXgFS_pG82edKjTkCmZKkoUt-6FqLVudvxVP20msts_LHJlf_5nR4HgNkJpiebc"/>
+</div>
+<span class="font-headline-md text-center text-on-surface truncate w-full">Australia</span>
+</div>
+</div>
+<div class="px-4 py-2 bg-surface-container-lowest text-center border-t border-dashed border-surface-variant">
+<div class="flex items-center justify-center gap-2 text-outline">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+<span class="text-label-sm font-label-sm">SoFi Stadium, Inglewood</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Date Group 2 -->
+<section>
+<div class="flex items-center gap-3 mb-4">
+<div class="h-[2px] flex-grow bg-surface-variant"></div>
+<h3 class="font-label-md text-label-md text-outline uppercase tracking-wider">Viernes 12 de Junio</h3>
+<div class="h-[2px] flex-grow bg-surface-variant"></div>
+</div>
+<div class="space-y-4">
+<!-- Match Card: Finished -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-surface-variant/50 overflow-hidden opacity-80">
+<div class="px-4 py-2 flex justify-between items-center bg-surface-container-low border-b border-surface-variant/30">
+<span class="font-label-sm text-label-sm text-outline uppercase">Grupo B • Match 03</span>
+<div class="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-outline/10 text-outline">
+<span class="font-label-sm text-label-sm font-bold uppercase">Finalizado</span>
+</div>
+</div>
+<div class="p-4 grid grid-cols-7 items-center grayscale-[0.3]">
+<div class="col-span-3 flex flex-col items-center gap-2">
+<div class="w-16 h-12 bg-surface-container-high rounded-md overflow-hidden">
+<img alt="Argentina Flag" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCInMp0XT2Fvu6LHeDMiXOMOROUlS0cBnSXr5597EqOygOfanrPznRoQYwtH8fkU4_ddil05VaChhRbACJZdwMy7ugqRNSqZLsVcMR9IAeONCKEv4qJ8GN7yDFvBWqz4DuUUysunwCNJT5NFk-wvwZhpjoFIYiuHC0ViXIvkNZEPfchID4wM3Of-nH7nMFtpK-uVmDw0IefCb7dVSDxQ4T1dn-2D4qVMEFUkwTuJrA07ylnOV8QQ1uJfGf4ejrHzUQZfhMufNbseq4"/>
+</div>
+<span class="font-headline-md text-center text-on-surface font-bold">Argentina</span>
+</div>
+<div class="col-span-1 flex flex-col items-center justify-center">
+<div class="text-2xl font-black text-on-surface">3 - 0</div>
+<span class="text-xs text-outline font-bold">FT</span>
+</div>
+<div class="col-span-3 flex flex-col items-center gap-2">
+<div class="w-16 h-12 bg-surface-container-high rounded-md overflow-hidden">
+<img alt="Canada Flag" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBC_BZP6kG8g8yclykyWqC8j-CuGbi-xWlzjtT6RslrkhiVdDA4jFNU6_emL732wo0tHqrx5vNJG3ZC0_XIJf70DjhJ3BoCDLPhHkPS273E97C4F_MVjS2LibFN1yS42PMDN2VRjOiQII3CnTA7voZiLlaaNWJ6CWBmU8xWnCBhFQ_ckbt-QNG5een5f6IcjViH4vRzdk0q_eUlZulu9pM6_7lFZsqi24gZpo1mC3-EF-ujxxw2poDSlRMnhpqF46CdxmTgJa_Uel0"/>
+</div>
+<span class="font-headline-md text-center text-on-surface">Canadá</span>
+</div>
+</div>
+<div class="px-4 py-2 bg-surface-container-lowest text-center border-t border-dashed border-surface-variant">
+<div class="flex items-center justify-center gap-2 text-outline">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+<span class="text-label-sm font-label-sm">MetLife Stadium, NJ</span>
+</div>
+</div>
+</div>
+<!-- Match Card: Featured/Banner Style for High-stakes -->
+<div class="relative overflow-hidden rounded-xl shadow-lg group">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="A cinematic, low-angle shot of a grand stadium under twilight with dramatic floodlighting, creating a sense of championship atmosphere. The vibrant green pitch is perfectly manicured, and the stands are filled with cheering fans in soft focus. The color palette emphasizes deep navies and bright primary blues, aligned with a premium sports aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBAnHYnig771zdphCv7qwz21aj5SdVTifcDslrzbOxEcsm0X59krcRtMLpjJBsd_LXTtUzDB8AarGkE809wRFtkCxwcVVpI0h6dVPoFDscG8t38dWr54dLiajoMZ4MYt_LDvvzyolvocJWioBk7C6LxR9YVYmYix7mEFuP_Dsnr6gB477eB1O5YcRpAdViTjScmRbvrDlNmFgtYj6C--db3TXqf3OBoL5WGKDwjygcFua9GjwnMJOH38D0xQw2nxrbjgwsoguB6Wg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+</div>
+<div class="relative z-10 p-6 flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<span class="bg-primary text-white font-label-sm text-label-sm px-3 py-1 rounded-full uppercase">Próximo Partidazo</span>
+<div class="text-white text-right">
+<p class="font-bold">21:00 HS</p>
+<p class="text-xs opacity-75 uppercase">Grupo C</p>
+</div>
+</div>
+<div class="flex items-center justify-between gap-4">
+<div class="text-center">
+<img alt="Brazil Flag" class="w-16 h-12 object-cover rounded-md shadow-md mx-auto mb-2" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcjs_CA5UkCz4DlG9WxuTPcJeWhZf4rlT83GFOpJkvwcXPofOkqWMU3vP8X2pETS-GAdGOWuF2lGP156lBesFZec6CEtGor4XxQFa0OBCjYPPxXqt7-ictKcdVA3h0CHW7uVfmJXztGEr3AmGaDlvDgsaXI8fVTyfp45SDsxbwuneHtAruyGi8fBoaYIuZ5Hpb06g6ObCsJali7OfzhaHbfIDlVPy8b3_XfJz_VYWHSWagtXqkIpQul-6B5PT-9q2HumOCBFHH21w"/>
+<h4 class="text-white font-bold text-headline-md">Brasil</h4>
+</div>
+<div class="h-10 w-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white font-bold">VS</div>
+<div class="text-center">
+<img alt="France Flag" class="w-16 h-12 object-cover rounded-md shadow-md mx-auto mb-2" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCP2s_mPEc2n8vxRx86wGbQsZ5uX-3NpKOKO_EqhxkeL4yoBVGRF0yeJzg1mYgznTEQXbJEmyqBtT4ccmCftf6zIaJ6m_sYBMrRtIDbvh-9-pSa-IEs4I7yN-pce6MaZO-cT1hdnyzsy1CMQRAs4ljDsq_s5gApUYgYkRft1cbnZTPwaSq_xdAmqKlhVlj_w2NzXGMeahcMNtFcFNpnZp8ctd1BDcCGsmjCz3CJuyzYMfL8rZIE2YzNw8yoYd8-3byIPvtOzrR7Inw"/>
+<h4 class="text-white font-bold text-headline-md">Francia</h4>
+</div>
+</div>
+<button class="w-full py-2 bg-white text-primary font-bold rounded-lg active:scale-95 transition-all">Predecir Resultado</button>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Pagination / Infinite Scroll Loader -->
+<div class="flex flex-col items-center py-10 gap-4">
+<div class="w-8 h-8 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></div>
+<p class="text-outline text-label-md">Cargando más partidos...</p>
+</div>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 w-full max-w-[480px] left-1/2 -translate-x-1/2 rounded-t-xl z-50 flex justify-around items-center px-4 py-3 bg-surface shadow-[0_-4px_12px_rgba(35,99,145,0.1)]">
+<a class="flex flex-col items-center justify-center text-primary font-bold scale-110 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">sports_soccer</span>
+<span class="font-label-sm text-label-sm">Matches</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-70 hover:opacity-100 transition-all active:scale-90" href="#">
+<span class="material-symbols-outlined">leaderboard</span>
+<span class="font-label-sm text-label-sm">Leagues</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-70 hover:opacity-100 transition-all active:scale-90" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-sm text-label-sm">Social</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-70 hover:opacity-100 transition-all active:scale-90" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</a>
+</nav>
+<!-- Floating Action Button (FAB) - For Predictions -->
+<button class="fixed bottom-20 right-6 md:right-[calc(50%-220px)] w-14 h-14 bg-primary text-on-primary rounded-full shadow-2xl flex items-center justify-center z-40 hover:scale-110 transition-transform active:scale-95">
+<span class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 1;">edit_square</span>
+</button>
+<script>
+        // Simple Interaction Logic
+        document.querySelectorAll('nav button').forEach(button => {
+            button.addEventListener('click', function() {
+                // Toggle active states for tabs
+                if(this.parentElement.classList.contains('glass-nav')) {
+                   this.parentElement.querySelectorAll('button').forEach(btn => {
+                       btn.className = 'flex-shrink-0 px-4 py-2 bg-surface-container-highest text-on-surface-variant rounded-full font-label-md text-label-md hover:bg-surface-variant transition-colors';
+                   });
+                   this.className = 'flex-shrink-0 px-4 py-2 bg-primary text-on-primary rounded-full font-label-md text-label-md shadow-md active:scale-95 transition-all';
+                }
+            });
+        });
+
+        // Group Selector interaction
+        const groupButtons = document.querySelectorAll('.px-container-padding.py-4.flex button');
+        groupButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                groupButtons.forEach(b => {
+                    b.classList.remove('bg-primary', 'text-on-primary', 'border-primary');
+                    b.classList.add('border-outline', 'text-on-surface-variant');
+                });
+                btn.classList.add('bg-primary', 'text-on-primary', 'border-primary');
+                btn.classList.remove('border-outline', 'text-on-surface-variant');
+            });
+        });
+    </script>
+</body></html>

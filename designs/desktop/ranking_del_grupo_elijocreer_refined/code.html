@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Global Rankings | ElijoCreer</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&amp;family=Hanken+Grotesk:wght@100..900&amp;family=JetBrains+Mono:wght@100..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --glass-bg: rgba(17, 34, 64, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+        body {
+            background-color: #041329;
+            color: #d6e3ff;
+            -webkit-font-smoothing: antialiased;
+        }
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+        }
+        .podium-1 {
+            background: linear-gradient(135deg, #FFD700 0%, #D4AF37 100%);
+            box-shadow: 0 10px 40px rgba(212, 175, 55, 0.25);
+        }
+        .podium-2 {
+            background: linear-gradient(135deg, #E2E2E2 0%, #A0A0A0 100%);
+            box-shadow: 0 10px 30px rgba(160, 160, 160, 0.15);
+        }
+        .podium-3 {
+            background: linear-gradient(135deg, #FFB347 0%, #CD7F32 100%);
+            box-shadow: 0 10px 30px rgba(205, 127, 50, 0.15);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .fill-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #041329;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #27354c;
+            border-radius: 10px;
+        }
+        .user-row-highlight {
+            background: linear-gradient(90deg, rgba(134, 207, 250, 0.1) 0%, rgba(134, 207, 250, 0.02) 100%);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-low": "#0d1c32",
+                        "on-surface": "#d6e3ff",
+                        "inverse-on-surface": "#233148",
+                        "error-container": "#93000a",
+                        "surface-variant": "#27354c",
+                        "primary-fixed": "#c4e7ff",
+                        "on-secondary": "#2f3131",
+                        "surface-container": "#112036",
+                        "secondary-fixed-dim": "#c6c6c7",
+                        "error": "#ffb4ab",
+                        "inverse-surface": "#d6e3ff",
+                        "on-primary-fixed": "#001e2c",
+                        "tertiary-fixed-dim": "#e9c349",
+                        "on-primary-container": "#00516f",
+                        "surface-dim": "#041329",
+                        "secondary-container": "#454747",
+                        "outline-variant": "#40484e",
+                        "surface-container-highest": "#27354c",
+                        "on-primary-fixed-variant": "#004c69",
+                        "surface-container-high": "#1c2a41",
+                        "outline": "#899298",
+                        "on-tertiary": "#3c2f00",
+                        "primary-container": "#7bc4ee",
+                        "background": "#041329",
+                        "on-tertiary-fixed": "#241a00",
+                        "on-surface-variant": "#bfc8cf",
+                        "on-tertiary-container": "#5d4900",
+                        "inverse-primary": "#00658b",
+                        "on-background": "#d6e3ff",
+                        "surface": "#041329",
+                        "surface-bright": "#2c3951",
+                        "primary": "#aadeff",
+                        "primary-fixed-dim": "#86cffa",
+                        "secondary": "#c6c6c7",
+                        "on-primary": "#00344a",
+                        "on-error": "#690005",
+                        "tertiary": "#fbd358",
+                        "on-secondary-fixed-variant": "#454747",
+                        "secondary-fixed": "#e2e2e2",
+                        "on-secondary-container": "#b4b5b5",
+                        "on-error-container": "#ffdad6",
+                        "surface-tint": "#86cffa",
+                        "surface-container-lowest": "#010e24",
+                        "on-secondary-fixed": "#1a1c1c",
+                        "tertiary-container": "#deb83f",
+                        "on-tertiary-fixed-variant": "#574500",
+                        "tertiary-fixed": "#ffe088"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-lg": "48px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px",
+                        "margin-desktop": "40px",
+                        "stack-sm": "12px",
+                        "stack-md": "24px",
+                        "container-max": "1280px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"],
+                        "display-lg": ["Sora"],
+                        "headline-md": ["Sora"],
+                        "headline-lg-mobile": ["Sora"],
+                        "headline-lg": ["Sora"],
+                        "label-md": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "label-md": ["14px", {"lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen">
+<!-- TopNavBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-desktop h-20 bg-surface/80 backdrop-blur-xl border-b border-white/5 shadow-sm">
+<div class="flex items-center gap-stack-md">
+<span class="font-display-lg text-headline-md italic font-black text-primary tracking-tighter">ElijoCreer</span>
+<nav class="hidden md:flex items-center gap-gutter ml-stack-lg">
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md text-label-md" href="#">Matches</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md text-label-md" href="#">Leagues</a>
+<a class="text-primary font-bold border-b-2 border-tertiary pb-1 font-label-md text-label-md" href="#">Rankings</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md text-label-md" href="#">Rules</a>
+</nav>
+</div>
+<div class="flex items-center gap-stack-md">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="bg-surface-variant/50 border-none rounded-full py-2 pl-10 pr-4 text-body-md focus:ring-2 focus:ring-primary w-48 lg:w-64" placeholder="Search rankings..." type="text"/>
+</div>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-all duration-300">notifications</button>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary/20">
+<img alt="Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuia_qNPFhAy0ICXClfhGk6xKWQ2xc2GEv3BNKAFOieG9OXmO9o_sR_W-wRzsHjzpVLBm3Zwnv_1ZC0SrU72G_Rb81AtDkH5xK2gUqDarciZQSdKFPEfQAzhlg7IjhPz9lDfeIPHki963S726iBLGo9LetgWXBmCx4OSP7U2SzJwWiVXPgz7b69QSgvNpOmY_Fi4bgmISinksEfn9XRbOXFaWk9nOUIKUYenSFj5dzmvRe85L428SMe__BmFiIZ74xUoGc3HVrnJc"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="hidden lg:flex flex-col h-full fixed left-0 top-0 z-40 py-8 bg-surface-container border-r border-white/5 shadow-xl w-64 pt-24">
+<div class="px-6 mb-8">
+<h2 class="font-display-lg text-headline-md font-extrabold text-tertiary tracking-tight">World Cup 2026</h2>
+<p class="text-on-surface-variant font-label-md text-label-md mt-1">Official Prode Platform</p>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center gap-4 text-on-surface-variant hover:text-on-surface py-3 px-6 transition-all hover:bg-surface-bright/50" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant hover:text-on-surface py-3 px-6 transition-all hover:bg-surface-bright/50" href="#">
+<span class="material-symbols-outlined">sports_soccer</span>
+<span class="font-label-md text-label-md">My Predictions</span>
+</a>
+<a class="flex items-center gap-4 text-primary font-bold border-l-4 border-primary bg-primary/10 py-3 px-6 translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined fill-icon" style="font-variation-settings: 'FILL' 1;">leaderboard</span>
+<span class="font-label-md text-label-md">Global Rankings</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant hover:text-on-surface py-3 px-6 transition-all hover:bg-surface-bright/50" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-md text-label-md">Private Leagues</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant hover:text-on-surface py-3 px-6 transition-all hover:bg-surface-bright/50" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-md text-label-md">Tournament Stats</span>
+</a>
+</nav>
+<div class="px-6 mb-8">
+<button class="w-full py-3 bg-tertiary text-on-tertiary font-headline-md text-sm rounded-lg font-bold shadow-lg shadow-tertiary/20 hover:scale-[1.02] active:scale-95 transition-all">
+                Place Joker Prediction
+            </button>
+</div>
+<div class="px-6 space-y-2">
+<a class="flex items-center gap-4 text-on-surface-variant hover:text-tertiary transition-colors font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant hover:text-tertiary transition-colors font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">help</span>
+<span>Support</span>
+</a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="lg:ml-64 pt-28 pb-20 px-margin-mobile md:px-margin-desktop">
+<div class="max-w-container-max mx-auto">
+<!-- Hero Header Section -->
+<section class="mb-stack-lg relative overflow-hidden rounded-xl">
+<div class="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-stack-md">
+<div>
+<span class="bg-primary/20 text-primary px-3 py-1 rounded-full font-label-md text-[12px] uppercase tracking-widest mb-4 inline-block">Leaderboard Update Live</span>
+<h1 class="font-display-lg text-display-lg text-white">Global Standings</h1>
+<p class="text-on-surface-variant font-body-lg max-w-2xl mt-4">The definitive ranking of the world's best football predictors. Predict, climb, and claim the championship.</p>
+</div>
+<div class="flex gap-stack-sm">
+<div class="glass-card px-stack-md py-stack-sm rounded-xl text-center min-w-[130px]">
+<span class="block font-label-md text-on-surface-variant mb-1 text-[10px]">TOTAL PLAYERS</span>
+<span class="block font-display-lg text-headline-md text-primary">12.4M</span>
+</div>
+<div class="glass-card px-stack-md py-stack-sm rounded-xl text-center min-w-[130px] border-tertiary/20">
+<span class="block font-label-md text-on-surface-variant mb-1 text-[10px]">YOUR POSITION</span>
+<span class="block font-display-lg text-headline-md text-tertiary">#2,401</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Podium Section (Top 3) -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-gutter items-end mb-16 mt-8 relative">
+<!-- Rank 2 -->
+<div class="order-2 md:order-1 glass-card p-6 rounded-2xl flex flex-col items-center text-center transform hover:-translate-y-1 transition-all border-b-4 border-secondary/20 h-fit">
+<div class="absolute -top-5 left-1/2 -translate-x-1/2 podium-2 w-10 h-10 rounded-full flex items-center justify-center font-display-lg text-on-secondary font-bold text-xl ring-4 ring-background">2</div>
+<div class="relative mb-4 mt-2">
+<div class="w-24 h-24 rounded-full overflow-hidden border-4 border-secondary/50 p-1">
+<img alt="User 2" class="w-full h-full rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDo1FQLCd5Lud2AQMuwIBp7_LGKayH1ksoXH8JFAUl3seGnd8aYD_0jFE_MKK0CtdMKDpkszutygBCzGtgzMCiOJHviMP-xAfkfy8dk9CC9N8w5N_RfFQl9mIhbN2fzPUhqk2vayYBrZGgUby31c7zIlyhCmRmbJom8sUObDCFokbI5C_MSeGEqScS8HNjz4x5DtuSIXcnF3MdFjFQlBiAyevw-pGj6syqy9NVM7NWAukY_-AyUiuF6rV4ebnbqYsxkd1SSZcmjnpo"/>
+</div>
+</div>
+<h3 class="font-headline-md text-white mb-1">Marco Polo</h3>
+<p class="font-label-md text-secondary text-[11px] uppercase tracking-widest mb-4">Italy Elite League</p>
+<div class="grid grid-cols-2 gap-4 w-full border-t border-white/5 pt-4">
+<div class="text-center">
+<span class="block font-label-md text-[10px] text-on-surface-variant mb-1">POINTS</span>
+<span class="font-display-lg text-headline-md text-white">2,840</span>
+</div>
+<div class="text-center border-l border-white/5">
+<span class="block font-label-md text-[10px] text-on-surface-variant mb-1">EXACTS</span>
+<span class="font-display-lg text-headline-md text-white">42</span>
+</div>
+</div>
+</div>
+<!-- Rank 1 (Featured Center) -->
+<div class="order-1 md:order-2 podium-1 p-8 rounded-3xl flex flex-col items-center text-center transform scale-105 shadow-2xl relative z-10 border-b-8 border-yellow-600/40">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-white w-16 h-16 rounded-full flex items-center justify-center shadow-2xl ring-8 ring-background">
+<span class="material-symbols-outlined text-yellow-600 font-black text-4xl fill-icon">emoji_events</span>
+</div>
+<div class="relative mb-6 mt-4">
+<div class="w-36 h-36 rounded-full overflow-hidden border-4 border-white p-1">
+<img alt="User 1" class="w-full h-full rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIBnOm7hCtFmrijqmC3UPqmPdsHJrPxb0zgoUnFuRlvdybVA3-g9ns_xksR8XQmUouanTqQBLmmW4SR5YTU221dpkFYYj4RBwpnnuMSj6f2zTBupx_Xpm1mbxqO9gJi_nWIv8YIY43sk65KY1P5m9_JGZk0AUGknHVvhLJiioIpJjVnHA0B8EbogmLJMKz2G76ZQczYp1C3AxKJKoswdIVnDI28ud27JkVSok373qxvF-naWHi9pEqTg-UHcJasXYaIvNlhCa5eyQ"/>
+</div>
+<div class="absolute bottom-0 right-2 bg-white text-yellow-600 p-2 rounded-full shadow-lg border-2 border-background">
+<span class="material-symbols-outlined text-xl fill-icon">star</span>
+</div>
+</div>
+<h2 class="font-display-lg text-headline-lg text-on-tertiary-fixed mb-1">Lionel87</h2>
+<p class="font-label-md text-on-tertiary-fixed/70 text-[12px] uppercase tracking-[0.2em] mb-8">World Champion League</p>
+<div class="grid grid-cols-2 gap-8 w-full border-t border-on-tertiary-fixed/10 pt-6">
+<div class="text-center">
+<span class="block font-label-md text-[12px] text-on-tertiary-fixed/60 mb-1">TOTAL POINTS</span>
+<span class="font-display-lg text-display-lg text-on-tertiary-fixed">3,125</span>
+</div>
+<div class="text-center border-l border-on-tertiary-fixed/10">
+<span class="block font-label-md text-[12px] text-on-tertiary-fixed/60 mb-1">EXACT SCORES</span>
+<span class="font-display-lg text-display-lg text-on-tertiary-fixed">51</span>
+</div>
+</div>
+</div>
+<!-- Rank 3 -->
+<div class="order-3 md:order-3 glass-card p-6 rounded-2xl flex flex-col items-center text-center transform hover:-translate-y-1 transition-all border-b-4 border-tertiary-container/20 h-fit">
+<div class="absolute -top-5 left-1/2 -translate-x-1/2 podium-3 w-10 h-10 rounded-full flex items-center justify-center font-display-lg text-on-tertiary font-bold text-xl ring-4 ring-background">3</div>
+<div class="relative mb-4 mt-2">
+<div class="w-24 h-24 rounded-full overflow-hidden border-4 border-tertiary-container/50 p-1">
+<img alt="User 3" class="w-full h-full rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7E_phJCFc4hEIor1eu8ixtEmAw2Kxrua33IdIXFQo3hsXEvzV5c3wMTGz-GhyLv23yNfDum_JazYKMjdlGcqfscJUWIpDINdizt_Ul3F22YSsXYTQWLsV3bSes_xNdIF45-U_K29NWOhQc7cMy3crk50EnLyk7y-PAtTnwhlaMOU-rcWa41d00ZapjoUGMAtdvudAwLlhdqrN9D1a_Zfs188tmS-QJaaI14GWP74v_a3zAQ2hqe3Nw4mOc_PiWmVNZ3D4z1ZrFfM"/>
+</div>
+</div>
+<h3 class="font-headline-md text-white mb-1">Sofia R.</h3>
+<p class="font-label-md text-tertiary-container text-[11px] uppercase tracking-widest mb-4">Brazil Fans League</p>
+<div class="grid grid-cols-2 gap-4 w-full border-t border-white/5 pt-4">
+<div class="text-center">
+<span class="block font-label-md text-[10px] text-on-surface-variant mb-1">POINTS</span>
+<span class="font-display-lg text-headline-md text-white">2,795</span>
+</div>
+<div class="text-center border-l border-white/5">
+<span class="block font-label-md text-[10px] text-on-surface-variant mb-1">EXACTS</span>
+<span class="font-display-lg text-headline-md text-white">39</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Rankings Table -->
+<section class="glass-card rounded-2xl overflow-hidden shadow-2xl">
+<div class="p-6 border-b border-white/5 flex flex-col sm:flex-row justify-between items-center gap-4 bg-surface-container-high/40">
+<h2 class="font-headline-md text-white flex items-center gap-3">
+<span class="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-lg">leaderboard</span>
+                        Global Rankings
+                    </h2>
+<div class="flex items-center gap-3">
+<div class="flex p-1 bg-surface-container-lowest/50 rounded-xl border border-white/5">
+<button class="px-5 py-2 bg-primary/20 text-primary rounded-lg font-label-md text-xs font-bold transition-all">ALL TIME</button>
+<button class="px-5 py-2 hover:bg-white/5 text-on-surface-variant rounded-lg font-label-md text-xs transition-all">WEEKLY</button>
+<button class="px-5 py-2 hover:bg-white/5 text-on-surface-variant rounded-lg font-label-md text-xs transition-all">DAILY</button>
+</div>
+<button class="material-symbols-outlined p-2 text-on-surface-variant hover:text-white transition-colors">filter_list</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-separate border-spacing-0">
+<thead>
+<tr class="bg-surface-container-highest/20">
+<th class="px-8 py-5 font-label-md text-label-md text-on-surface-variant uppercase tracking-widest text-[10px]">Rank</th>
+<th class="px-8 py-5 font-label-md text-label-md text-on-surface-variant uppercase tracking-widest text-[10px]">User Profile</th>
+<th class="px-8 py-5 font-label-md text-label-md text-on-surface-variant uppercase tracking-widest text-[10px] text-center">Points</th>
+<th class="px-8 py-5 font-label-md text-label-md text-on-surface-variant uppercase tracking-widest text-[10px] text-center">Exact Scores</th>
+<th class="px-8 py-5 font-label-md text-label-md text-on-surface-variant uppercase tracking-widest text-[10px] text-center">Trend</th>
+<th class="px-8 py-5 font-label-md text-label-md text-on-surface-variant uppercase tracking-widest text-[10px] text-right">View</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-white/5">
+<!-- Row: Current User Highlighting -->
+<tr class="user-row-highlight group relative">
+<td class="px-8 py-6">
+<div class="flex items-center gap-2">
+<div class="w-1.5 h-8 bg-primary rounded-full absolute left-0"></div>
+<span class="font-display-lg text-headline-md text-primary">#2,401</span>
+</div>
+</td>
+<td class="px-8 py-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden border-2 border-primary/40 ring-4 ring-primary/5 p-0.5">
+<img alt="Your Avatar" class="w-full h-full rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwtZuVh0LN42ailK_5R5OeuzZXhu7ruLaPVf7VYtCC0cdbli88JmlsPcZFsvkwcpUPe6xAF1XFmqVC-TOo10a43Tjo7IlVmY5d1z43hD3Y41471CzS0kLQBvHNfHLfea--8HneXdScwG-3Sair6vyRVx3Jf_cZfLvoarIvr8g9WVBw6oYrpxnoD7QLvj-4vk_-ogbbYQcR9J9xKQbALCzi-5FQ_nITbV8d9lFJQE0cZGZt1y4fymlJSRXxIliO3M-5WHnkWtQEqvY"/>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-white text-lg">You</span>
+<span class="bg-primary text-on-primary text-[8px] px-1.5 py-0.5 rounded font-bold uppercase tracking-tighter">Current User</span>
+</div>
+<span class="text-on-surface-variant font-label-md text-[11px]">Argentina Supporters League</span>
+</div>
+</div>
+</td>
+<td class="px-8 py-6 text-center">
+<span class="font-display-lg text-headline-md text-white">1,540</span>
+</td>
+<td class="px-8 py-6 text-center">
+<span class="font-body-md text-primary px-4 py-1 bg-primary/10 rounded-full border border-primary/20 text-sm font-bold">22</span>
+</td>
+<td class="px-8 py-6">
+<div class="flex items-center justify-center gap-1.5 text-primary">
+<span class="material-symbols-outlined text-lg font-bold">keyboard_double_arrow_up</span>
+<span class="font-label-md text-sm font-black">+125</span>
+</div>
+</td>
+<td class="px-8 py-6 text-right">
+<button class="w-10 h-10 rounded-full hover:bg-primary/10 text-on-surface-variant hover:text-primary transition-all flex items-center justify-center">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</td>
+</tr>
+<!-- Regular Row 4 -->
+<tr class="hover:bg-white/[0.02] transition-colors group">
+<td class="px-8 py-6">
+<span class="text-on-surface-variant font-display-lg text-xl">#4</span>
+</td>
+<td class="px-8 py-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden border border-white/10 group-hover:border-primary/40 transition-colors">
+<img alt="Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCy0ILdKPHvfB4D8n2ycW_3Z469gQPlPySXctb0e2FVFyKoN5P4Cv4IjjpnhYZDYj7ja_qjnJt_yfRbyFF15NoqhZRmVlXGM_yKyvTt-dlhYAXdCXyDx3Qw0ExingXj9NkW2MybmG458-4l0xMv11D6tmrYloo9P1wq8zpkxZyxtaurIPnOWuV_83UN137yu8xElRKCQsCjPvxgrrTBg1lBOGs8NFCmNnL4AunwvJpcGuDSNYkfXCIuFEu_bTDIuwZ53em1rxgHaOw"/>
+</div>
+<div>
+<span class="font-headline-md text-white text-lg group-hover:text-primary transition-colors">James007</span>
+<div class="text-on-surface-variant font-label-md text-[11px]">England Elite Prode</div>
+</div>
+</div>
+</td>
+<td class="px-8 py-6 text-center">
+<span class="font-display-lg text-headline-md text-white/80 group-hover:text-white">2,650</span>
+</td>
+<td class="px-8 py-6 text-center">
+<span class="font-body-md text-on-surface-variant px-4 py-1 bg-white/5 rounded-full text-sm">38</span>
+</td>
+<td class="px-8 py-6">
+<div class="flex items-center justify-center gap-1 text-on-surface-variant/40">
+<span class="material-symbols-outlined text-lg">horizontal_rule</span>
+<span class="font-label-md text-sm">0</span>
+</div>
+</td>
+<td class="px-8 py-6 text-right">
+<button class="w-10 h-10 rounded-full hover:bg-white/5 text-on-surface-variant hover:text-primary transition-all flex items-center justify-center">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</td>
+</tr>
+<!-- Regular Row 5 -->
+<tr class="hover:bg-white/[0.02] transition-colors group">
+<td class="px-8 py-6">
+<span class="text-on-surface-variant font-display-lg text-xl">#5</span>
+</td>
+<td class="px-8 py-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden border border-white/10 group-hover:border-primary/40 transition-colors">
+<img alt="Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDtIBmILQK_7LhUWYbWvGHlSUKuawP9CaBJ03714G20y8OmJSfHFD-4HUrkprdrisWg4WaSOPXnpPOOUhHIWba1z9iabs8r4VktM45R40m2lEvY7q1dEUMTk6Mipg7fu5cLp2_Ig0pBBqttcusKQCxRmdy_6W_NS7SJvtAmtEd7btAbISIMw-VAvT3c9fGjBzit4Igq_sdwDPxcsgBfi82m0WE-nuGG3CsCX7-T6FMuxM6KWjgEJepbEw-JsgaCza51V4OPoCIr9BE"/>
+</div>
+<div>
+<span class="font-headline-md text-white text-lg group-hover:text-primary transition-colors">Nala_P</span>
+<div class="text-on-surface-variant font-label-md text-[11px]">South Africa Fan Hub</div>
+</div>
+</div>
+</td>
+<td class="px-8 py-6 text-center">
+<span class="font-display-lg text-headline-md text-white/80 group-hover:text-white">2,610</span>
+</td>
+<td class="px-8 py-6 text-center">
+<span class="font-body-md text-on-surface-variant px-4 py-1 bg-white/5 rounded-full text-sm">35</span>
+</td>
+<td class="px-8 py-6">
+<div class="flex items-center justify-center gap-1 text-error">
+<span class="material-symbols-outlined text-lg">keyboard_arrow_down</span>
+<span class="font-label-md text-sm font-bold">-2</span>
+</div>
+</td>
+<td class="px-8 py-6 text-right">
+<button class="w-10 h-10 rounded-full hover:bg-white/5 text-on-surface-variant hover:text-primary transition-all flex items-center justify-center">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</td>
+</tr>
+<!-- Regular Row 6 -->
+<tr class="hover:bg-white/[0.02] transition-colors group">
+<td class="px-8 py-6">
+<span class="text-on-surface-variant font-display-lg text-xl">#6</span>
+</td>
+<td class="px-8 py-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden border border-white/10 group-hover:border-primary/40 transition-colors">
+<img alt="Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAl0hxCBcveJxDM_GAu3IhNhFDkHXHYe-oO0M43rzutifGhUqmLYSmfVKtBmh1iYYQ5JoKDoNqUvMmAgrQuXrj2uuLQUZ9mCxz9imItYzl3KZg2WOKz6dFAkTDBXendOPfLAEVM1zNL78MQoYXi97iLkfMEXfluYC6LyZs9BSXY08mDeUgIYfmeoqRcqXhT0aXZo3xZjy7dXErgvQH09AlE8_fRiPLTbg4he-8Y1Cg2xuFT-elVqRG380HJHmdIkwOcpDMD5EEzQSs"/>
+</div>
+<div>
+<span class="font-headline-md text-white text-lg group-hover:text-primary transition-colors">Hiroshi_99</span>
+<div class="text-on-surface-variant font-label-md text-[11px]">Japan Prode League</div>
+</div>
+</div>
+</td>
+<td class="px-8 py-6 text-center">
+<span class="font-display-lg text-headline-md text-white/80 group-hover:text-white">2,590</span>
+</td>
+<td class="px-8 py-6 text-center">
+<span class="font-body-md text-on-surface-variant px-4 py-1 bg-white/5 rounded-full text-sm">31</span>
+</td>
+<td class="px-8 py-6">
+<div class="flex items-center justify-center gap-1 text-primary">
+<span class="material-symbols-outlined text-lg">keyboard_arrow_up</span>
+<span class="font-label-md text-sm font-bold">+4</span>
+</div>
+</td>
+<td class="px-8 py-6 text-right">
+<button class="w-10 h-10 rounded-full hover:bg-white/5 text-on-surface-variant hover:text-primary transition-all flex items-center justify-center">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Seamless Pagination/Show More -->
+<div class="p-8 bg-surface-container-high/40 border-t border-white/5 flex flex-col items-center">
+<button class="group flex items-center gap-2 px-10 py-3 bg-white/5 hover:bg-primary text-on-surface hover:text-on-primary rounded-full font-headline-md text-sm transition-all duration-300 transform active:scale-95 shadow-lg border border-white/10 hover:border-transparent mb-6">
+<span>Show More Rankings</span>
+<span class="material-symbols-outlined group-hover:translate-y-0.5 transition-transform">keyboard_arrow_down</span>
+</button>
+<div class="w-full flex flex-col md:flex-row items-center justify-between gap-4">
+<span class="font-label-md text-on-surface-variant text-[11px] uppercase tracking-widest">Showing top 100 of 12,450,231 active players</span>
+<div class="flex gap-1.5 p-1 bg-background/40 rounded-xl">
+<button class="w-10 h-10 rounded-lg flex items-center justify-center hover:bg-white/5 text-on-surface-variant disabled:opacity-20" disabled="">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-10 h-10 rounded-lg flex items-center justify-center bg-primary text-on-primary font-bold text-sm">1</button>
+<button class="w-10 h-10 rounded-lg flex items-center justify-center hover:bg-white/5 text-on-surface-variant font-bold text-sm transition-colors">2</button>
+<button class="w-10 h-10 rounded-lg flex items-center justify-center hover:bg-white/5 text-on-surface-variant font-bold text-sm transition-colors">3</button>
+<span class="w-10 h-10 flex items-center justify-center text-on-surface-variant opacity-40">...</span>
+<button class="w-10 h-10 rounded-lg flex items-center justify-center hover:bg-white/5 text-on-surface-variant transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Footer -->
+<footer class="lg:ml-64 w-full py-12 px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-base bg-surface-container-lowest border-t border-white/5">
+<div class="flex flex-col items-center md:items-start gap-2">
+<span class="font-display-lg text-headline-md font-bold text-primary">ElijoCreer</span>
+<p class="font-body-md text-body-md text-on-surface-variant opacity-70">© 2026 ElijoCreer - The Ultimate Football Experience</p>
+</div>
+<div class="flex flex-wrap justify-center gap-gutter">
+<a class="text-on-surface-variant font-label-md text-label-md hover:text-primary transition-colors opacity-80" href="#">Terms</a>
+<a class="text-on-surface-variant font-label-md text-label-md hover:text-primary transition-colors opacity-80" href="#">Privacy</a>
+<a class="text-on-surface-variant font-label-md text-label-md hover:text-primary transition-colors opacity-80" href="#">Tournament Rules</a>
+<a class="text-on-surface-variant font-label-md text-label-md hover:text-primary transition-colors opacity-80" href="#">Support</a>
+</div>
+</footer>
+<!-- Mobile Navigation -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 bg-surface/90 backdrop-blur-xl flex justify-around items-center py-4 px-2 border-t border-white/10">
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[9px] font-label-md uppercase tracking-tighter">Home</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">sports_soccer</span>
+<span class="text-[9px] font-label-md uppercase tracking-tighter">Matches</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined fill-icon">leaderboard</span>
+<span class="text-[9px] font-label-md uppercase font-black tracking-tighter">Rankings</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="text-[9px] font-label-md uppercase tracking-tighter">Leagues</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">account_circle</span>
+<span class="text-[9px] font-label-md uppercase tracking-tighter">Profile</span>
+</a>
+</nav>
+<script>
+        // Simple Micro-interactions for table rows
+        document.querySelectorAll('tbody tr').forEach(row => {
+            row.addEventListener('mouseenter', () => {
+                if (!row.classList.contains('user-row-highlight')) {
+                   row.style.backgroundColor = 'rgba(255, 255, 255, 0.03)';
+                }
+            });
+            row.addEventListener('mouseleave', () => {
+                if (!row.classList.contains('user-row-highlight')) {
+                    row.style.backgroundColor = 'transparent';
+                }
+            });
+        });
+    </script>
+</body></html>

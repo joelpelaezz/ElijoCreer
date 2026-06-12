@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Resultado y Scoring - ElijoCreer</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Hanken+Grotesk:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(17, 32, 54, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        @keyframes countUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-score {
+            animation: countUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        .match-glow-gold {
+            box-shadow: 0px 0px 30px rgba(251, 211, 88, 0.15);
+        }
+        .gold-shimmer {
+            background: linear-gradient(90deg, transparent, rgba(251, 211, 88, 0.1), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 3s infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-error": "#690005",
+                      "on-tertiary": "#3c2f00",
+                      "on-primary-fixed": "#001e2c",
+                      "primary": "#aadeff",
+                      "on-secondary-fixed": "#1a1c1c",
+                      "surface-container-highest": "#27354c",
+                      "tertiary-fixed-dim": "#e9c349",
+                      "on-surface-variant": "#bfc8cf",
+                      "on-surface": "#d6e3ff",
+                      "inverse-surface": "#d6e3ff",
+                      "surface-bright": "#2c3951",
+                      "surface": "#041329",
+                      "surface-container-lowest": "#010e24",
+                      "on-primary": "#00344a",
+                      "on-secondary-fixed-variant": "#454747",
+                      "error-container": "#93000a",
+                      "on-tertiary-fixed": "#241a00",
+                      "on-tertiary-container": "#5d4900",
+                      "on-secondary-container": "#b4b5b5",
+                      "outline": "#899298",
+                      "on-background": "#d6e3ff",
+                      "outline-variant": "#40484e",
+                      "on-secondary": "#2f3131",
+                      "on-primary-container": "#00516f",
+                      "tertiary": "#fbd358",
+                      "surface-container-low": "#0d1c32",
+                      "surface-container-high": "#1c2a41",
+                      "primary-fixed-dim": "#86cffa",
+                      "tertiary-fixed": "#ffe088",
+                      "inverse-primary": "#00658b",
+                      "surface-dim": "#041329",
+                      "on-primary-fixed-variant": "#004c69",
+                      "secondary-container": "#454747",
+                      "inverse-on-surface": "#233148",
+                      "surface-tint": "#86cffa",
+                      "surface-container": "#112036",
+                      "on-tertiary-fixed-variant": "#574500",
+                      "surface-variant": "#27354c",
+                      "error": "#ffb4ab",
+                      "tertiary-container": "#deb83f",
+                      "background": "#041329",
+                      "secondary-fixed-dim": "#c6c6c7",
+                      "secondary": "#c6c6c7",
+                      "on-error-container": "#ffdad6",
+                      "primary-container": "#7bc4ee",
+                      "secondary-fixed": "#e2e2e2",
+                      "primary-fixed": "#c4e7ff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.5rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "base": "8px",
+                      "stack-sm": "12px",
+                      "margin-mobile": "16px",
+                      "margin-desktop": "40px",
+                      "stack-md": "24px",
+                      "stack-lg": "48px",
+                      "container-max": "1280px",
+                      "gutter": "24px"
+              },
+              "fontFamily": {
+                      "headline-lg": ["Sora"],
+                      "headline-md": ["Sora"],
+                      "body-md": ["Hanken Grotesk"],
+                      "display-lg": ["Sora"],
+                      "label-md": ["JetBrains Mono"],
+                      "headline-lg-mobile": ["Sora"],
+                      "body-lg": ["Hanken Grotesk"]
+              },
+              "fontSize": {
+                      "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                      "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                      "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                      "label-md": ["14px", {"lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                      "headline-lg-mobile": ["28px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen selection:bg-primary selection:text-on-primary">
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-desktop h-20 bg-surface/80 backdrop-blur-xl border-b border-white/5 shadow-sm">
+<div class="flex items-center gap-stack-md">
+<span class="font-display-lg text-headline-md italic font-black text-primary tracking-tighter">ElijoCreer</span>
+<div class="hidden md:flex gap-stack-md ml-stack-lg">
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md text-label-md" href="#">Matches</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md text-label-md" href="#">Leagues</a>
+<a class="text-primary font-bold border-b-2 border-tertiary pb-1 font-label-md text-label-md" href="#">Rankings</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md text-label-md" href="#">Rules</a>
+</div>
+</div>
+<div class="flex items-center gap-stack-sm">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-all duration-300">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-all duration-300">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+<button class="ml-stack-sm px-6 py-2 bg-tertiary text-on-tertiary font-bold rounded-lg hover:scale-95 transition-transform font-label-md text-label-md">
+            Predict Now
+        </button>
+</div>
+</nav>
+<!-- Side Navigation (Desktop) -->
+<aside class="hidden lg:flex flex-col h-full fixed left-0 top-0 z-40 py-8 w-64 bg-surface-container border-r border-white/5 shadow-xl pt-24">
+<div class="px-6 mb-stack-lg">
+<h2 class="font-display-lg text-headline-md font-extrabold text-tertiary">ElijoCreer</h2>
+<p class="text-on-surface-variant font-label-md text-label-md">World Cup 2026</p>
+</div>
+<nav class="flex-1">
+<a class="flex items-center gap-4 text-on-surface-variant hover:text-on-surface py-3 px-6 transition-all hover:bg-surface-bright/50" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-4 text-primary font-bold border-l-4 border-primary bg-primary/10 py-3 px-6" href="#">
+<span class="material-symbols-outlined" data-icon="sports_soccer">sports_soccer</span>
+<span class="font-label-md text-label-md">My Predictions</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant hover:text-on-surface py-3 px-6 transition-all hover:bg-surface-bright/50" href="#">
+<span class="material-symbols-outlined" data-icon="leaderboard">leaderboard</span>
+<span class="font-label-md text-label-md">Global Rankings</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant hover:text-on-surface py-3 px-6 transition-all hover:bg-surface-bright/50" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-label-md text-label-md">Private Leagues</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant hover:text-on-surface py-3 px-6 transition-all hover:bg-surface-bright/50" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-label-md text-label-md">Tournament Stats</span>
+</a>
+</nav>
+<div class="mt-auto px-6">
+<div class="flex flex-col gap-2">
+<a class="flex items-center gap-4 text-on-surface-variant hover:text-on-surface py-2 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant hover:text-on-surface py-2 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="font-label-md text-label-md">Support</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="lg:ml-64 pt-24 pb-20 px-4 md:px-margin-desktop min-h-screen relative overflow-hidden">
+<!-- Atmospheric Background Element -->
+<div class="absolute top-0 right-0 -z-10 opacity-20 blur-[100px] pointer-events-none">
+<div class="w-96 h-96 bg-primary rounded-full"></div>
+</div>
+<header class="mb-stack-lg flex flex-col md:flex-row md:items-end justify-between gap-stack-md">
+<div>
+<span class="inline-flex items-center px-3 py-1 bg-surface-container-highest text-tertiary font-label-md text-label-md rounded-full mb-stack-sm uppercase tracking-widest border border-tertiary/20">
+                Round of 16 • Match 52
+            </span>
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Match Performance</h1>
+</div>
+<div class="flex items-center gap-4 bg-surface-container-high p-4 rounded-xl border border-white/5 relative overflow-hidden">
+<div class="absolute inset-0 gold-shimmer opacity-30"></div>
+<div class="relative z-10 flex flex-col items-end">
+<span class="text-on-surface-variant font-label-md text-[10px] uppercase tracking-[0.2em] mb-1">Total Points</span>
+<div class="flex items-baseline gap-2">
+<span class="text-[40px] font-display-lg text-tertiary leading-none" id="score-counter">1,245</span>
+<span class="hidden animate-score text-primary font-bold text-lg" id="points-added">+8</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Result Comparison Hero -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-gutter mb-stack-lg">
+<!-- Main Result Card -->
+<div class="lg:col-span-8 glass-card rounded-2xl p-stack-md relative overflow-hidden match-glow-gold">
+<!-- Impact Header -->
+<div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-tertiary via-primary to-tertiary"></div>
+<div class="flex flex-col gap-stack-lg">
+<!-- Score Summary Area -->
+<div class="flex flex-col md:flex-row items-center justify-between gap-stack-lg py-6 relative">
+<!-- Home Team -->
+<div class="flex flex-col items-center gap-4 w-full md:w-1/3">
+<div class="relative">
+<div class="absolute -inset-2 bg-primary/20 blur-xl rounded-full"></div>
+<div class="w-28 h-28 rounded-full overflow-hidden border-4 border-surface-bright relative z-10 shadow-2xl">
+<img alt="Argentina" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1llhSJocTMvsbo7cvWPcr_upkZz6Lr4FKsLRzfWW2FuB9EHeQnuV7e0GdgZMQ-Iyj62ojfseK0gpf8IJb-Ul5KzdgoRWRC2jizsljtSSzaHxZsmaD5iM99-BaBU0qiO8ARAgN70zSKoxApm893ZAYYiG_cr-lcJbXSw_Tlu75CRWa8qq94HG6pdFYvoLT1EYwKTzFH2_Q0TAW58uwMxkV1dHFwjuRTSJsON-P42raHbAtxhbI67DYKVwj2dTvt4a7cxtjYXXjl6Q"/>
+</div>
+</div>
+<h3 class="font-headline-md text-headline-md text-center text-on-surface">Argentina</h3>
+</div>
+<!-- Scores & Labels -->
+<div class="flex flex-col items-center gap-2 z-10">
+<div class="text-on-surface-variant font-label-md text-label-md uppercase tracking-[0.25em] mb-4 opacity-70">Official Result</div>
+<div class="flex items-center gap-stack-md">
+<span class="text-[80px] font-display-lg leading-none text-white drop-shadow-lg">2</span>
+<span class="text-on-surface-variant font-display-lg text-headline-md opacity-30">—</span>
+<span class="text-[80px] font-display-lg leading-none text-white drop-shadow-lg">1</span>
+</div>
+<span class="mt-4 px-6 py-2 bg-surface-variant/80 backdrop-blur text-on-surface-variant rounded-full font-label-md text-label-md uppercase tracking-widest border border-white/5">Full Time</span>
+</div>
+<!-- Away Team -->
+<div class="flex flex-col items-center gap-4 w-full md:w-1/3">
+<div class="relative">
+<div class="absolute -inset-2 bg-primary/20 blur-xl rounded-full"></div>
+<div class="w-28 h-28 rounded-full overflow-hidden border-4 border-surface-bright relative z-10 shadow-2xl">
+<img alt="France" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYuXBW3a5db99iPlzhe2eHCYF1sW4xM_HwVTJI6A8HCDT1nPy0BNguqgP1k_GxysPVafY_D1Ih17bkT6Murj3rTqa4RbrvCCkxZ06lFUTjLSyfR5sLvXFsss8q5E4AWWl3_JLGOC6kRyrYbT2ErWQ4CUNTYNGjQrtFXAI-4d4E-W17aq3ifiy_A_FAjHCZyv3AspTlFd7dKqY7OsFJnsMCgE65R7-p--sNQ5LT9jJFoofL43jJysuzesPpFHAn1_TDhD6R7yMVUeY"/>
+</div>
+</div>
+<h3 class="font-headline-md text-headline-md text-center text-on-surface">France</h3>
+</div>
+</div>
+<!-- High-Impact Summary Comparison -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-stack-md pt-stack-md border-t border-white/10">
+<div class="group relative overflow-hidden p-6 rounded-2xl bg-tertiary/10 border border-tertiary/20 flex flex-col gap-3">
+<div class="absolute top-0 right-0 p-3 opacity-10">
+<span class="material-symbols-outlined text-[64px]" data-icon="workspace_premium">workspace_premium</span>
+</div>
+<span class="text-tertiary font-label-md text-label-md uppercase tracking-[0.1em]">Your Prediction</span>
+<div class="flex items-center justify-between">
+<div class="flex flex-col">
+<span class="text-[44px] font-display-lg text-white leading-none">2 - 1</span>
+<span class="text-tertiary font-bold text-label-md mt-1">EXACT MATCH</span>
+</div>
+<div class="p-3 bg-tertiary text-on-tertiary rounded-xl shadow-lg shadow-tertiary/20">
+<span class="material-symbols-outlined" data-icon="star">star</span>
+</div>
+</div>
+</div>
+<div class="p-6 rounded-2xl bg-surface/40 border border-white/5 flex flex-col gap-3">
+<span class="text-on-surface-variant font-label-md text-label-md uppercase tracking-[0.1em]">Community Stats</span>
+<div class="flex items-center justify-between">
+<div class="flex flex-col">
+<span class="text-[44px] font-display-lg text-on-surface/80 leading-none">1 - 0</span>
+<span class="text-on-surface-variant text-label-md mt-1">Average Prediction</span>
+</div>
+<div class="text-right flex flex-col items-end">
+<span class="text-headline-md font-headline-md text-primary">18%</span>
+<span class="text-on-surface-variant text-[10px] uppercase">Got Exact Score</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Scoring Breakdown -->
+<div class="lg:col-span-4 flex flex-col">
+<div class="glass-card rounded-2xl p-stack-md flex flex-col h-full border-t-4 border-tertiary">
+<h4 class="font-headline-md text-headline-md mb-stack-md flex items-center justify-between">
+<span class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary" data-icon="military_tech">military_tech</span>
+                        Scoring
+                    </span>
+<span class="text-label-md font-label-md text-on-surface-variant px-2 py-1 bg-surface-container-highest rounded">Breakdown</span>
+</h4>
+<div class="space-y-4 flex-1">
+<!-- MVP Scoring: Outcome Winner -->
+<div class="p-4 rounded-xl bg-surface-bright/30 border border-white/5 group hover:bg-surface-bright/50 transition-all cursor-default">
+<div class="flex items-center justify-between mb-1">
+<span class="text-on-surface-variant font-medium group-hover:text-on-surface transition-colors">Outcome Winner</span>
+<span class="font-display-lg text-headline-md text-primary">+3</span>
+</div>
+<div class="w-full bg-surface-container-low h-1 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-full"></div>
+</div>
+<p class="text-[10px] text-on-surface-variant mt-2">Points for picking the correct match winner or draw.</p>
+</div>
+<!-- MVP Scoring: Exact Score Bonus -->
+<div class="p-4 rounded-xl bg-tertiary/5 border border-tertiary/20 group hover:bg-tertiary/10 transition-all cursor-default">
+<div class="flex items-center justify-between mb-1">
+<span class="text-tertiary font-bold">Exact Score Bonus</span>
+<span class="font-display-lg text-headline-md text-tertiary">+5</span>
+</div>
+<div class="w-full bg-surface-container-low h-1 rounded-full overflow-hidden">
+<div class="bg-tertiary h-full w-full"></div>
+</div>
+<p class="text-[10px] text-tertiary/70 mt-2">Additional points for guessing the exact final scoreline.</p>
+</div>
+<div class="mt-8 pt-6 border-t border-white/10">
+<div class="flex items-center justify-between p-4 bg-surface-container-highest rounded-2xl relative overflow-hidden">
+<div class="absolute inset-0 gold-shimmer opacity-20"></div>
+<span class="font-bold text-on-surface text-lg relative z-10">Match Total</span>
+<div class="flex items-center gap-2 relative z-10">
+<span class="text-[48px] font-display-lg text-tertiary drop-shadow-lg">+8</span>
+<span class="text-tertiary font-label-md text-label-md uppercase tracking-tighter">pts</span>
+</div>
+</div>
+</div>
+</div>
+<button class="w-full mt-6 py-4 bg-tertiary text-on-tertiary font-bold rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 shadow-xl shadow-tertiary/10">
+                    Share Achievements
+                    <span class="material-symbols-outlined text-[20px]" data-icon="ios_share">ios_share</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Recent Performance Grid -->
+<section class="mt-12">
+<div class="flex items-center justify-between mb-stack-md">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="history">history</span>
+<h2 class="font-headline-md text-headline-md">Recent Performance</h2>
+</div>
+<a class="flex items-center gap-2 text-primary font-label-md text-label-md hover:text-tertiary transition-colors group" href="#">
+                Full History 
+                <span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Exact Match Card -->
+<div class="glass-card rounded-2xl p-5 border border-tertiary/30 relative overflow-hidden group hover:match-glow-gold transition-all duration-500">
+<div class="absolute top-0 right-0 w-24 h-24 bg-tertiary/5 blur-3xl -mr-12 -mt-12"></div>
+<div class="flex justify-between items-center mb-6">
+<span class="text-on-surface-variant font-label-md text-[10px] uppercase tracking-widest bg-surface-container-high px-2 py-1 rounded">Grp D • 25 JUN</span>
+<span class="px-3 py-1 bg-tertiary text-on-tertiary rounded-full font-label-md text-[10px] font-bold shadow-lg shadow-tertiary/10 uppercase tracking-tighter flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px] fill-1" data-icon="stars">stars</span>
+                        Perfect
+                    </span>
+</div>
+<div class="flex flex-col gap-4 mb-6">
+<div class="flex justify-between items-center">
+<span class="font-semibold text-on-surface">Spain</span>
+<div class="flex items-center gap-3 bg-surface/50 px-4 py-2 rounded-xl border border-white/5">
+<span class="text-2xl font-display-lg">1</span>
+<span class="text-on-surface-variant opacity-30">—</span>
+<span class="text-2xl font-display-lg">1</span>
+</div>
+<span class="font-semibold text-on-surface">Japan</span>
+</div>
+</div>
+<div class="flex items-center justify-between bg-tertiary/10 border border-tertiary/20 p-3 rounded-xl">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase text-tertiary font-bold tracking-widest">Your Prediction</span>
+<span class="text-lg font-display-lg text-white">1 - 1</span>
+</div>
+<div class="text-right">
+<span class="block text-2xl font-display-lg text-tertiary">+8</span>
+</div>
+</div>
+</div>
+<!-- Partial Match Card -->
+<div class="glass-card rounded-2xl p-5 border border-white/5 relative overflow-hidden group hover:bg-surface-bright/40 transition-all duration-300">
+<div class="flex justify-between items-center mb-6">
+<span class="text-on-surface-variant font-label-md text-[10px] uppercase tracking-widest bg-surface-container-high px-2 py-1 rounded">Grp C • 24 JUN</span>
+<span class="px-3 py-1 bg-primary/20 text-primary border border-primary/30 rounded-full font-label-md text-[10px] uppercase tracking-tighter">Winner OK</span>
+</div>
+<div class="flex flex-col gap-4 mb-6">
+<div class="flex justify-between items-center">
+<span class="font-semibold text-on-surface">Brazil</span>
+<div class="flex items-center gap-3 bg-surface/50 px-4 py-2 rounded-xl border border-white/5">
+<span class="text-2xl font-display-lg">3</span>
+<span class="text-on-surface-variant opacity-30">—</span>
+<span class="text-2xl font-display-lg">0</span>
+</div>
+<span class="font-semibold text-on-surface">Ghana</span>
+</div>
+</div>
+<div class="flex items-center justify-between bg-primary/5 border border-primary/10 p-3 rounded-xl">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase text-primary font-bold tracking-widest">Your Prediction</span>
+<span class="text-lg font-display-lg text-on-surface">2 - 0</span>
+</div>
+<div class="text-right">
+<span class="block text-2xl font-display-lg text-primary">+3</span>
+</div>
+</div>
+</div>
+<!-- Missed Card -->
+<div class="glass-card rounded-2xl p-5 border border-white/5 relative overflow-hidden group opacity-80 hover:opacity-100 transition-all duration-300">
+<div class="flex justify-between items-center mb-6">
+<span class="text-on-surface-variant font-label-md text-[10px] uppercase tracking-widest bg-surface-container-high px-2 py-1 rounded">Grp A • 25 JUN</span>
+<span class="px-3 py-1 bg-error/10 text-error border border-error/20 rounded-full font-label-md text-[10px] uppercase tracking-tighter">Missed</span>
+</div>
+<div class="flex flex-col gap-4 mb-6">
+<div class="flex justify-between items-center">
+<span class="font-semibold text-on-surface">USA</span>
+<div class="flex items-center gap-3 bg-surface/50 px-4 py-2 rounded-xl border border-white/5">
+<span class="text-2xl font-display-lg">0</span>
+<span class="text-on-surface-variant opacity-30">—</span>
+<span class="text-2xl font-display-lg">2</span>
+</div>
+<span class="font-semibold text-on-surface">England</span>
+</div>
+</div>
+<div class="flex items-center justify-between bg-error/5 border border-error/10 p-3 rounded-xl">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase text-error font-bold tracking-widest">Your Prediction</span>
+<span class="text-lg font-display-lg text-on-surface">1 - 0</span>
+</div>
+<div class="text-right">
+<span class="block text-2xl font-display-lg text-on-surface-variant">+0</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-12 px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-base bg-surface-container-lowest border-t border-white/5 mt-auto">
+<div class="flex flex-col items-center md:items-start gap-2">
+<span class="font-display-lg text-headline-md font-bold text-primary">ElijoCreer</span>
+<p class="text-on-surface-variant font-body-md text-body-md text-center md:text-left">© 2026 ElijoCreer - World Cup 2026 Prediction Experience</p>
+</div>
+<div class="flex gap-stack-md flex-wrap justify-center">
+<a class="text-on-surface-variant hover:text-tertiary transition-colors font-label-md text-label-md" href="#">Terms of Service</a>
+<a class="text-on-surface-variant hover:text-tertiary transition-colors font-label-md text-label-md" href="#">Privacy Policy</a>
+<a class="text-on-surface-variant hover:text-tertiary transition-colors font-label-md text-label-md" href="#">Tournament Rules</a>
+<a class="text-on-surface-variant hover:text-tertiary transition-colors font-label-md text-label-md" href="#">Contact Support</a>
+</div>
+</footer>
+<script>
+    // Micro-interaction: Count up animation for points
+    document.addEventListener('DOMContentLoaded', () => {
+        const counterElement = document.getElementById('score-counter');
+        const pointsLabel = document.getElementById('points-added');
+        
+        setTimeout(() => {
+            pointsLabel.classList.remove('hidden');
+            
+            let startValue = 1237;
+            let endValue = 1245;
+            let duration = 1200;
+            let startTime = null;
+
+            function animateCount(timestamp) {
+                if (!startTime) startTime = timestamp;
+                let progress = Math.min((timestamp - startTime) / duration, 1);
+                // Ease out cubic
+                let easedProgress = 1 - Math.pow(1 - progress, 3);
+                let currentValue = Math.floor(easedProgress * (endValue - startValue) + startValue);
+                counterElement.textContent = currentValue.toLocaleString();
+                
+                if (progress < 1) {
+                    window.requestAnimationFrame(animateCount);
+                } else {
+                    counterElement.classList.add('scale-110', 'text-white');
+                    setTimeout(() => {
+                        counterElement.classList.remove('scale-110');
+                        counterElement.classList.add('transition-all', 'duration-500');
+                    }, 200);
+                }
+            }
+            
+            window.requestAnimationFrame(animateCount);
+        }, 1000);
+    });
+
+    // Add active states to navigation
+    const navLinks = document.querySelectorAll('aside nav a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            navLinks.forEach(l => {
+                l.classList.remove('text-primary', 'font-bold', 'border-l-4', 'border-primary', 'bg-primary/10');
+                l.classList.add('text-on-surface-variant', 'hover:text-on-surface');
+            });
+            link.classList.remove('text-on-surface-variant', 'hover:text-on-surface');
+            link.classList.add('text-primary', 'font-bold', 'border-l-4', 'border-primary', 'bg-primary/10');
+        });
+    });
+</script>
+</body></html>

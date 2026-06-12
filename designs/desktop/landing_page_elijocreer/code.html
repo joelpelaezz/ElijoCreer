@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ElijoCreer - El Prode de los Campeones</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&amp;family=Hanken+Grotesk:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-fixed-variant": "#454747",
+                    "primary-fixed": "#c4e7ff",
+                    "primary-fixed-dim": "#86cffa",
+                    "primary-container": "#7bc4ee",
+                    "on-secondary-fixed": "#1a1c1c",
+                    "tertiary-container": "#deb83f",
+                    "inverse-on-surface": "#233148",
+                    "on-tertiary-container": "#5d4900",
+                    "inverse-surface": "#d6e3ff",
+                    "surface-tint": "#86cffa",
+                    "on-surface": "#d6e3ff",
+                    "tertiary-fixed": "#ffe088",
+                    "on-primary-fixed": "#001e2c",
+                    "surface-bright": "#2c3951",
+                    "surface": "#041329",
+                    "on-secondary-container": "#b4b5b5",
+                    "on-error": "#690005",
+                    "outline": "#899298",
+                    "surface-container-highest": "#27354c",
+                    "on-tertiary-fixed": "#241a00",
+                    "on-primary": "#00344a",
+                    "tertiary-fixed-dim": "#e9c349",
+                    "primary": "#aadeff",
+                    "on-primary-container": "#00516f",
+                    "error-container": "#93000a",
+                    "surface-container-low": "#0d1c32",
+                    "on-tertiary-fixed-variant": "#574500",
+                    "surface-container-lowest": "#010e24",
+                    "on-surface-variant": "#bfc8cf",
+                    "surface-container-high": "#1c2a41",
+                    "on-error-container": "#ffdad6",
+                    "on-primary-fixed-variant": "#004c69",
+                    "surface-variant": "#27354c",
+                    "secondary-container": "#454747",
+                    "surface-container": "#112036",
+                    "secondary-fixed-dim": "#c6c6c7",
+                    "background": "#041329",
+                    "secondary-fixed": "#e2e2e2",
+                    "outline-variant": "#40484e",
+                    "on-background": "#d6e3ff",
+                    "secondary": "#c6c6c7",
+                    "surface-dim": "#041329",
+                    "error": "#ffb4ab",
+                    "tertiary": "#fbd358",
+                    "on-secondary": "#2f3131",
+                    "inverse-primary": "#00658b",
+                    "on-tertiary": "#3c2f00"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-lg": "48px",
+                    "margin-mobile": "16px",
+                    "container-max": "1280px",
+                    "stack-md": "24px",
+                    "margin-desktop": "40px",
+                    "gutter": "24px",
+                    "base": "8px",
+                    "stack-sm": "12px"
+            },
+            "fontFamily": {
+                    "display-lg": ["Sora"],
+                    "label-md": ["JetBrains Mono"],
+                    "body-md": ["Hanken Grotesk"],
+                    "headline-md": ["Sora"],
+                    "body-lg": ["Hanken Grotesk"],
+                    "headline-lg": ["Sora"],
+                    "headline-lg-mobile": ["Sora"]
+            },
+            "fontSize": {
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "label-md": ["14px", {"lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "1.2", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #041329;
+            color: #d6e3ff;
+            font-family: 'Hanken Grotesk', sans-serif;
+            overflow-x: hidden;
+        }
+        .glass-card {
+            background: rgba(17, 34, 64, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .prediction-input-well {
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+            background: rgba(4, 19, 41, 0.8);
+        }
+        .hero-gradient {
+            background: radial-gradient(circle at top right, rgba(123, 196, 238, 0.15), transparent 50%),
+                        radial-gradient(circle at bottom left, rgba(212, 175, 55, 0.05), transparent 50%);
+        }
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+    </style>
+</head>
+<body class="antialiased">
+<!-- TopNavBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-desktop h-20 bg-surface/80 backdrop-blur-xl dark:bg-surface/80 border-b border-white/5 shadow-sm">
+<div class="flex items-center gap-stack-lg">
+<a class="font-display-lg text-headline-md italic font-black text-primary dark:text-primary tracking-tighter" href="#">ElijoCreer</a>
+<nav class="hidden md:flex gap-stack-md">
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md text-label-md" href="#">Matches</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md text-label-md" href="#">Leagues</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md text-label-md" href="#">Rankings</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md text-label-md" href="#">Rules</a>
+</nav>
+</div>
+<div class="flex items-center gap-stack-md">
+<button class="hidden lg:flex items-center gap-2 px-6 py-2 bg-tertiary text-on-tertiary rounded-full font-label-md text-label-md font-bold hover:scale-95 transition-transform">
+                Predict Now
+            </button>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-all" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-all" data-icon="account_circle">account_circle</span>
+</div>
+</div>
+</header>
+<main class="pt-20">
+<!-- Hero Section -->
+<section class="relative min-h-[921px] flex items-center overflow-hidden hero-gradient px-margin-desktop">
+<div class="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-stack-lg items-center z-10">
+<div class="max-w-2xl">
+<span class="inline-block bg-primary/10 text-primary px-4 py-1 rounded-full font-label-md text-label-md mb-6 border border-primary/20">EDICIÓN COPA DEL MUNDO 2026</span>
+<h1 class="font-display-lg text-display-lg mb-6 leading-tight">
+                        El Prode de los <span class="text-tertiary italic">Campeones</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-stack-lg max-w-lg">
+                        Sentí la pasión del fútbol en cada predicción. Creá tu liga privada, competí con amigos y demostrá quién sabe más del deporte rey en una experiencia premium diseñada para fanáticos.
+                    </p>
+<div class="flex flex-wrap gap-4">
+<button class="px-8 py-4 bg-tertiary text-on-tertiary rounded-lg font-headline-md text-headline-md font-bold hover:bg-tertiary-container transition-all active:scale-95 shadow-lg shadow-tertiary/20">
+                            Crear Cuenta
+                        </button>
+<button class="px-8 py-4 border border-outline-variant text-on-surface rounded-lg font-headline-md text-headline-md font-medium hover:bg-white/5 transition-all">
+                            Unirse a un Grupo
+                        </button>
+</div>
+</div>
+<div class="relative hidden lg:block animate-float">
+<div class="glass-card rounded-xl p-8 transform rotate-3 scale-110 relative z-20 overflow-hidden">
+<div class="absolute inset-0 opacity-10 pointer-events-none">
+<img alt="Stadium textures" class="w-full h-full object-cover" data-alt="A cinematic, high-contrast close-up of a soccer stadium's grass texture at night under bright stadium lights. The aesthetic is deep navy and celeste with subtle golden particles floating in the air. The lighting is dramatic, highlighting the blades of grass and a sense of immense scale." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDy9fwSQGzkYchxTZv0wqxiKDDKhfVJFgBBqRC5EpIJXBJVKLV11AuZVnQEC3I4TYFvIgGVJe7ZAUecLllyM41IS1-1yruHPCVHLVElP6Qen4dbjUIbAbpyFmud8ABTp0ew2zGLW4LevkzTvi3Z3zPK3f6ivjCy5lGzsFHlTUaPZEkzMOc_XXP6sWs-CpfYtMrnJJZRwOmwcJgfPbYaGYSks2vIWAsR_pHi0-O7-0sE-CEJtUAzmgj7j2e3UiMs7vzDIYGoBdUD988"/>
+</div>
+<div class="relative z-10">
+<div class="flex justify-between items-center mb-8">
+<span class="font-label-md text-label-md text-primary bg-primary/10 px-3 py-1 rounded">GRUPO C • VIVO</span>
+<span class="material-symbols-outlined text-tertiary" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<div class="flex justify-around items-center gap-8 mb-10">
+<div class="text-center">
+<div class="w-20 h-20 rounded-full border-4 border-white/10 p-1 mb-3">
+<div class="w-full h-full rounded-full bg-gradient-to-br from-blue-400 to-white"></div>
+</div>
+<p class="font-headline-md text-headline-md uppercase">ARG</p>
+</div>
+<div class="flex flex-col items-center">
+<div class="flex gap-4 mb-2">
+<div class="prediction-input-well w-14 h-16 rounded flex items-center justify-center font-display-lg text-display-lg text-primary">2</div>
+<div class="prediction-input-well w-14 h-16 rounded flex items-center justify-center font-display-lg text-display-lg text-on-surface-variant">1</div>
+</div>
+<p class="text-label-md text-outline">Tu Predicción</p>
+</div>
+<div class="text-center">
+<div class="w-20 h-20 rounded-full border-4 border-white/10 p-1 mb-3">
+<div class="w-full h-full rounded-full bg-gradient-to-br from-red-600 to-yellow-400"></div>
+</div>
+<p class="font-headline-md text-headline-md uppercase">ESP</p>
+</div>
+</div>
+<div class="w-full bg-surface-container-highest h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[70%]"></div>
+</div>
+<p class="text-center mt-3 text-label-md text-on-surface-variant">70% de los usuarios predijeron Local</p>
+</div>
+</div>
+<!-- Decorative element behind card -->
+<div class="absolute -top-10 -right-10 w-64 h-64 bg-primary/20 blur-[100px] -z-10 rounded-full"></div>
+</div>
+</div>
+<!-- Background Image -->
+<div class="absolute inset-0 w-full h-full opacity-20 pointer-events-none">
+<img alt="Fans atmosphere" class="w-full h-full object-cover grayscale" data-alt="A wide-angle, cinematic view of a packed football stadium filled with thousands of passionate fans wearing blue and white scarves. The atmosphere is electric, with smoke machines creating a mystical haze under powerful, cool-toned floodlights. The lighting is dramatic and editorial, capturing a moment of collective anticipation before a major tournament match." src="https://lh3.googleusercontent.com/aida-public/AB6AXuChgPbzJgOQnwxQ2VfzZB9Loamwftz52u4WhcoZXLqIKIMBYJBO4HjHQdmNPbWu6d3VPTmuhMT2boIvy9Z7Kcnzw8YTd7XDjiIDpTQrJqi_tOxWfdaON4wmJZJeuRW9fogzHDAvg9yO2Go7MP3VLbNrhweUWfBXwGHQ0V-P7U20pvtiZ90On00O5QEXfxDntq6Tuf7v9PplXqce8Awwnw7RM2a14snBvxuiQ9Wo32J-Ikgor6X1t99HWrXAZc7Bb-ph2TUKPfLlFoE"/>
+</div>
+</section>
+<!-- Features: Cómo Funciona -->
+<section class="py-stack-lg px-margin-desktop bg-surface-container-lowest">
+<div class="container mx-auto">
+<div class="text-center mb-20">
+<h2 class="font-display-lg text-headline-lg mb-4">Cómo funciona ElijoCreer</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">
+                        Dominá el torneo en tres simples pasos. Nuestra plataforma está optimizada para que solo te preocupes por el resultado.
+                    </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-stack-md">
+<div class="glass-card p-10 rounded-xl hover:translate-y-[-8px] transition-all duration-300">
+<div class="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center mb-8">
+<span class="material-symbols-outlined text-primary text-4xl" data-icon="sports_soccer">sports_soccer</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-4 text-primary">Predice Resultados</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                            Carga tus scores antes de cada partido. Podes usar el "Joker" para duplicar puntos en el partido que más confianza tengas.
+                        </p>
+</div>
+<div class="glass-card p-10 rounded-xl hover:translate-y-[-8px] transition-all duration-300">
+<div class="w-16 h-16 bg-tertiary/10 rounded-lg flex items-center justify-center mb-8">
+<span class="material-symbols-outlined text-tertiary text-4xl" data-icon="groups">groups</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-4 text-tertiary">Crea Grupos</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                            Armá ligas privadas con tus amigos, familia o compañeros de oficina. Definí tus propias reglas y premios personalizados.
+                        </p>
+</div>
+<div class="glass-card p-10 rounded-xl hover:translate-y-[-8px] transition-all duration-300">
+<div class="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center mb-8">
+<span class="material-symbols-outlined text-primary text-4xl" data-icon="leaderboard">leaderboard</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-4 text-primary">Escala el Ranking</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                            Sumá puntos por acierto exacto o tendencia. Compará tu performance en tiempo real con el ranking global.
+                        </p>
+</div>
+</div>
+</div>
+</section>
+<!-- Social Proof & Visual Preview -->
+<section class="py-32 px-margin-desktop overflow-hidden">
+<div class="container mx-auto">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+<div class="order-2 lg:order-1">
+<div class="space-y-4">
+<div class="glass-card p-6 rounded-xl border-l-4 border-primary">
+<div class="flex items-center gap-4 mb-2">
+<span class="material-symbols-outlined text-primary" data-icon="verified_user">verified_user</span>
+<h4 class="font-headline-md text-headline-md">Reglas Customizables</h4>
+</div>
+<p class="text-on-surface-variant">Elegí cuántos puntos vale el score exacto, la diferencia de gol o simplemente el ganador.</p>
+</div>
+<div class="glass-card p-6 rounded-xl border-l-4 border-tertiary">
+<div class="flex items-center gap-4 mb-2">
+<span class="material-symbols-outlined text-tertiary" data-icon="bolt">bolt</span>
+<h4 class="font-headline-md text-headline-md">Resultados en Vivo</h4>
+</div>
+<p class="text-on-surface-variant">Actualizaciones instantáneas. El ranking cambia al ritmo de los goles en la cancha.</p>
+</div>
+<div class="glass-card p-6 rounded-xl border-l-4 border-primary">
+<div class="flex items-center gap-4 mb-2">
+<span class="material-symbols-outlined text-primary" data-icon="devices">devices</span>
+<h4 class="font-headline-md text-headline-md">Multiplataforma</h4>
+</div>
+<p class="text-on-surface-variant">Viví la emoción desde tu PC, Tablet o Smartphone sin perderte ninguna jugada.</p>
+</div>
+</div>
+</div>
+<div class="order-1 lg:order-2">
+<div class="relative">
+<!-- Leaderboard Table Mockup -->
+<div class="glass-card rounded-xl overflow-hidden shadow-2xl relative z-10">
+<div class="bg-primary/10 p-6 border-b border-white/5">
+<h3 class="font-headline-md text-headline-md">Global Rankings</h3>
+</div>
+<table class="w-full text-left">
+<thead>
+<tr class="text-label-md text-outline uppercase border-b border-white/5">
+<th class="p-6">Pos</th>
+<th class="p-6">Usuario</th>
+<th class="p-6">Pts</th>
+<th class="p-6">Hits</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-body-md">
+<tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
+<td class="p-6 font-bold text-tertiary">#1</td>
+<td class="p-6 flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-bright border border-primary/20"></div>
+                                                Leo_10
+                                            </td>
+<td class="p-6">245</td>
+<td class="p-6 text-primary">12</td>
+</tr>
+<tr class="border-b border-white/5 bg-primary/5 border-l-4 border-primary">
+<td class="p-6 font-bold text-on-surface">#2</td>
+<td class="p-6 flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary/40 border border-primary/20"></div>
+                                                Tu Usuario
+                                            </td>
+<td class="p-6">210</td>
+<td class="p-6 text-primary">9</td>
+</tr>
+<tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
+<td class="p-6 font-bold text-on-surface-variant">#3</td>
+<td class="p-6 flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-bright border border-primary/20"></div>
+                                                Fideo_11
+                                            </td>
+<td class="p-6">205</td>
+<td class="p-6 text-primary">8</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Floating decorative badge -->
+<div class="absolute -bottom-8 -left-8 glass-card p-6 rounded-xl border border-tertiary/30 z-20 animate-float shadow-xl">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-tertiary/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary" data-icon="emoji_events">emoji_events</span>
+</div>
+<div>
+<p class="text-label-md text-tertiary">RECIÉN OBTENIDO</p>
+<p class="font-headline-md text-headline-md">Master Predictor</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="py-24 px-margin-desktop">
+<div class="container mx-auto">
+<div class="relative glass-card rounded-3xl p-12 lg:p-20 text-center overflow-hidden">
+<!-- Background texture for CTA -->
+<div class="absolute inset-0 opacity-10 grayscale pointer-events-none">
+<img alt="Stadium wide" class="w-full h-full object-cover" data-alt="A mesmerizing architectural photograph of a futuristic soccer stadium under a deep midnight blue sky. The stadium is illuminated with gold and celeste lights that reflect off its sleek, modern metallic surfaces. The atmosphere is quiet but full of potential, conveying a high-end, premium sports environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCajhzny3Lkjhx2nLuI4M3zTJ3Xkjg99q4Temm_5hLEpsr5PUssUNA5Kzia5Qx8g7YE6M0oRfGqIcUd9kXA99b6ncDogUNAJpW0nJKwf1CfGW14_wl2HMvT838d29WmQzofr2vCtFkUQ6jf2O3daFbHSXZJh3rbOt2zNlH37BMv4gkxxxt1pAa9cuu9leDgCecWZ1UDGDN_-hby7kvFBia5d_FYxdXKVu9fYnNVlR2kv4WDlzv021Ynw7RGh3M8xkq5Q6pGv1R5EzU"/>
+</div>
+<div class="relative z-10">
+<h2 class="font-display-lg text-display-lg mb-8">¿Estás listo para el desafío?</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto mb-12">
+                            Unite a la comunidad de fútbol más grande. Es gratis, es simple y es la mejor forma de vivir el torneo.
+                        </p>
+<div class="flex flex-col sm:flex-row justify-center gap-6">
+<button class="px-12 py-5 bg-tertiary text-on-tertiary rounded-xl font-headline-md text-headline-md font-extrabold hover:scale-105 transition-transform shadow-2xl shadow-tertiary/30">
+                                EMPEZAR AHORA
+                            </button>
+<button class="px-12 py-5 border-2 border-white/20 text-on-surface rounded-xl font-headline-md text-headline-md font-bold hover:bg-white/5 transition-all">
+                                VER REGLAMENTO
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-12 px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-base bg-surface-container-lowest dark:bg-surface-container-lowest border-t border-white/5">
+<div class="flex flex-col gap-4 items-center md:items-start">
+<span class="font-display-lg text-headline-md font-bold text-primary">ElijoCreer</span>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xs text-center md:text-left">
+                © 2026 ElijoCreer - The Ultimate Prode Experience
+            </p>
+</div>
+<div class="flex flex-wrap justify-center gap-x-12 gap-y-4">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-tertiary transition-colors" href="#">Terms of Service</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-tertiary transition-colors" href="#">Privacy Policy</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-tertiary transition-colors" href="#">Tournament Rules</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-tertiary transition-colors" href="#">Contact Support</a>
+</div>
+<div class="flex gap-6 mt-8 md:mt-0">
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-all cursor-pointer" data-icon="share">share</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-all cursor-pointer" data-icon="language">language</span>
+</div>
+</footer>
+<script>
+        // Micro-interactions and effects
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+    </script>
+</body></html>

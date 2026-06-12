@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ElijoCreer - La Scaloneta</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&amp;family=Hanken+Grotesk:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-surface": "#191c1e",
+                    "on-secondary": "#ffffff",
+                    "background": "#f7f9fb",
+                    "on-error-container": "#93000a",
+                    "primary-container": "#74acdf",
+                    "tertiary": "#735c00",
+                    "on-primary-fixed-variant": "#004a75",
+                    "surface-dim": "#d8dadc",
+                    "surface": "#f7f9fb",
+                    "secondary-fixed": "#d2e4ff",
+                    "primary-fixed-dim": "#96ccff",
+                    "on-secondary-container": "#2e5681",
+                    "on-background": "#191c1e",
+                    "on-primary": "#ffffff",
+                    "tertiary-fixed": "#ffe088",
+                    "on-error": "#ffffff",
+                    "tertiary-container": "#c7a32b",
+                    "on-tertiary-fixed": "#241a00",
+                    "tertiary-fixed-dim": "#e9c349",
+                    "inverse-surface": "#2d3133",
+                    "outline": "#717880",
+                    "on-primary-fixed": "#001d32",
+                    "surface-container": "#eceef0",
+                    "inverse-on-surface": "#eff1f3",
+                    "on-tertiary-container": "#4b3a00",
+                    "primary": "#236391",
+                    "on-secondary-fixed": "#001d36",
+                    "on-primary-container": "#003f65",
+                    "on-surface-variant": "#41474f",
+                    "secondary-container": "#a6ccfe",
+                    "on-secondary-fixed-variant": "#1e4973",
+                    "surface-variant": "#e0e3e5",
+                    "secondary": "#39618c",
+                    "surface-bright": "#f7f9fb",
+                    "surface-container-high": "#e6e8ea",
+                    "inverse-primary": "#96ccff",
+                    "surface-container-low": "#f2f4f6",
+                    "surface-container-highest": "#e0e3e5",
+                    "error-container": "#ffdad6",
+                    "secondary-fixed-dim": "#a3c9fb",
+                    "on-tertiary": "#ffffff",
+                    "primary-fixed": "#cee5ff",
+                    "outline-variant": "#c1c7d0",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary-fixed-variant": "#574500",
+                    "error": "#ba1a1a",
+                    "surface-tint": "#236391"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "section-margin": "32px",
+                    "gutter": "16px",
+                    "container-padding": "20px",
+                    "base": "4px",
+                    "card-gap": "12px"
+            },
+            "fontFamily": {
+                    "headline-lg-mobile": ["Montserrat"],
+                    "display-lg": ["Montserrat"],
+                    "label-md": ["Hanken Grotesk"],
+                    "headline-lg": ["Montserrat"],
+                    "headline-md": ["Montserrat"],
+                    "label-sm": ["Hanken Grotesk"],
+                    "body-md": ["Hanken Grotesk"],
+                    "body-lg": ["Hanken Grotesk"]
+            },
+            "fontSize": {
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "700"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-pill {
+            box-shadow: inset 0 0 0 1px rgba(116, 172, 223, 0.4);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+        }
+        .podium-1 { order: 2; height: 110px; }
+        .podium-2 { order: 1; height: 90px; }
+        .podium-3 { order: 3; height: 75px; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-md min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-40 bg-surface shadow-sm flex justify-between items-center px-container-padding h-16 max-w-[480px] mx-auto">
+<button class="text-primary hover:bg-surface-container-low transition-colors p-2 rounded-full active:scale-95 duration-200">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="font-headline-md text-headline-md text-primary font-bold">ElijoCreer</h1>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-container">
+<img alt="User" class="w-full h-full object-cover" data-alt="A professional studio portrait of a young adult sports enthusiast with a friendly smile, wearing a modern athletic jersey. The lighting is bright and high-key, with a clean white background that emphasizes a premium and clean social media aesthetic. The image is sharp and high-resolution, following a light-mode color palette of soft whites and deep navies." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2Lab77tPEZtbiKvCk3K4X__kZBf4krBxcrRyhFs7vGZm0cQ18tcruf8XCZXwb81TLHM_0vHkNmhva-kSfO56Ktyi30EmOhmOS6xryADJboLYUXxQnoJ9UhwEjxjENo5Nk8_dWRT7T4tCz8whfGxveDl6CiVEH1_yjB9ybxQCVcpYbwvQE5kDFIpmJ8zCtCtvwtCgupmsuRJ4er3oDP48ICOK9NDq29EuiAXVvLzFWUzCIOcUWOpBxv0dyKK76XBsgGVzmV2WJ5QE"/>
+</div>
+</header>
+<main class="max-w-[480px] mx-auto px-container-padding pt-6 space-y-section-margin">
+<!-- Group Hero Section -->
+<section class="relative rounded-xl overflow-hidden shadow-lg h-48 flex items-end">
+<div class="absolute inset-0 z-0">
+<img alt="Group Banner" class="w-full h-full object-cover" data-alt="A dynamic, wide-angle cinematic shot of a legendary football stadium at golden hour, filled with cheering fans and waving flags. The atmosphere is electric and passionate, with warm sunlight filtering through the stands. The style is professional sports photography with high contrast and vibrant tones of sky blue and white, perfectly capturing the spirit of a top-tier football team fan club." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCucKIDMz11j-ULzgow5F2do7qXG0wAS8M-TJc-shHTLigOFOoSe3_Q6y0mK_OX_7sz8ObkYEEA9RgihwQClExitjO1WfxULFYEugcaUmvWWTPj2B1tYQMEw0vSnfvXOwCF7WpXbEOAnnoZSwOvFjCDzrzLt6glQxH0KbcN_RgmxmIV-g-IxjMYBkJkNCQTWsuCVGxEL3aoInRANproHdd9EG9qSRaGmHlB5oNaQ_KGOJptxkbhqlMpYa4BK5eIy3KP7xi_PPtQ9ZQ"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+</div>
+<div class="relative z-10 p-5 w-full flex justify-between items-end">
+<div>
+<h2 class="text-white font-headline-lg-mobile text-headline-lg-mobile mb-1">La Scaloneta</h2>
+<p class="text-white/80 font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">group</span> 24 Miembros Activos
+                    </p>
+</div>
+<button class="bg-primary text-white p-2 rounded-full shadow-lg active:scale-95 transition-all">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+</section>
+<!-- Top 3 Ranking Podium -->
+<section class="space-y-4">
+<div class="flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md-mobile text-primary">Top 3 Ranking</h3>
+<button class="text-primary font-label-md text-label-md flex items-center gap-1">
+                    Ver todos <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+<div class="flex items-end justify-center gap-4 pt-8">
+<!-- Rank 2 -->
+<div class="podium-2 flex flex-col items-center group">
+<div class="relative mb-2">
+<div class="w-14 h-14 rounded-full border-4 border-surface-dim overflow-hidden bg-white">
+<img alt="Rank 2" class="w-full h-full object-cover" data-alt="A high-quality 3D rendered avatar icon of a competitive sports fan. The character has a determined expression and is wearing a sleek white and blue polo shirt. The lighting is soft and professional, set against a neutral gray background. The aesthetic is modern, clean, and corporate athletic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKHLqVvrrmhjj3JvklGLt3ms83v_olLUi_E7oyMZOpKEiJ7oj5Y3lvu88o5usfom84bDhiJN1BHYX0wlGaJ3_vx4HjXs2IoFM9K-HaDycckafSfRGZKO6fJIIfiWtyMxlmLH1D7oKVLWySIzV-PVNIx10m6Fa18RWzNTgdeHywWTLCgmWdescfiFw8IgUa5NpekpPNeVRDpD6OWfczmGgdxGfcvx4VePdG8ZLL1qHmBPKdJI0_sIxKw-Q4anB15_YuL2GIABI01to"/>
+</div>
+<div class="absolute -bottom-1 -right-1 bg-surface-dim text-on-surface w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold shadow-sm">2</div>
+</div>
+<p class="font-label-sm text-label-sm truncate w-20 text-center">Julian.A</p>
+<div class="bg-surface-variant w-24 h-16 rounded-t-lg mt-2 flex flex-col items-center justify-center">
+<span class="text-primary font-bold text-label-md">1,420</span>
+<span class="text-[10px] uppercase tracking-tighter opacity-70">PTS</span>
+</div>
+</div>
+<!-- Rank 1 -->
+<div class="podium-1 flex flex-col items-center">
+<div class="relative mb-2 -translate-y-4">
+<div class="w-18 h-18 rounded-full border-4 border-tertiary-container overflow-hidden bg-white">
+<img alt="Rank 1" class="w-full h-full object-cover" data-alt="A premium 3D rendered avatar icon of a champion sports enthusiast. The character wears a gold-accented athletic jacket and has a confident, joyful smile. Soft volumetric lighting highlights the features against a subtle light blue backdrop. The style is editorial and high-end fantasy sports dashboard-ready." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLiWJEb6p_pyGDt1cboCXqlQmCF-yvmpImfphcQz2f-Ve952f2mLLcBhabmyOQuh2g5ynKNbIe8IsuwLC1JKt8XMsMRwR0nWWMj9OCbVcPLIMpmJtilu1_YOeS2pYlhUE9x4vY_DRTsPsSqyyPGo2kUdZpk_0dH2122_i5iuNomWZ20ODQ7khpxh528KNCEXKL8qMweC1dtSpLWRQDPQF2MdYrQ6gCWHI-GmEnYV0cRRHWxa3WhTChANVERqJN_3_hJlUZXbxLTwA"/>
+</div>
+<div class="absolute -bottom-1 -right-1 bg-tertiary-container text-on-tertiary-container w-8 h-8 rounded-full flex items-center justify-center text-[12px] font-bold shadow-md border-2 border-white">1</div>
+<span class="material-symbols-outlined absolute -top-8 left-1/2 -translate-x-1/2 text-tertiary-container text-3xl" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+</div>
+<p class="font-label-sm text-label-sm truncate w-20 text-center font-bold">Mateo.G</p>
+<div class="bg-primary-container w-28 h-24 rounded-t-xl mt-2 flex flex-col items-center justify-center shadow-lg">
+<span class="text-on-primary-container font-extrabold text-headline-md">1,580</span>
+<span class="text-[11px] font-bold uppercase tracking-widest text-on-primary-container opacity-80">WINNER</span>
+</div>
+</div>
+<!-- Rank 3 -->
+<div class="podium-3 flex flex-col items-center">
+<div class="relative mb-2">
+<div class="w-12 h-12 rounded-full border-4 border-tertiary-fixed-dim overflow-hidden bg-white">
+<img alt="Rank 3" class="w-full h-full object-cover" data-alt="A clean 3D avatar icon of a dedicated football analyst. The character is wearing a navy blue hoodie and has a focused, calm look. The background is a very light grey, with high-quality global illumination lighting. Modern and minimalistic design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvNuibXSrX0PE_n0MmRRjcp92lr6ARC6o9OcJzTlkyh3rCa_zkB_vMIbiudVw6qunPGAUKZgZtgjDldnR_aXFJ66oX11I1_DZMun-4U28MnFlbIRNGlQao8YJvoz3aglo9cPNzwATcLcNGRPDNmeLFBL_MK-c5ocNSVCMjXytuD0I1yUGgMZ821PWX6KoDZmdDGqe1LrCgxXzcg_QmJFzvmAAmOQT123czgYjls3HJmGuIGU7u6jAtUxA1yUrv1XWtGZZvMCv1zqw"/>
+</div>
+<div class="absolute -bottom-1 -right-1 bg-tertiary-fixed-dim text-on-tertiary-fixed w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-bold shadow-sm">3</div>
+</div>
+<p class="font-label-sm text-label-sm truncate w-16 text-center">Licha.6</p>
+<div class="bg-surface-container-high w-20 h-12 rounded-t-lg mt-2 flex flex-col items-center justify-center">
+<span class="text-primary font-bold text-label-sm">1,290</span>
+<span class="text-[9px] uppercase tracking-tighter opacity-70">PTS</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Quick Actions Grid -->
+<section class="grid grid-cols-2 gap-card-gap">
+<button class="bg-primary text-white p-4 rounded-xl flex flex-col items-center gap-2 shadow-md active:scale-95 transition-all">
+<span class="material-symbols-outlined text-3xl">edit_note</span>
+<span class="font-label-md text-label-md">Cargar Pronósticos</span>
+</button>
+<button class="bg-surface-container-lowest border border-outline-variant p-4 rounded-xl flex flex-col items-center gap-2 shadow-sm active:scale-95 transition-all">
+<span class="material-symbols-outlined text-3xl text-primary">leaderboard</span>
+<span class="font-label-md text-label-md text-on-surface">Ver Ranking</span>
+</button>
+</section>
+<!-- Upcoming Matches -->
+<section class="space-y-4">
+<div class="flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md-mobile text-primary">Próximos Partidos</h3>
+<span class="material-symbols-outlined text-primary cursor-pointer">calendar_month</span>
+</div>
+<div class="space-y-card-gap">
+<!-- Match Card 1 -->
+<div class="bg-white rounded-xl shadow-sm border-l-4 border-primary p-4 flex items-center justify-between">
+<div class="flex flex-col items-center w-16 gap-1">
+<img alt="Argentina" class="w-8 h-6 object-cover rounded-sm" data-alt="The national flag of Argentina waving slightly, rendered in a crisp, high-definition digital style. The sun icon is detailed and centered. The fabric texture is visible and realistic against a soft neutral background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLXyXxRJayO1QORlTMMIR39yXJkHsau5EnYNLsMByGKHzi-y3MhubDgbCWwP0h6JpIpTr-hlzJ0W-dtDcOlLyfLcBaNb_0wtRT2hV2J0uqMhN2hM1hK_Grj8hEqAsyIJvURSl-lzzlkUXuN_xsZgE6YmHa-T6BAIaPXOg-zBAecroUhf6jNZC9lggdQ3edp_QxXNeu4h2iG5sPW0paOxmiuiG82F3BxXrhW-RRJjYkRuC7cMDu-5z4z6LBqTq6eZ-DCfnH0KpmwP4"/>
+<span class="font-label-sm text-[10px] text-center font-bold">ARG</span>
+</div>
+<div class="flex flex-col items-center gap-1">
+<span class="font-label-sm text-label-sm text-outline">Mañana, 20:00</span>
+<div class="flex items-center gap-4">
+<span class="text-headline-md font-bold text-surface-dim">VS</span>
+</div>
+<span class="bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded-full text-[10px] font-bold">ELIMINATORIAS</span>
+</div>
+<div class="flex flex-col items-center w-16 gap-1">
+<img alt="Brazil" class="w-8 h-6 object-cover rounded-sm" data-alt="The national flag of Brazil rendered in high quality with a subtle silk texture. The green field and yellow diamond are vibrant. High-resolution digital art style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIngj9H4PvHP_9DoHpWX890AYT53kxGeByCJuR7hpcQlRCn8cF5_-TLrYkSs5pMlc7j7SYHIWPJhFql7MmpTOZXa5Xp6c6R-TdnwuHm4CQiQTJvcg6X_QCaNUuOR2LajbBHQkuk-bp2E-uHFPjULg_XZsTV1OoAx0a5AeWSXd5uJZJg6VA6h5L8e5blsh3br_EPljyJ-LuewQGurDE9gsJtmL1wuTRQ3fVMq-tk0665g9j_QJ2sZLIKGzRRuftrlb8Xlszio0h5Rc"/>
+<span class="font-label-sm text-[10px] text-center font-bold">BRA</span>
+</div>
+</div>
+<!-- Match Card 2 (Live Pulse) -->
+<div class="bg-white rounded-xl shadow-sm border-l-4 border-tertiary p-4 flex items-center justify-between">
+<div class="flex flex-col items-center w-16 gap-1">
+<img alt="Uruguay" class="w-8 h-6 object-cover rounded-sm" data-alt="The national flag of Uruguay with its iconic sun and blue stripes, rendered in high fidelity. Professional digital flag illustration." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7o8Hyn8GmNQIOvhrtAQBlMjOiDrbgJt8dG7InuK6LMhYoZnPOwW4m0kt0hVTeix1NRcqOvxpTQNxbbLIp5kvjJ24YtJqgWGgQzBvsAAKQZ5c6FvdwgiWl-ZeA2HQ1mzsIlDl4xR2VeibvD6SuLvEdIcVh5DT8zXywEspwFv4abVgaQnYZucv1B4v8by4heGx_3EMfmGrUcbMNgC9IRXtmiqL2i8GmXHbY4iAom_W4SpQ186L7jhW6GGnCH-vgQzqo7Zwqd8ZBAL8"/>
+<span class="font-label-sm text-[10px] text-center font-bold">URU</span>
+</div>
+<div class="flex flex-col items-center gap-1">
+<div class="flex items-center gap-2 mb-1">
+<span class="w-2 h-2 rounded-full bg-error animate-pulse"></span>
+<span class="text-error font-bold text-[10px] uppercase">EN VIVO</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-headline-md font-extrabold">2</span>
+<span class="text-outline">-</span>
+<span class="text-headline-md font-extrabold">1</span>
+</div>
+<span class="text-[10px] text-outline">74' ST</span>
+</div>
+<div class="flex flex-col items-center w-16 gap-1">
+<img alt="Chile" class="w-8 h-6 object-cover rounded-sm" data-alt="The national flag of Chile, crisp and detailed with vibrant red, white, and blue colors. Professional digital flag illustration." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhhJLQei7zg5RSk_sI5v0miYrxT-5FZqMr8ek14CxXbXcYXo4sucjjAONzMDWZrHI9ljZs4jhk67XPYi1dG2x14iL2ykc1Zh0fjXpup8jYjq_SR2x_NOY59_n7iJOlNstYhfpgOFzNEsaG7ScfWqYoLUoC18lglYFHwkKV-8ogP4Y4l54NYNM1P_YmQ_WKAC6U5pB9d6IEI_Wp9Rl1eo2ClllbHgp1oq5a5pui5H6RTci5T4Sc8rMxC3I6zqdcrAwilXetYZnsI2c"/>
+<span class="font-label-sm text-[10px] text-center font-bold">CHI</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Recent Activity Feed -->
+<section class="space-y-4">
+<h3 class="font-headline-md text-headline-md-mobile text-primary">Actividad Reciente</h3>
+<div class="space-y-4">
+<div class="flex gap-4">
+<div class="relative flex-shrink-0">
+<img alt="Mateo" class="w-10 h-10 rounded-full object-cover" data-alt="A stylish profile picture of a young man, professional athlete style, smiling into the camera. Warm studio lighting, neutral background, 3D render feel." src="https://lh3.googleusercontent.com/aida-public/AB6AXuClDHpyCRRafWFAOSnE2ktBqpr6ZG5R9zSs2JfINigf0ZFIEKBkxofyu-qd4ilNaw5nzHBULWSd2Lk-c0W_4PQOAHHT9R2axtxKXBa88a8NyeStn6AyAUn0IEoAeS7pQP3fU4xYcQdeaHthtrbdQZiDDALVcCFif-pbRhw-Xum9RKRbNBrmKkro6bajo9VmkwuedbPHbug0X_YiRSHo2foU0L5w3ti9IrL2m5tpODO3Db8VH4mraNAsZWceJe5pJqc4LP4iKATrGBg"/>
+<span class="material-symbols-outlined absolute -bottom-1 -right-1 bg-primary text-white text-[12px] p-0.5 rounded-full border border-white" style="font-variation-settings: 'FILL' 1;">done_all</span>
+</div>
+<div class="flex-grow border-b border-surface-variant pb-3">
+<p class="font-body-md text-body-md"><span class="font-bold">Mateo</span> cargó su pronóstico para <span class="text-primary font-bold">ARG vs BRA</span>.</p>
+<span class="text-[12px] text-outline">Hace 5 min</span>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="relative flex-shrink-0">
+<img alt="Julian" class="w-10 h-10 rounded-full object-cover" data-alt="A modern profile picture of a smiling young woman with sports gear, captured in a brightly lit outdoor stadium setting. Crisp and high-resolution photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTzRPXsrq3-rVlLq_uw-G08GR0ueDLADQehOfVlFLUxumVmX0fpm6wkXh-41-yOtxomriCyEmWRIDNnLlIY8Xgx_RN3Fz8g91NhaE_DDjGqcXkEXRVEzTNqlHuCnbZy6WuEyw6kQdompONlWisKXk1xRoJ3unOeQN6_4QVmOYzojzjmcbBicACeSZFy6TqkrieeYuarZjNuwUHtm31IP3mJKsD0zaa7RJ65uwyzQdwiHBIpmKgIphOmy8lgxwuhH17mCU9jYChui4"/>
+<span class="material-symbols-outlined absolute -bottom-1 -right-1 bg-tertiary text-white text-[12px] p-0.5 rounded-full border border-white" style="font-variation-settings: 'FILL' 1;">trending_up</span>
+</div>
+<div class="flex-grow border-b border-surface-variant pb-3">
+<p class="font-body-md text-body-md"><span class="font-bold">Julian</span> subió al <span class="text-tertiary font-bold">Puesto #2</span> en el Ranking Global.</p>
+<span class="text-[12px] text-outline">Hace 2 horas</span>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="relative flex-shrink-0">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container font-bold">
+                            LS
+                        </div>
+<span class="material-symbols-outlined absolute -bottom-1 -right-1 bg-primary-container text-on-primary-container text-[12px] p-0.5 rounded-full border border-white" style="font-variation-settings: 'FILL' 1;">campaign</span>
+</div>
+<div class="flex-grow pb-3">
+<p class="font-body-md text-body-md">¡Se habilitaron los pronósticos para la <span class="font-bold">Fecha 12</span>!</p>
+<span class="text-[12px] text-outline">Ayer, 18:45</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full max-w-[480px] left-1/2 -translate-x-1/2 rounded-t-xl z-50 flex justify-around items-center px-4 py-3 bg-surface shadow-[0_-4px_12px_rgba(35,99,145,0.1)]">
+<a class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed-dim font-bold scale-110 transition-transform hover:opacity-100 active:scale-90 transition-all" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">sports_soccer</span>
+<span class="font-label-sm text-label-sm">Matches</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline opacity-70 hover:opacity-100 active:scale-90 transition-all" href="#">
+<span class="material-symbols-outlined">leaderboard</span>
+<span class="font-label-sm text-label-sm">Leagues</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline opacity-70 hover:opacity-100 active:scale-90 transition-all" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-sm text-label-sm">Social</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline opacity-70 hover:opacity-100 active:scale-90 transition-all" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</a>
+</nav>
+<!-- Contextual FAB (Hidden by default, shown on scroll logic usually) -->
+<button class="fixed bottom-24 right-4 md:right-[calc(50%-220px)] w-14 h-14 bg-primary text-white rounded-full shadow-2xl flex items-center justify-center active:scale-95 transition-all z-40">
+<span class="material-symbols-outlined text-3xl">add</span>
+</button>
+<script>
+        // Simple touch interaction for match cards
+        document.querySelectorAll('.bg-white.rounded-xl').forEach(card => {
+            card.addEventListener('touchstart', () => {
+                card.style.transform = 'scale(0.98)';
+                card.style.transition = 'transform 0.1s';
+            });
+            card.addEventListener('touchend', () => {
+                card.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body></html>

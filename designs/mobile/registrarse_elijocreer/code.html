@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ElijoCreer - Registro</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&amp;family=Hanken+Grotesk:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Load Tailwind Config -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-container": "#c7a32b",
+                    "secondary": "#39618c",
+                    "tertiary-fixed": "#ffe088",
+                    "on-primary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "error-container": "#ffdad6",
+                    "surface-container-highest": "#e0e3e5",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-fixed": "#001d32",
+                    "on-primary-container": "#003f65",
+                    "surface-container-low": "#f2f4f6",
+                    "primary": "#236391",
+                    "tertiary": "#735c00",
+                    "primary-container": "#74acdf",
+                    "on-background": "#191c1e",
+                    "surface-container": "#eceef0",
+                    "secondary-fixed": "#d2e4ff",
+                    "inverse-primary": "#96ccff",
+                    "tertiary-fixed-dim": "#e9c349",
+                    "surface": "#f7f9fb",
+                    "inverse-on-surface": "#eff1f3",
+                    "secondary-fixed-dim": "#a3c9fb",
+                    "on-secondary-container": "#2e5681",
+                    "on-error": "#ffffff",
+                    "surface-container-high": "#e6e8ea",
+                    "outline-variant": "#c1c7d0",
+                    "on-secondary": "#ffffff",
+                    "on-tertiary-fixed-variant": "#574500",
+                    "on-tertiary-fixed": "#241a00",
+                    "on-secondary-fixed": "#001d36",
+                    "surface-variant": "#e0e3e5",
+                    "surface-container-lowest": "#ffffff",
+                    "outline": "#717880",
+                    "on-primary-fixed-variant": "#004a75",
+                    "on-surface": "#191c1e",
+                    "on-secondary-fixed-variant": "#1e4973",
+                    "surface-tint": "#236391",
+                    "on-surface-variant": "#41474f",
+                    "background": "#f7f9fb",
+                    "inverse-surface": "#2d3133",
+                    "surface-dim": "#d8dadc",
+                    "surface-bright": "#f7f9fb",
+                    "primary-fixed-dim": "#96ccff",
+                    "primary-fixed": "#cee5ff",
+                    "error": "#ba1a1a",
+                    "secondary-container": "#a6ccfe",
+                    "on-tertiary-container": "#4b3a00"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "16px",
+                    "container-padding": "20px",
+                    "base": "4px",
+                    "section-margin": "32px",
+                    "card-gap": "12px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Montserrat"],
+                    "label-sm": ["Hanken Grotesk"],
+                    "headline-lg-mobile": ["Montserrat"],
+                    "headline-lg": ["Montserrat"],
+                    "body-lg": ["Hanken Grotesk"],
+                    "label-md": ["Hanken Grotesk"],
+                    "body-md": ["Hanken Grotesk"],
+                    "display-lg": ["Montserrat"]
+            },
+            "fontSize": {
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "700"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #f7f9fb;
+            color: #191c1e;
+            overflow-x: hidden;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .form-input-focus:focus {
+            outline: none;
+            border-color: #236391;
+            box-shadow: 0 0 0 3px rgba(35, 99, 145, 0.1);
+        }
+        .signup-card {
+            box-shadow: 0 4px 20px rgba(35, 99, 145, 0.08);
+        }
+        .step-transition {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .pulse-soft {
+            animation: pulse-light 2s infinite;
+        }
+        @keyframes pulse-light {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="flex flex-col min-h-screen">
+<!-- Top Navigation (Shell suppressed for Transactional flow, but branding remains) -->
+<header class="w-full top-0 sticky bg-surface shadow-sm z-50">
+<div class="flex justify-center items-center px-container-padding h-16 w-full max-w-[480px] mx-auto">
+<h1 class="font-headline-md text-headline-md text-primary font-bold tracking-tight">ElijoCreer</h1>
+</div>
+</header>
+<main class="flex-grow flex flex-col items-center justify-center px-container-padding pb-12 w-full max-w-[480px] mx-auto overflow-hidden relative">
+<!-- Step 1: Sign Up Form -->
+<section class="step-transition w-full flex flex-col opacity-100 translate-x-0" id="step-signup">
+<div class="text-center mb-section-margin">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-2">Unite a la comunidad futbolera más grande</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Preparate para el Mundial 2026 con los mejores pronósticos.</p>
+</div>
+<div class="signup-card bg-surface-container-lowest p-6 rounded-xl w-full border border-surface-container-highest">
+<form class="space-y-5" id="registrationForm" onsubmit="handleSignup(event)">
+<div>
+<label class="font-label-md text-label-md text-on-surface mb-2 block" for="name">Nombre completo</label>
+<input class="w-full px-4 py-3 rounded-lg border border-outline-variant bg-surface-bright font-body-md text-body-md form-input-focus transition-all" id="name" placeholder="Tu nombre" required="" type="text"/>
+</div>
+<div>
+<label class="font-label-md text-label-md text-on-surface mb-2 block" for="email">Correo electrónico</label>
+<input class="w-full px-4 py-3 rounded-lg border border-outline-variant bg-surface-bright font-body-md text-body-md form-input-focus transition-all" id="email" placeholder="nombre@ejemplo.com" required="" type="email"/>
+</div>
+<div>
+<label class="font-label-md text-label-md text-on-surface mb-2 block" for="password">Contraseña</label>
+<input class="w-full px-4 py-3 rounded-lg border border-outline-variant bg-surface-bright font-body-md text-body-md form-input-focus transition-all" id="password" placeholder="Min. 8 caracteres" required="" type="password"/>
+</div>
+<button class="w-full py-4 bg-primary text-on-primary font-headline-md text-headline-md rounded-lg shadow-md active:scale-95 transition-all duration-200 mt-4" type="submit">
+                        Crear mi cuenta
+                    </button>
+</form>
+<div class="mt-8 flex flex-col items-center gap-4">
+<button class="font-label-md text-label-md text-primary hover:underline transition-all">
+                        Ya tengo cuenta
+                    </button>
+</div>
+</div>
+<div class="mt-section-margin relative h-48 w-full rounded-xl overflow-hidden shadow-lg border border-surface-container-highest">
+<img class="w-full h-full object-cover grayscale-[20%] brightness-90" data-alt="A high-angle cinematic shot of a modern, brightly lit soccer stadium filled with a cheering crowd under a sunset sky. The lighting is warm and golden, reflecting off the lush green grass of the pitch. The aesthetic is clean, professional, and captures the excitement of a global championship. The atmosphere is energetic yet premium, aligning with the ElijoCreer brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCB--NSyaVNvHOzGCImj-Vis-7neoTarm5PrH0H5ty-Nt9EJlEk2gmQpzOE3--EmSuuZfkvjDTWhMALLZPA3kTjftKjrCj91voLEwBwbLZb55q2UKtcLz887gWEXp3jZ7VTLewZWcqHsC81RgrFXidW-sAcvy0HwMOYXTVK3BVlQ2wzfIEywOGcnQuTupjkC-MsETF7EKvALZsnOh0awecfWqDst_tXYfxz-rdMDAMcybWNDJexTQ6wxG63aNcYQH-8BUE8bUupFiU"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6">
+<span class="text-white font-headline-md text-headline-md">Siente la pasión del 2026</span>
+</div>
+</div>
+</section>
+<!-- Step 2: Post-Signup Focus (Hidden by default) -->
+<section class="step-transition fixed inset-0 flex flex-col items-center justify-center px-container-padding bg-surface pointer-events-none opacity-0 translate-x-12" id="step-onboarding">
+<div class="w-full max-w-[400px] text-center">
+<div class="w-20 h-20 bg-primary-container rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+<span class="material-symbols-outlined text-on-primary-container text-4xl" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-2">¡Bienvenido al equipo!</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-section-margin">Tu cuenta ha sido creada. Ahora, ¿cómo quieres empezar tu camino a la gloria?</p>
+<div class="grid grid-cols-1 gap-4 w-full">
+<!-- Create Group Action -->
+<button class="group flex items-center p-5 bg-surface-container-lowest border border-surface-container-highest rounded-xl shadow-sm hover:shadow-md hover:border-primary transition-all text-left">
+<div class="w-12 h-12 bg-tertiary-container rounded-lg flex items-center justify-center mr-4">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">groups</span>
+</div>
+<div class="flex-grow">
+<h3 class="font-headline-md text-headline-md text-on-surface group-hover:text-primary transition-colors">Crear Grupo</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Armá tu propia liga con amigos.</p>
+</div>
+<span class="material-symbols-outlined text-outline">chevron_right</span>
+</button>
+<!-- Join Group Action -->
+<button class="group flex items-center p-5 bg-surface-container-lowest border border-surface-container-highest rounded-xl shadow-sm hover:shadow-md hover:border-primary transition-all text-left">
+<div class="w-12 h-12 bg-secondary-container rounded-lg flex items-center justify-center mr-4">
+<span class="material-symbols-outlined text-on-secondary-container" style="font-variation-settings: 'FILL' 1;">person_add</span>
+</div>
+<div class="flex-grow">
+<h3 class="font-headline-md text-headline-md text-on-surface group-hover:text-primary transition-colors">Unirme a un Grupo</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Ingresá con un código de invitación.</p>
+</div>
+<span class="material-symbols-outlined text-outline">chevron_right</span>
+</button>
+</div>
+<div class="mt-8">
+<button class="font-label-md text-label-md text-outline hover:text-on-surface transition-colors" onclick="skipOnboarding()">
+                        Explorar la app primero
+                    </button>
+</div>
+</div>
+</section>
+</main>
+<!-- Success Toast (Hidden) -->
+<div class="fixed bottom-10 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface px-6 py-3 rounded-full font-label-md text-label-md shadow-2xl opacity-0 translate-y-10 transition-all duration-300 z-[100] flex items-center gap-3" id="toast">
+<span class="material-symbols-outlined text-primary-fixed-dim">verified</span>
+<span>¡Cuenta creada con éxito!</span>
+</div>
+<script>
+        function handleSignup(event) {
+            event.preventDefault();
+            
+            const signupSection = document.getElementById('step-signup');
+            const onboardingSection = document.getElementById('step-onboarding');
+            const toast = document.getElementById('toast');
+
+            // Visual feedback - Show toast
+            toast.classList.remove('opacity-0', 'translate-y-10');
+            toast.classList.add('opacity-100', 'translate-y-0');
+
+            setTimeout(() => {
+                // Transition screens
+                signupSection.classList.add('opacity-0', '-translate-x-12');
+                signupSection.classList.remove('opacity-100', 'translate-x-0');
+                
+                setTimeout(() => {
+                    signupSection.classList.add('hidden');
+                    onboardingSection.classList.remove('pointer-events-none', 'opacity-0', 'translate-x-12');
+                    onboardingSection.classList.add('opacity-100', 'translate-x-0');
+                    onboardingSection.classList.remove('fixed');
+                    onboardingSection.classList.add('relative');
+                    
+                    // Hide toast
+                    toast.classList.add('opacity-0', 'translate-y-10');
+                    toast.classList.remove('opacity-100', 'translate-y-0');
+                }, 400);
+            }, 800);
+        }
+
+        function skipOnboarding() {
+            // Placeholder for navigation to dashboard
+            alert("Redirigiendo al Dashboard...");
+        }
+
+        // Micro-interactions for inputs
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.querySelector('label').classList.add('text-primary');
+            });
+            input.addEventListener('blur', () => {
+                input.parentElement.querySelector('label').classList.remove('text-primary');
+            });
+        });
+    </script>
+</body></html>

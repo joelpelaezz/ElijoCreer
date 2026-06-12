@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ElijoCreer - Ranking Global</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&amp;family=Hanken+Grotesk:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .medal-gold { color: #FFD700; filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.4)); }
+        .medal-silver { color: #C0C0C0; filter: drop-shadow(0 0 8px rgba(192, 192, 192, 0.4)); }
+        .medal-bronze { color: #CD7F32; filter: drop-shadow(0 0 8px rgba(205, 127, 50, 0.4)); }
+        .pulse-live { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+        body { font-family: 'Hanken Grotesk', sans-serif; }
+        h1, h2, h3 { font-family: 'Montserrat', sans-serif; }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface": "#191c1e",
+                        "on-secondary": "#ffffff",
+                        "background": "#f7f9fb",
+                        "on-error-container": "#93000a",
+                        "primary-container": "#74acdf",
+                        "tertiary": "#735c00",
+                        "on-primary-fixed-variant": "#004a75",
+                        "surface-dim": "#d8dadc",
+                        "surface": "#f7f9fb",
+                        "secondary-fixed": "#d2e4ff",
+                        "primary-fixed-dim": "#96ccff",
+                        "on-secondary-container": "#2e5681",
+                        "on-background": "#191c1e",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed": "#ffe088",
+                        "on-error": "#ffffff",
+                        "tertiary-container": "#c7a32b",
+                        "on-tertiary-fixed": "#241a00",
+                        "tertiary-fixed-dim": "#e9c349",
+                        "inverse-surface": "#2d3133",
+                        "outline": "#717880",
+                        "on-primary-fixed": "#001d32",
+                        "surface-container": "#eceef0",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-tertiary-container": "#4b3a00",
+                        "primary": "#236391",
+                        "on-secondary-fixed": "#001d36",
+                        "on-primary-container": "#003f65",
+                        "on-surface-variant": "#41474f",
+                        "secondary-container": "#a6ccfe",
+                        "on-secondary-fixed-variant": "#1e4973",
+                        "surface-variant": "#e0e3e5",
+                        "secondary": "#39618c",
+                        "surface-bright": "#f7f9fb",
+                        "surface-container-high": "#e6e8ea",
+                        "inverse-primary": "#96ccff",
+                        "surface-container-low": "#f2f4f6",
+                        "surface-container-highest": "#e0e3e5",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed-dim": "#a3c9fb",
+                        "on-tertiary": "#ffffff",
+                        "primary-fixed": "#cee5ff",
+                        "outline-variant": "#c1c7d0",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed-variant": "#574500",
+                        "error": "#ba1a1a",
+                        "surface-tint": "#236391"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "section-margin": "32px",
+                        "gutter": "16px",
+                        "container-padding": "20px",
+                        "base": "4px",
+                        "card-gap": "12px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Montserrat"],
+                        "display-lg": ["Montserrat"],
+                        "label-md": ["Hanken Grotesk"],
+                        "headline-lg": ["Montserrat"],
+                        "headline-md": ["Montserrat"],
+                        "label-sm": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "700"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-50 bg-surface dark:bg-background shadow-sm h-16 flex justify-between items-center px-container-padding max-w-[480px] mx-auto">
+<div class="flex items-center gap-3">
+<button class="active:scale-95 duration-200 hover:bg-surface-container-low p-2 rounded-full">
+<span class="material-symbols-outlined text-primary">menu</span>
+</button>
+<h1 class="font-headline-md text-headline-md-mobile text-primary font-bold">ElijoCreer</h1>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-container">
+<img alt="User Avatar" class="w-full h-full object-cover" data-alt="A professional high-fidelity 3D avatar profile picture of a cheerful sports enthusiast, styled with modern digital illustration techniques. The character has short dark hair and is wearing a stylish light blue jersey, set against a soft minimalist neutral background that fits a premium sports dashboard aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCviMn5LzT_-mqtovYDjraNHFPPHj_qKTjajUbEp8NX9bx4qEhsi6KU61gG_6fTpumhmrWtg_yj42L-_hkMsHE7Q7rPsf1mjWevzzn2FjQLHutQUZc28Y1H1tJatbB-AzIHC0MIFszwcs13aBYFJuWO7W7ZJKcUuqrs1gfrdNjIL8qyuBA54hP6Nna76cyoWVtFaNWdbFbtVp5a3p82yKlhUWxJltCGr1FqDFM7CVb-Z_XIVZoB5csk2qcJgh7QyM7a4ilba9TFy0U"/>
+</div>
+</div>
+</header>
+<main class="max-w-[480px] mx-auto px-container-padding pt-6">
+<!-- Tournament Stats Header -->
+<div class="mb-8 text-center">
+<h2 class="font-headline-lg text-headline-lg-mobile text-on-surface mb-2">Ranking de Amigos</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Clausura 2026 • 24 Participantes</p>
+</div>
+<!-- Podium Section -->
+<div class="grid grid-cols-3 gap-3 items-end mb-10 px-2">
+<!-- 2nd Place -->
+<div class="flex flex-col items-center group cursor-pointer">
+<div class="relative mb-3 transform transition-transform group-hover:-translate-y-1">
+<div class="w-16 h-16 rounded-full border-4 border-surface-container-high overflow-hidden shadow-md">
+<img alt="Silver" data-alt="A high-quality digital portrait of a male competitor with a determined expression, wearing a sleek silver-grey performance polo. The background is a sophisticated mix of deep navy and soft sky blue gradients, conveying a professional and competitive athletic spirit." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAyZV7Vu4obzafNdnyzUWIvwqQzIMJhAJbYSmg3VF1CoXJxRZ5O15mN_o_PElBJ9ICvQwcbSE_3YY1v6jjCsvfc2qk-bLGAJO2HMUE7QZId8IVndxUDYIR8YrKeb0kxphrpv_93AKRV3GomnoMoiOwtSPR4djDY8yDYrDuBdia0hRGoeIE6sAhk_yvTuzT8ETNz1DxwmYgtgPeUZXnGrYdy8qflYB2vyAl2q8wTUZXmm7Lo0ERXbeJPYSA5bhQgnEoshRMBim-7yGg"/>
+</div>
+<div class="absolute -bottom-1 -right-1 bg-surface-container-highest rounded-full p-1 shadow-sm">
+<span class="material-symbols-outlined medal-silver !text-[20px]">workspace_premium</span>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant truncate w-full text-center">Julián B.</span>
+<span class="font-headline-md text-headline-md text-primary">482</span>
+</div>
+<!-- 1st Place -->
+<div class="flex flex-col items-center group cursor-pointer">
+<div class="relative mb-4 transform transition-transform group-hover:-translate-y-2">
+<div class="w-24 h-24 rounded-full border-4 border-tertiary-container overflow-hidden shadow-xl ring-4 ring-tertiary-fixed/30">
+<img alt="Gold" data-alt="A premium digital illustration of a female leader in sports management, with a confident smile and modern glasses. She is wearing a high-end navy blue blazer over a gold-accented shirt. The lighting is dramatic and celebratory, emphasizing her top-tier status in a global sports community." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRqdbdYG43OmwzR-zr1B6L-6fsuWgUPIZljiNn2kgyibIh-mvlq7q3ffhpkHnv60p5x8KZgYfjKgL5MErkKBpfRKQ22qYgTaC_nhu8eRpg5AX9Le-S_xOeDse990vtDZxWOOAC0Ywl-8-ABMGkBAF59v-yvCssVMPDsjETR9VV9z6x5fw1QfY6IDsNecaqPveqCotpG8ovk9gz4en2W2vHXgGXWK_j0mdYL3OyTHnOgx3Dc5Q70tLWPuw1AK-vEm8wjfyfcvbB2CU"/>
+</div>
+<div class="absolute -bottom-2 -right-1 bg-surface-container-lowest rounded-full p-1.5 shadow-md">
+<span class="material-symbols-outlined medal-gold !text-[28px]" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+</div>
+</div>
+<span class="font-headline-md text-headline-md text-on-surface font-extrabold truncate w-full text-center">Sofía R.</span>
+<span class="font-display-lg text-[24px] text-tertiary font-black">524</span>
+</div>
+<!-- 3rd Place -->
+<div class="flex flex-col items-center group cursor-pointer">
+<div class="relative mb-3 transform transition-transform group-hover:-translate-y-1">
+<div class="w-16 h-16 rounded-full border-4 border-surface-container-high overflow-hidden shadow-md">
+<img alt="Bronze" data-alt="A clean, professional avatar of a young athlete with an energetic look, wearing a bronze-toned sporty hoodie. The visual style is crisp and modern, featuring soft ambient lighting and a high-contrast palette of whites and deep blues, suitable for a premium social sports platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDiVmQpSCnl4FlQieOyFV8RJHuQzKSLbMtfJuLZbMQV9N7B23l5EFxD_AhEvBdr6zvUp2Z0xI16NcXjrTx3umBM-4Nkiovda_iJWNbXwHJG43MNjhGf5UB2tYIUeA7HDhRWmlk1zB-epFS53y50-8hR-9krb_Tf3jrtoE7XQLaUYiSS7Gwd5yTqKpHiOA065MWKq7YJnCt0V49Vk3DK_fKVve4ymsLu79jyHdhA2RDbn6Okx_-rqgy9Knykl5AeGuTNet8gKjHK_V0"/>
+</div>
+<div class="absolute -bottom-1 -right-1 bg-surface-container-highest rounded-full p-1 shadow-sm">
+<span class="material-symbols-outlined medal-bronze !text-[20px]">workspace_premium</span>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant truncate w-full text-center">Marcos T.</span>
+<span class="font-headline-md text-headline-md text-primary">465</span>
+</div>
+</div>
+<!-- Filter/Search Bar -->
+<div class="flex items-center gap-2 mb-6 bg-surface-container-lowest p-2 rounded-xl shadow-sm">
+<span class="material-symbols-outlined text-outline ml-2">search</span>
+<input class="bg-transparent border-none focus:ring-0 w-full font-body-md text-body-md text-on-surface" placeholder="Buscar jugador..." type="text"/>
+<button class="bg-surface-container-high p-2 rounded-lg text-primary">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+</div>
+<!-- Ranking Table -->
+<div class="bg-surface-container-lowest rounded-2xl shadow-lg overflow-hidden mb-8">
+<div class="grid grid-cols-12 px-4 py-3 bg-surface-container-high/50 border-b border-outline-variant font-label-sm text-label-sm text-outline uppercase tracking-wider">
+<div class="col-span-1 text-center">#</div>
+<div class="col-span-5">Jugador</div>
+<div class="col-span-2 text-center">Ptos</div>
+<div class="col-span-2 text-center">Exac</div>
+<div class="col-span-2 text-center">Ten</div>
+</div>
+<!-- Rank List Items -->
+<div class="divide-y divide-outline-variant/30">
+<!-- User Item (Highlighted) -->
+<div class="grid grid-cols-12 px-4 py-4 items-center bg-primary-container/10 border-l-4 border-primary">
+<div class="col-span-1 text-center font-bold text-primary">12</div>
+<div class="col-span-5 flex items-center gap-3">
+<div class="w-8 h-8 rounded-full overflow-hidden bg-primary-fixed">
+<img alt="Tú" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMBKCCPkUzTZ_ZcR594FzjURFf3wHTbVieTC7ORYAul2wdONJ5dNkImA44IOHaBFEYMjR8v-VWHUaIelhOG5UWWRq_v3tRp8kf6V5ilmJ33QnhLwEIAd7bbU6M-JkP0eXvdWqx-HmO-o5i8uYIgZNvdFyPPQYBO-jtjB6q6ORV9sHx1ytZGhxBQ4TB9prvJLoM9HdE3kG5FAL6sa3kc7FyLYs-GROiTr12sn25G1j2Wy9tCxamvbhyhryYNBpniV7tuaQNJrDk7v8"/>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-bold">Tú</span>
+<span class="text-[10px] text-primary uppercase font-bold tracking-tighter">Rank Global #124</span>
+</div>
+</div>
+<div class="col-span-2 text-center font-bold text-on-surface">312</div>
+<div class="col-span-2 text-center text-on-surface-variant">14</div>
+<div class="col-span-2 flex justify-center">
+<span class="material-symbols-outlined text-green-600 !text-[18px]">trending_up</span>
+</div>
+</div>
+<!-- Rank 4 -->
+<div class="grid grid-cols-12 px-4 py-4 items-center hover:bg-surface-container-low transition-colors">
+<div class="col-span-1 text-center font-bold text-outline">4</div>
+<div class="col-span-5 flex items-center gap-3">
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-variant">
+<img alt="Elena" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBoFrGuKjE0pDzlj0PSi7myDSykcks8o8xSWXpu7gppWC6-hU0V5dxLeutGUlC08j5Qo94dO9gPHysmraACz3f5YWewn8pq2wSA_2hKkQ07l-_MdfOefp-FGDPq9ksklgZ2RfDeT6vvOCjL8rsGZbvwMfTEFB6xnOTECXYrPlMC3xyzalo4vJIryDDkQ2oa7taZbUhFSk8jVMDTxq5LD2-IEy7eWoGCTSxP6q7pzreZJrayWtiCghQx5emTYNvqRGHBqDjEZQ_ocnc"/>
+</div>
+<span class="font-label-md text-label-md text-on-surface">Elena G.</span>
+</div>
+<div class="col-span-2 text-center font-bold text-on-surface">442</div>
+<div class="col-span-2 text-center text-on-surface-variant">22</div>
+<div class="col-span-2 flex justify-center">
+<span class="material-symbols-outlined text-green-600 !text-[18px]">trending_up</span>
+</div>
+</div>
+<!-- Rank 5 -->
+<div class="grid grid-cols-12 px-4 py-4 items-center hover:bg-surface-container-low transition-colors">
+<div class="col-span-1 text-center font-bold text-outline">5</div>
+<div class="col-span-5 flex items-center gap-3">
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-variant">
+<img alt="Luis" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwZsMaRt4dgcEVEn6OnmbCARrwiNGWchHrbFqSEaz0jtPdOuG-9SrytceFGfedC-SUaiWRg_vP1HyRoMo1IgD549-H39wK7mQTBA-WLeLSmmDt94jZdeCiGdG-3fzCnQVF-EgOTjMpd10ldxCjjJY0GtlHnjs_gk33gzvGy5tSe88THHcjS9_htF1xXcisEim-eUPsFycIgkC-GH7nNplRK3agjJ2a7uM9VkNBhwisg74env43ozCeEraF4zkDsfMiTJJDKCKcKPk"/>
+</div>
+<span class="font-label-md text-label-md text-on-surface">Luis M.</span>
+</div>
+<div class="col-span-2 text-center font-bold text-on-surface">410</div>
+<div class="col-span-2 text-center text-on-surface-variant">18</div>
+<div class="col-span-2 flex justify-center">
+<span class="material-symbols-outlined text-error !text-[18px]">trending_down</span>
+</div>
+</div>
+<!-- Rank 6 -->
+<div class="grid grid-cols-12 px-4 py-4 items-center hover:bg-surface-container-low transition-colors">
+<div class="col-span-1 text-center font-bold text-outline">6</div>
+<div class="col-span-5 flex items-center gap-3">
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-variant">
+<img alt="Camila" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4l4qrdFXDK4fHtQUI4R9wrLkDYZPlqqXs2wwdjChj-thoeSdDtvKXJkL3-TjXgJNXE76qOyMVlxiuVx4l-kvaQx3wzVru2kNgr1rGsdE4ApxZKkAGPRFcAhNIYtyIX6JPvoU2F1luy9naPZXNC0kXiZleJC3zXJ_ieD4pdf9wVo0IozVDMR3W8wetzKncIMubDyaYrlCAw4yVXIxOsGZPAwMIOkzVLrox_0TvUFcyuwc9qbADutyCVRufhROhaACTP-heAnBy8YI"/>
+</div>
+<span class="font-label-md text-label-md text-on-surface">Camila V.</span>
+</div>
+<div class="col-span-2 text-center font-bold text-on-surface">398</div>
+<div class="col-span-2 text-center text-on-surface-variant">15</div>
+<div class="col-span-2 flex justify-center">
+<span class="material-symbols-outlined text-outline !text-[18px]">trending_flat</span>
+</div>
+</div>
+<!-- Rank 7 -->
+<div class="grid grid-cols-12 px-4 py-4 items-center hover:bg-surface-container-low transition-colors">
+<div class="col-span-1 text-center font-bold text-outline">7</div>
+<div class="col-span-5 flex items-center gap-3">
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-variant">
+<img alt="Fede" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8Om4iROeM_IfTVw_xvwMnunL4yJ33XlqhVisNjVs9dn_qW6puxVDQ5kTbegA4igoXRwnn7EvHx2pRkesoE_Ibc399JtLfq7wXXxwVOP1Ja_PTtBWnGivuCFjdXjh8KGSYQC9Kxxo_KQi-eBmzNzqoRlAno2MBUagldJuuu8r7yC-kVm0YRneH4CbLjnhHAaW2vuPAhl7Ao2CIdqVvz-BOeVvtct4Ozsbd7olzsWYqOjBwsIdtnE-ChicQyHFOZyoUlEjee-ynbDM"/>
+</div>
+<span class="font-label-md text-label-md text-on-surface">Fede S.</span>
+</div>
+<div class="col-span-2 text-center font-bold text-on-surface">385</div>
+<div class="col-span-2 text-center text-on-surface-variant">12</div>
+<div class="col-span-2 flex justify-center">
+<span class="material-symbols-outlined text-green-600 !text-[18px]">trending_up</span>
+</div>
+</div>
+</div>
+<button class="w-full py-4 text-primary font-bold text-label-md hover:bg-surface-container-high transition-colors flex items-center justify-center gap-2">
+                Ver ranking completo
+                <span class="material-symbols-outlined !text-[18px]">keyboard_arrow_down</span>
+</button>
+</div>
+<!-- Group Badges Section -->
+<div class="mb-8">
+<h3 class="font-headline-md text-on-surface mb-4">Insignias del Mes</h3>
+<div class="flex gap-4 overflow-x-auto pb-4 no-scrollbar">
+<div class="flex-shrink-0 w-24 flex flex-col items-center bg-white p-3 rounded-2xl shadow-sm border border-outline-variant/30">
+<div class="w-12 h-12 bg-tertiary/10 rounded-full flex items-center justify-center mb-2">
+<span class="material-symbols-outlined text-tertiary">rocket_launch</span>
+</div>
+<span class="text-[10px] text-center font-bold uppercase text-on-surface-variant">El Cohete</span>
+</div>
+<div class="flex-shrink-0 w-24 flex flex-col items-center bg-white p-3 rounded-2xl shadow-sm border border-outline-variant/30">
+<div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-2">
+<span class="material-symbols-outlined text-primary">psychology</span>
+</div>
+<span class="text-[10px] text-center font-bold uppercase text-on-surface-variant">Estratega</span>
+</div>
+<div class="flex-shrink-0 w-24 flex flex-col items-center bg-white p-3 rounded-2xl shadow-sm border border-outline-variant/30">
+<div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-2">
+<span class="material-symbols-outlined text-green-700">timer</span>
+</div>
+<span class="text-[10px] text-center font-bold uppercase text-on-surface-variant">Puntual</span>
+</div>
+<div class="flex-shrink-0 w-24 flex flex-col items-center bg-white p-3 rounded-2xl shadow-sm border border-outline-variant/30">
+<div class="w-12 h-12 bg-error-container rounded-full flex items-center justify-center mb-2">
+<span class="material-symbols-outlined text-error">local_fire_department</span>
+</div>
+<span class="text-[10px] text-center font-bold uppercase text-on-surface-variant">En Racha</span>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center px-4 py-3 bg-surface dark:bg-background max-w-[480px] left-1/2 -translate-x-1/2 rounded-t-xl shadow-[0_-4px_12px_rgba(35,99,145,0.1)]">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline opacity-70 hover:opacity-100 active:scale-90 transition-all" href="#">
+<span class="material-symbols-outlined">sports_soccer</span>
+<span class="font-label-sm text-label-sm">Matches</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed-dim font-bold scale-110 transition-transform active:scale-90" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">leaderboard</span>
+<span class="font-label-sm text-label-sm">Leagues</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline opacity-70 hover:opacity-100 active:scale-90 transition-all" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-sm text-label-sm">Social</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline opacity-70 hover:opacity-100 active:scale-90 transition-all" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</a>
+</nav>
+<script>
+        // Simple micro-interaction for the list items
+        document.querySelectorAll('.grid.grid-cols-12').forEach(row => {
+            row.addEventListener('click', () => {
+                row.classList.add('bg-surface-container-high');
+                setTimeout(() => {
+                    row.classList.remove('bg-surface-container-high');
+                }, 150);
+            });
+        });
+    </script>
+</body></html>

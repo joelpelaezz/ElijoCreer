@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ElijoCreer - Global Admin Panel</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&amp;family=Hanken+Grotesk:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-container": "#4b3a00",
+                    "inverse-primary": "#96ccff",
+                    "on-error": "#ffffff",
+                    "secondary-container": "#a6ccfe",
+                    "tertiary-fixed": "#ffe088",
+                    "primary-fixed-dim": "#96ccff",
+                    "surface-variant": "#e0e3e5",
+                    "on-tertiary-fixed": "#241a00",
+                    "surface": "#f7f9fb",
+                    "on-background": "#191c1e",
+                    "inverse-on-surface": "#eff1f3",
+                    "on-secondary-fixed": "#001d36",
+                    "on-tertiary-fixed-variant": "#574500",
+                    "surface-container-highest": "#e0e3e5",
+                    "surface-container-high": "#e6e8ea",
+                    "tertiary-container": "#c7a32b",
+                    "surface-dim": "#d8dadc",
+                    "primary": "#236391",
+                    "on-primary-fixed-variant": "#004a75",
+                    "tertiary-fixed-dim": "#e9c349",
+                    "tertiary": "#735c00",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "error": "#ba1a1a",
+                    "on-surface-variant": "#41474f",
+                    "on-primary-container": "#003f65",
+                    "background": "#f7f9fb",
+                    "primary-container": "#74acdf",
+                    "surface-container-low": "#f2f4f6",
+                    "on-secondary-container": "#2e5681",
+                    "on-error-container": "#93000a",
+                    "on-surface": "#191c1e",
+                    "outline-variant": "#c1c7d0",
+                    "secondary-fixed": "#d2e4ff",
+                    "on-primary": "#ffffff",
+                    "surface-bright": "#f7f9fb",
+                    "secondary-fixed-dim": "#a3c9fb",
+                    "primary-fixed": "#cee5ff",
+                    "on-secondary": "#ffffff",
+                    "on-primary-fixed": "#001d32",
+                    "surface-tint": "#236391",
+                    "surface-container": "#eceef0",
+                    "on-secondary-fixed-variant": "#1e4973",
+                    "error-container": "#ffdad6",
+                    "outline": "#717880",
+                    "secondary": "#39618c",
+                    "inverse-surface": "#2d3133"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "16px",
+                    "section-margin": "32px",
+                    "container-padding": "20px",
+                    "card-gap": "12px",
+                    "base": "4px"
+            },
+            "fontFamily": {
+                    "display-lg": ["Montserrat"],
+                    "headline-lg-mobile": ["Montserrat"],
+                    "label-md": ["Hanken Grotesk"],
+                    "headline-md": ["Montserrat"],
+                    "body-lg": ["Hanken Grotesk"],
+                    "label-sm": ["Hanken Grotesk"],
+                    "headline-lg": ["Montserrat"],
+                    "body-md": ["Hanken Grotesk"]
+            },
+            "fontSize": {
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+      body {
+        font-family: 'Hanken Grotesk', sans-serif;
+        background-color: #f7f9fb;
+      }
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #c1c7d0;
+        border-radius: 10px;
+      }
+      .score-input:focus {
+        border-color: #236391;
+        box-shadow: 0 0 0 2px rgba(35, 99, 145, 0.1);
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface flex min-h-screen">
+<!-- Navigation Drawer (Global Side Rail) -->
+<aside class="hidden md:flex flex-col p-4 gap-2 h-full w-80 rounded-r-xl bg-surface-container-lowest dark:bg-surface-dim shadow-xl sticky top-0">
+<div class="flex items-center gap-4 p-4 mb-6">
+<div class="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined">admin_panel_settings</span>
+</div>
+<div>
+<h2 class="font-headline-md text-headline-md text-primary font-bold">Admin Console</h2>
+<p class="font-label-sm text-label-sm text-outline">Super User Profile</p>
+</div>
+</div>
+<nav class="flex flex-col gap-1">
+<a class="bg-secondary-container text-on-secondary-container font-bold rounded-lg flex items-center gap-3 px-4 py-3 active:translate-x-1 duration-150 transition-all" href="#">
+<span class="material-symbols-outlined">sports_soccer</span>
+<span class="font-body-md text-body-md">Match Scores</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface-container-high rounded-lg flex items-center gap-3 px-4 py-3 active:translate-x-1 duration-150 transition-all" href="#">
+<span class="material-symbols-outlined">calendar_month</span>
+<span class="font-body-md text-body-md">Fixture Manager</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface-container-high rounded-lg flex items-center gap-3 px-4 py-3 active:translate-x-1 duration-150 transition-all" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-body-md text-body-md">Team Management</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface-container-high rounded-lg flex items-center gap-3 px-4 py-3 active:translate-x-1 duration-150 transition-all" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-body-md text-body-md">Statistics</span>
+</a>
+<div class="my-4 border-t border-surface-container-highest"></div>
+<a class="text-on-surface-variant hover:bg-surface-container-high rounded-lg flex items-center gap-3 px-4 py-3 active:translate-x-1 duration-150 transition-all" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md text-body-md">System Settings</span>
+</a>
+</nav>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 max-w-[1200px] mx-auto w-full flex flex-col">
+<!-- TopAppBar (Admin Mobile/Global) -->
+<header class="w-full top-0 sticky z-40 bg-surface dark:bg-background shadow-sm flex justify-between items-center px-container-padding h-16 max-w-full">
+<div class="flex items-center gap-3">
+<button class="md:hidden text-primary transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="font-headline-md text-headline-md text-primary font-bold">ElijoCreer <span class="font-normal text-outline text-label-md">ADMIN</span></h1>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden sm:flex flex-col items-end">
+<span class="font-label-md text-label-md text-on-surface">Admin Global</span>
+<span class="font-label-sm text-label-sm text-tertiary">Operational Mode</span>
+</div>
+<img alt="Admin Avatar" class="w-10 h-10 rounded-full border-2 border-primary-container object-cover" data-alt="A professional headshot of a young male executive with short dark hair and a confident expression. He is wearing a minimalist dark blue sweater in a bright, modern office setting with soft, natural lighting. The image quality is crisp and high-end, fitting a premium corporate sports application aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7Bro0ay2D5U6rQXyfwtbJLVSzMARuWYNTIE6aVJFF-hoJmxRRXWBqG9JIcuZ0ovAZXXRA5PQqUPC_KWNSnbKfpYeJjN9ke0wHRioPk1cZcBo_1drTnNmhHlpdC1laN4FY5YNlG1loGW-xmZcV-wI-dhbQJyWJvYuPM_N_uxU_4QKgtKLfIJwDP3lg9evLGEhPMFrgSwyEuOHUL0rP1UFmYuFKdpwyxjS_NSoq31nudZO7J2fD_Se3OR9U9cuyyvx97ppSie1kWcw"/>
+</div>
+</header>
+<!-- Dashboard Content -->
+<div class="p-container-padding flex-1 flex flex-col gap-section-margin pb-24 md:pb-8">
+<!-- Quick Actions & Search -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-card-gap">
+<div class="md:col-span-2 bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-surface-container flex flex-col gap-4">
+<div class="flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md text-on-surface">Match Control Center</h3>
+<span class="px-3 py-1 bg-primary-container text-on-primary-container rounded-full text-label-sm">LIVE SESSION</span>
+</div>
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full pl-10 pr-4 py-3 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary font-body-md" placeholder="Search by team, group or stadium..." type="text"/>
+</div>
+</div>
+<div class="bg-primary text-on-primary p-6 rounded-xl shadow-sm flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-4xl">notification_important</span>
+<div class="text-right">
+<p class="text-label-sm opacity-80">Pending Scores</p>
+<p class="text-headline-lg font-bold">12</p>
+</div>
+</div>
+<button class="w-full py-2 bg-on-primary text-primary font-bold rounded-lg text-label-md hover:bg-primary-container transition-colors">
+                        Process Batch
+                    </button>
+</div>
+</section>
+<!-- Bento Grid: Main Operative View -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Active Matches Column -->
+<section class="lg:col-span-8 flex flex-col gap-card-gap">
+<div class="flex items-center justify-between mb-2">
+<h2 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">pending_actions</span>
+                            Live &amp; Upcoming Matches
+                        </h2>
+<div class="flex gap-2">
+<button class="p-2 hover:bg-surface-container-high rounded-full transition-all text-outline">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+<button class="p-2 hover:bg-surface-container-high rounded-full transition-all text-outline">
+<span class="material-symbols-outlined">refresh</span>
+</button>
+</div>
+</div>
+<!-- Match Entry Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-5 shadow-sm border border-surface-container flex flex-col sm:flex-row items-center gap-6 group hover:shadow-md transition-all">
+<div class="flex-1 w-full grid grid-cols-3 items-center gap-4">
+<!-- Team A -->
+<div class="flex flex-col items-center gap-2">
+<div class="w-14 h-14 rounded-full overflow-hidden shadow-inner bg-surface-container">
+<img alt="ARG Flag" data-alt="A macro close up shot of an Argentina national football team jersey fabric, showing the iconic sky blue and white vertical stripes with high-definition texture. The lighting is dramatic, highlighting the high-quality synthetic fibers of the professional sports apparel. Minimalist and premium look." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwwqrl53RBe9GbMOov43gfGC8ifI17mGbo6NrxMa2E56f7SZi0famCx41pgyG96OcWOkWn5Hv3H1ACSXOLylowJxAlLuntubqH0QsQ7lv5jdVXcQydtUhWBLu1MyqpfJsvTdX0yS-Ra9HGj_yatuEVx-M0pFq0Tk-bo3pzFSUr28mihnd9TLM3Kax5ogUpeTUceM7Sxy4M_T1yBS_jyOJO9SVokAp8lXRS3ykYK6utyrTTwDDHl_UIbSzX51TBLr67y_nPqis8C1M"/>
+</div>
+<span class="font-headline-md text-headline-md text-on-surface uppercase">ARG</span>
+</div>
+<!-- Score Input -->
+<div class="flex items-center justify-center gap-3">
+<input class="score-input w-16 h-16 text-center text-3xl font-display-lg bg-surface-container-low border border-outline-variant rounded-xl focus:outline-none transition-all" type="number" value="0"/>
+<span class="text-outline font-bold text-headline-md">-</span>
+<input class="score-input w-16 h-16 text-center text-3xl font-display-lg bg-surface-container-low border border-outline-variant rounded-xl focus:outline-none transition-all" type="number" value="0"/>
+</div>
+<!-- Team B -->
+<div class="flex flex-col items-center gap-2">
+<div class="w-14 h-14 rounded-full overflow-hidden shadow-inner bg-surface-container">
+<img alt="FRA" data-alt="A detailed texture shot of the French national football team jersey, showcasing the deep royal blue fabric and subtle weave patterns. The atmosphere is athletic and professional, with cinematic lighting that reflects a championship quality feel. The colors are rich and vibrant against a clean background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIs3EAAMDo2UuGtuy1bKBp2vnV4-pP9oeUm_kLWBcLv9qUySSrxYSZkNdcARiFOGTx878ghunVzwPt7W2oG1D_JdmLJNseFzBbTP0YN3uAyaHur8lbNDl3vOwjmwizmdKChrkOs7BOuLmsouFIvYLphBxsy1gjzMFaeMB7T_R1VcL1KwOCUb9lf0Qc-4YjVLeQcPjoUveUpeCMHs1DD0PBZ6lVk3UKiBkEelacNEIGVYd44gp4btG8YF45KshmNOH0YHRdjaXdXSk"/>
+</div>
+<span class="font-headline-md text-headline-md text-on-surface uppercase">FRA</span>
+</div>
+</div>
+<div class="w-full sm:w-auto flex flex-col gap-3 min-w-[180px]">
+<div class="flex flex-col">
+<span class="text-label-sm text-outline">LUSAIL STADIUM</span>
+<span class="text-label-md text-error font-bold flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-error animate-pulse"></span>
+                                    LIVE 78'
+                                </span>
+</div>
+<button class="w-full py-3 bg-primary text-on-primary rounded-lg font-bold text-label-md shadow-lg shadow-primary/20 active:scale-95 transition-all">
+                                Finalize Result
+                            </button>
+</div>
+</div>
+<!-- Match Entry Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl p-5 shadow-sm border border-surface-container flex flex-col sm:flex-row items-center gap-6 opacity-80 hover:opacity-100 transition-all">
+<div class="flex-1 w-full grid grid-cols-3 items-center gap-4">
+<div class="flex flex-col items-center gap-2">
+<div class="w-14 h-14 rounded-full overflow-hidden bg-surface-container">
+<img alt="BRA" data-alt="A textured close up of the Brazilian national football team yellow jersey, displaying the iconic bright canary yellow color and high-performance fabric weave. The mood is energetic and celebratory, with bright high-key lighting that emphasizes the cultural vibrancy and premium sports branding." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAF-bdTJmIKQiBB-c0b4sbn55TezFqxo-aX1Mkwb7v6L8QLQHP0zmbVPoOtuTIr_g0yT6DPmidncj2b_BVCPcCRLuq_r8U-ttgrch6v5M_5hFw7LtbPotktnZHhinR9d9v4MQ8KH6vCH-EaGiH2alC0fhzQrygNIdK7jANP-aJ6tIJhulqrTaiX1k2U4egh09xDOuEOEnmW8BEsDWROWY9CuYy2mJCBcTKqG3AMe4C_BMP9g454OpiRbQWy7XwRyFCCWR8K8ORd-VQ"/>
+</div>
+<span class="font-headline-md text-headline-md text-on-surface uppercase">BRA</span>
+</div>
+<div class="flex items-center justify-center gap-3">
+<div class="text-outline text-label-sm font-bold uppercase tracking-widest">VS</div>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-14 h-14 rounded-full overflow-hidden bg-surface-container">
+<img alt="GER" data-alt="A macro texture shot of the German national football team jersey, focusing on the pristine white fabric and clean black accents. The style is minimalist and corporate-athletic, with soft shadows and precise focus on the garment's technical details. The lighting is balanced and modern." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZLbEAfs4vzWnYbj9IQImHLE6LtBQo6rOhAcSUSjdWwRhtGlq_z6OXHpbAmvJtqJ4jP9NzlEon_Z0OILslebOKOxV9CybLTS1K0nKEoIsE32akEm1FBuWl97ckJJv52II-96mSS0bIkA6sdworRYJZujp7pUBehFgue2CPD9I2n4Z4nggpKNN5kBttkvLqOUn3Ex1x_cni_8zH6JHaeYDFDNJFQVghcelwv-j47k6HkoLKeOBu1ArwlzBkarIOrAqzYJcjZIMzgr0"/>
+</div>
+<span class="font-headline-md text-headline-md text-on-surface uppercase">GER</span>
+</div>
+</div>
+<div class="w-full sm:w-auto flex flex-col gap-3 min-w-[180px]">
+<div class="flex flex-col">
+<span class="text-label-sm text-outline">AZTECA STADIUM</span>
+<span class="text-label-md text-on-surface font-bold">TODAY, 21:00</span>
+</div>
+<div class="flex gap-2">
+<button class="flex-1 py-2 border border-outline text-on-surface-variant rounded-lg font-bold text-label-sm hover:bg-surface-container-high transition-all">
+                                    Reschedule
+                                </button>
+<button class="p-2 border border-outline text-on-surface-variant rounded-lg flex items-center justify-center hover:bg-error-container hover:text-on-error-container hover:border-error transition-all">
+<span class="material-symbols-outlined">event_busy</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Match Entry Card 3 -->
+<div class="bg-surface-container-lowest rounded-xl p-5 shadow-sm border border-surface-container flex flex-col sm:flex-row items-center gap-6 opacity-80">
+<div class="flex-1 w-full grid grid-cols-3 items-center gap-4">
+<div class="flex flex-col items-center gap-2">
+<div class="w-14 h-14 rounded-full overflow-hidden bg-surface-container">
+<img alt="ESP" data-alt="A detailed texture close-up of a Spain national football team red jersey. The deep crimson fabric is lit from the side to create high contrast and depth, showcasing the premium mesh material. The aesthetic is professional, intense, and fits a world-class sporting tournament environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGA6R-y8jW23R0plB6jyMtYY5U2AYZIX8OK_FLCxqxmyd7E2veE2Iv2i7xJQ1K1U-WO3HD6NjU-e8wip6JA_wj1uU32BV_Bt6Rrw8iNQa8PgfNybidWnW88Bl8ae8IjbYwM7UDqFEy_ymv3iTDZ2CWaP_HvMWP7Qb5mpc8jFM2-9TUe9JswY5rdIZcm7Q6a8rIYDuPzULh3AsbGKtDP9pZoB99Fj4xGfcVbH4a1UdyzX2ENtkirhtksLh4T0bQh0giyeXf2YdPYHM"/>
+</div>
+<span class="font-headline-md text-headline-md text-on-surface uppercase">ESP</span>
+</div>
+<div class="flex items-center justify-center gap-3">
+<div class="text-outline text-label-sm font-bold uppercase tracking-widest">VS</div>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-14 h-14 rounded-full overflow-hidden bg-surface-container">
+<img alt="ENG" data-alt="A textured close-up shot of an England national football team white jersey fabric. The image highlights the clean white knit with subtle red trim details. The lighting is bright and modern, creating a professional and championship-level visual feeling. Minimalist composition for a sports app UI." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAV4eYmaVZi3iTH-Vh9fte5fKLXHoP3cK0LYyxXeZ_gXXbDUAcrfAs2hNIp7oWvBuoxoIaE-FKFy1Y2CuQw66E1fUVdh-PeNGJcs_ZBQ996PErpUoFjNjtHim6uK6GARtvqFWsAaCLwpsWmb1tqpDIIbCeKDzCzE2Z5XTLxUk3tIla8mvxCzMMZ_AliqgZ0wyqMkO9yejz-1oket4PsSxBmtMl84corCV3oGpU_PTeTl4RgbTOB_lOITzYCCmyvYOFKmQOTLfKU4cs"/>
+</div>
+<span class="font-headline-md text-headline-md text-on-surface uppercase">ENG</span>
+</div>
+</div>
+<div class="w-full sm:w-auto flex flex-col gap-3 min-w-[180px]">
+<div class="flex flex-col">
+<span class="text-label-sm text-outline">METLIFE STADIUM</span>
+<span class="text-label-md text-on-surface font-bold">TOMORROW, 18:30</span>
+</div>
+<button class="w-full py-2 border border-outline text-on-surface-variant rounded-lg font-bold text-label-sm hover:bg-surface-container-high transition-all">
+                                Open Editor
+                            </button>
+</div>
+</div>
+</section>
+<!-- Sidebar Operations Column -->
+<aside class="lg:col-span-4 flex flex-col gap-gutter">
+<!-- Calendar / Fixture Management -->
+<section class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-surface-container">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-4">Fixture Actions</h3>
+<div class="flex flex-col gap-3">
+<button class="flex items-center gap-3 w-full p-4 bg-surface-container-low rounded-lg hover:bg-surface-container-high transition-all text-left">
+<span class="material-symbols-outlined text-primary">add_circle</span>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Add New Match</p>
+<p class="text-label-sm text-outline">Insert manual entry into fixture</p>
+</div>
+</button>
+<button class="flex items-center gap-3 w-full p-4 bg-surface-container-low rounded-lg hover:bg-surface-container-high transition-all text-left">
+<span class="material-symbols-outlined text-tertiary">history</span>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Audit Logs</p>
+<p class="text-label-sm text-outline">View score update history</p>
+</div>
+</button>
+<button class="flex items-center gap-3 w-full p-4 bg-surface-container-low rounded-lg hover:bg-surface-container-high transition-all text-left">
+<span class="material-symbols-outlined text-error">warning</span>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Emergency Halt</p>
+<p class="text-label-sm text-outline">Suspend all prediction updates</p>
+</div>
+</button>
+</div>
+</section>
+<!-- Stadium Status (Asymmetric Card) -->
+<section class="bg-secondary text-on-secondary p-6 rounded-xl shadow-lg relative overflow-hidden h-64 flex flex-col justify-end">
+<div class="absolute top-0 right-0 p-8 opacity-20 transform translate-x-1/4 -translate-y-1/4">
+<span class="material-symbols-outlined text-[160px]" style="font-variation-settings: 'FILL' 1;">stadium</span>
+</div>
+<div class="relative z-10">
+<h4 class="font-headline-md text-headline-md font-bold mb-1">Stadium Network</h4>
+<p class="text-label-sm opacity-80 mb-4">12 Venues reported Operational</p>
+<div class="flex items-center gap-2">
+<div class="flex -space-x-2">
+<div class="w-8 h-8 rounded-full border-2 border-secondary bg-primary-container"></div>
+<div class="w-8 h-8 rounded-full border-2 border-secondary bg-tertiary-container"></div>
+<div class="w-8 h-8 rounded-full border-2 border-secondary bg-surface-container"></div>
+</div>
+<span class="text-label-sm">+9 sites online</span>
+</div>
+</div>
+</section>
+<!-- Quick Notes -->
+<section class="bg-tertiary-fixed text-on-tertiary-fixed p-6 rounded-xl shadow-sm">
+<h3 class="font-label-md text-label-md font-bold mb-2 uppercase tracking-wider">Admin Reminder</h3>
+<p class="font-body-md text-body-md italic opacity-90">
+                            "Remember to double-check official FIFA data feeds before confirming final scores. Prediction points are calculated immediately upon finalization."
+                        </p>
+</section>
+</aside>
+</div>
+</div>
+<!-- Floating Action Button (Admin Shortcut) -->
+<button class="fixed bottom-24 md:bottom-8 right-6 w-14 h-14 bg-primary text-on-primary rounded-full shadow-2xl flex items-center justify-center active:scale-90 transition-transform z-50">
+<span class="material-symbols-outlined text-3xl">publish</span>
+</button>
+<!-- Bottom Navigation (Mobile Only) -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center px-4 py-3 bg-surface dark:bg-background md:hidden shadow-[0_-4px_12px_rgba(35,99,145,0.1)] rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed-dim font-bold scale-110 transition-transform" href="#">
+<span class="material-symbols-outlined">sports_soccer</span>
+<span class="font-label-sm text-label-sm">Matches</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline opacity-70" href="#">
+<span class="material-symbols-outlined">leaderboard</span>
+<span class="font-label-sm text-label-sm">Leagues</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline opacity-70" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-sm text-label-sm">Social</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline opacity-70" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</a>
+</nav>
+</main>
+<!-- Micro-interactions Script -->
+<script>
+        // Input validation and interaction
+        const scoreInputs = document.querySelectorAll('.score-input');
+        scoreInputs.forEach(input => {
+            input.addEventListener('change', (e) => {
+                if (e.target.value < 0) e.target.value = 0;
+            });
+            
+            // Subtle lift effect on focus
+            input.addEventListener('focus', () => {
+                input.parentElement.parentElement.parentElement.classList.add('scale-[1.01]');
+            });
+            input.addEventListener('blur', () => {
+                input.parentElement.parentElement.parentElement.classList.remove('scale-[1.01]');
+            });
+        });
+
+        // Global Confirmation Logic (Visual only)
+        const finalizeButtons = document.querySelectorAll('button:contains("Finalize")');
+        // Note: contains is not native, using a standard loop
+        document.querySelectorAll('button').forEach(btn => {
+            if(btn.innerText.includes('Finalize Result')) {
+                btn.addEventListener('click', () => {
+                    const card = btn.closest('.bg-surface-container-lowest');
+                    btn.innerHTML = '<span class="material-symbols-outlined animate-spin">refresh</span>';
+                    btn.disabled = true;
+                    
+                    setTimeout(() => {
+                        btn.innerHTML = 'Confirmed';
+                        btn.classList.replace('bg-primary', 'bg-tertiary-container');
+                        card.classList.add('border-tertiary-container', 'opacity-60');
+                        alert('Result updated and predictions synchronized successfully.');
+                    }, 1500);
+                });
+            }
+        });
+    </script>
+</body></html>

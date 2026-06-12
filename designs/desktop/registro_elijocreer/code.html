@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ElijoCreer - Sign Up</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&amp;family=Hanken+Grotesk:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .glass-card {
+            background: rgba(17, 34, 64, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .prediction-well {
+            box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.3);
+        }
+        .stadium-gradient {
+            background: radial-gradient(circle at top right, rgba(134, 207, 250, 0.1), transparent),
+                        radial-gradient(circle at bottom left, rgba(212, 175, 55, 0.05), transparent);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-secondary-fixed-variant": "#454747",
+                      "primary-fixed": "#c4e7ff",
+                      "primary-fixed-dim": "#86cffa",
+                      "primary-container": "#7bc4ee",
+                      "on-secondary-fixed": "#1a1c1c",
+                      "tertiary-container": "#deb83f",
+                      "inverse-on-surface": "#233148",
+                      "on-tertiary-container": "#5d4900",
+                      "inverse-surface": "#d6e3ff",
+                      "surface-tint": "#86cffa",
+                      "on-surface": "#d6e3ff",
+                      "tertiary-fixed": "#ffe088",
+                      "on-primary-fixed": "#001e2c",
+                      "surface-bright": "#2c3951",
+                      "surface": "#041329",
+                      "on-secondary-container": "#b4b5b5",
+                      "on-error": "#690005",
+                      "outline": "#899298",
+                      "surface-container-highest": "#27354c",
+                      "on-tertiary-fixed": "#241a00",
+                      "on-primary": "#00344a",
+                      "tertiary-fixed-dim": "#e9c349",
+                      "primary": "#aadeff",
+                      "on-primary-container": "#00516f",
+                      "error-container": "#93000a",
+                      "surface-container-low": "#0d1c32",
+                      "on-tertiary-fixed-variant": "#574500",
+                      "surface-container-lowest": "#010e24",
+                      "on-surface-variant": "#bfc8cf",
+                      "surface-variant": "#27354c",
+                      "secondary-container": "#454747",
+                      "surface-container": "#112036",
+                      "secondary-fixed-dim": "#c6c6c7",
+                      "background": "#041329",
+                      "secondary-fixed": "#e2e2e2",
+                      "outline-variant": "#40484e",
+                      "on-background": "#d6e3ff",
+                      "secondary": "#c6c6c7",
+                      "surface-dim": "#041329",
+                      "error": "#ffb4ab",
+                      "tertiary": "#fbd358",
+                      "on-secondary": "#2f3131",
+                      "inverse-primary": "#00658b",
+                      "on-tertiary": "#3c2f00"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "stack-lg": "48px",
+                      "margin-mobile": "16px",
+                      "container-max": "1280px",
+                      "stack-md": "24px",
+                      "margin-desktop": "40px",
+                      "gutter": "24px",
+                      "base": "8px",
+                      "stack-sm": "12px"
+              },
+              "fontFamily": {
+                      "display-lg": ["Sora"],
+                      "label-md": ["JetBrains Mono"],
+                      "body-md": ["Hanken Grotesk"],
+                      "headline-md": ["Sora"],
+                      "body-lg": ["Hanken Grotesk"],
+                      "headline-lg": ["Sora"],
+                      "headline-lg-mobile": ["Sora"]
+              },
+              "fontSize": {
+                      "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                      "label-md": ["14px", { "lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                      "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                      "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                      "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                      "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                      "headline-lg-mobile": ["28px", { "lineHeight": "1.2", "fontWeight": "700" }]
+              }
+            },
+          },
+        }
+      </script>
+</head>
+<body class="bg-surface text-on-surface font-body-md overflow-x-hidden">
+<!-- Main Content Grid -->
+<main class="min-h-screen flex flex-col md:flex-row">
+<!-- Left Side: Value Proposition -->
+<section class="relative w-full md:w-1/2 min-h-[409px] md:min-h-screen flex items-center justify-center overflow-hidden stadium-gradient px-margin-mobile md:px-margin-desktop">
+<!-- Background Layer -->
+<div class="absolute inset-0 z-0">
+<div class="absolute inset-0 bg-surface/40 z-10 backdrop-blur-[2px]"></div>
+<img class="w-full h-full object-cover" data-alt="A wide angle, cinematic shot of a futuristic World Cup stadium at night under a deep navy sky. Bright celestial blue spotlights beam into the air, creating a dramatic atmosphere of anticipation. The grass is pristine, and the architecture of the stadium is modern and sharp, lit with gold and celeste accents to match the ElijoCreer brand identity. The mood is epic and celebratory, capturing the collective hope of football fans." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxPXfRJJ3cgUG8TOIkYDtVbMBvknLnGMbFtOKSLCQvwi5dsupQRUah8VKm7eRJT9z8CC5dQgpauw8Z3yekP3WFs7HkMEvfjUjmx8nMIzJUNLBBgQgP6NuTnusgE15Y1AtERWsyt681QQPCOrlkVqj7gp4BF0Qw8eW0TeNd7ACy1vq_KL-IjLfFT_s9EpSFPXn8Ggn2Bg4tzDqlIMa-CLeGtNUSk0Xkjgmy_12GCu2hoobTUFjLBQVOR3iLn50vuLox3KW-ga7-5UE"/>
+</div>
+<!-- Content Overlay -->
+<div class="relative z-20 max-w-lg text-center md:text-left">
+<div class="inline-flex items-center gap-base mb-stack-md">
+<span class="font-display-lg text-headline-md italic font-black text-primary tracking-tighter">ElijoCreer</span>
+<div class="h-px w-12 bg-tertiary"></div>
+</div>
+<h1 class="font-display-lg text-display-lg text-on-surface mb-stack-md leading-tight">
+                    Viví el Mundial <span class="text-tertiary">como nunca antes</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-md">
+                    Unite a la comunidad de fanáticos más grande. Demostrá tus conocimientos, armá tu Prode y competí por la gloria máxima en el Mundial 2026.
+                </p>
+<!-- Micro-stats/Social Proof -->
+<div class="mt-stack-lg flex flex-wrap justify-center md:justify-start gap-stack-md">
+<div class="flex flex-col">
+<span class="font-display-lg text-headline-md text-primary">+2M</span>
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Jugadores</span>
+</div>
+<div class="w-px h-12 bg-white/10 self-center hidden md:block"></div>
+<div class="flex flex-col">
+<span class="font-display-lg text-headline-md text-tertiary">US$ 50k</span>
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Premios</span>
+</div>
+</div>
+</div>
+<!-- Floating Decorative Element -->
+<div class="absolute -bottom-20 -left-20 w-64 h-64 bg-primary/20 rounded-full blur-[100px]"></div>
+</section>
+<!-- Right Side: Registration Form -->
+<section class="w-full md:w-1/2 flex items-center justify-center bg-surface-container-lowest px-margin-mobile md:px-margin-desktop py-stack-lg">
+<div class="w-full max-w-md">
+<div class="mb-stack-lg">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-base">Creá tu cuenta</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                        Completá tus datos para empezar a predecir resultados.
+                    </p>
+</div>
+<form class="space-y-stack-md" id="signupForm">
+<!-- Name Field -->
+<div class="space-y-base">
+<label class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider" for="name">Nombre Completo</label>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary transition-colors">person</span>
+<input class="w-full bg-surface-container border-none focus:ring-2 focus:ring-primary text-on-surface rounded-lg py-4 pl-12 pr-4 prediction-well transition-all font-body-md placeholder:text-on-surface-variant/30" id="name" name="name" placeholder="Ej: Lionel Messi" type="text"/>
+</div>
+</div>
+<!-- Email Field -->
+<div class="space-y-base">
+<label class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider" for="email">Correo Electrónico</label>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary transition-colors">mail</span>
+<input class="w-full bg-surface-container border-none focus:ring-2 focus:ring-primary text-on-surface rounded-lg py-4 pl-12 pr-4 prediction-well transition-all font-body-md placeholder:text-on-surface-variant/30" id="email" name="email" placeholder="leo@elijo-creer.com" type="email"/>
+</div>
+</div>
+<!-- Password Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-stack-md">
+<div class="space-y-base">
+<label class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider" for="password">Contraseña</label>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary transition-colors">lock</span>
+<input class="w-full bg-surface-container border-none focus:ring-2 focus:ring-primary text-on-surface rounded-lg py-4 pl-12 pr-4 prediction-well transition-all font-body-md placeholder:text-on-surface-variant/30" id="password" name="password" placeholder="••••••••" type="password"/>
+</div>
+</div>
+<div class="space-y-base">
+<label class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider" for="confirm_password">Confirmar</label>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary transition-colors">lock_reset</span>
+<input class="w-full bg-surface-container border-none focus:ring-2 focus:ring-primary text-on-surface rounded-lg py-4 pl-12 pr-4 prediction-well transition-all font-body-md placeholder:text-on-surface-variant/30" id="confirm_password" name="confirm_password" placeholder="••••••••" type="password"/>
+</div>
+</div>
+</div>
+<!-- Terms Checkbox -->
+<div class="flex items-start gap-stack-sm pt-base">
+<input class="mt-1 bg-surface-container border-none text-primary focus:ring-primary rounded" id="terms" name="terms" type="checkbox"/>
+<label class="font-body-md text-body-md text-on-surface-variant leading-tight" for="terms">
+                            Acepto los <a class="text-primary hover:underline transition-all" href="#">Términos de Servicio</a> y la <a class="text-primary hover:underline transition-all" href="#">Política de Privacidad</a>.
+                        </label>
+</div>
+<!-- CTA Button -->
+<button class="w-full bg-tertiary hover:bg-tertiary-container text-on-tertiary font-headline-md py-5 rounded-lg shadow-xl shadow-tertiary/10 active:scale-95 transition-all flex items-center justify-center gap-base" type="submit">
+                        Comenzar mi Prode
+                        <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</form>
+<!-- Footer Link -->
+<div class="mt-stack-lg text-center border-t border-white/5 pt-stack-md">
+<p class="font-body-md text-on-surface-variant">
+                        ¿Ya tenés cuenta? 
+                        <a class="text-primary font-bold hover:underline transition-all ml-1" href="#">Iniciá Sesión</a>
+</p>
+</div>
+<!-- Footer Text (From JSON) -->
+<div class="mt-stack-lg flex flex-col items-center gap-base opacity-40">
+<span class="font-label-md text-label-md text-on-surface-variant">© 2026 ElijoCreer - The Ultimate Prode Experience</span>
+</div>
+</div>
+</section>
+</main>
+<script>
+        // Simple Interaction Logic
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = this.querySelector('button');
+            const originalContent = btn.innerHTML;
+            
+            // Visual feedback on submit
+            btn.innerHTML = '<span class="animate-spin material-symbols-outlined">progress_activity</span> Procesando...';
+            btn.disabled = true;
+            btn.classList.add('opacity-80');
+
+            setTimeout(() => {
+                btn.innerHTML = '<span class="material-symbols-outlined">check_circle</span> ¡Bienvenido!';
+                btn.classList.replace('bg-tertiary', 'bg-primary-container');
+                btn.classList.replace('text-on-tertiary', 'text-on-primary-container');
+                
+                // Trigger celebratory animation or redirect logic would go here
+                console.log("Account created for ElijoCreer");
+            }, 1500);
+        });
+
+        // Add subtle hover effect to input containers
+        const inputs = document.querySelectorAll('input[type="text"], input[type="email"], input[type="password"]');
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.parentElement.classList.add('scale-[1.01]');
+            });
+            input.addEventListener('blur', () => {
+                input.parentElement.parentElement.classList.remove('scale-[1.01]');
+            });
+        });
+    </script>
+</body></html>

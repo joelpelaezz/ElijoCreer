@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Login | ElijoCreer</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Hanken+Grotesk:wght@400;500&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        body {
+            background-color: #041329; /* Using surface color from config */
+            overflow-x: hidden;
+        }
+
+        .glass-card {
+            background: rgba(17, 34, 64, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .stadium-glow {
+            position: absolute;
+            width: 150vw;
+            height: 150vh;
+            top: -25%;
+            left: -25%;
+            background: radial-gradient(circle at center, rgba(134, 207, 250, 0.08) 0%, transparent 70%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .input-well {
+            background: rgba(4, 19, 41, 0.5);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-secondary-fixed-variant": "#454747",
+                      "primary-fixed": "#c4e7ff",
+                      "primary-fixed-dim": "#86cffa",
+                      "primary-container": "#7bc4ee",
+                      "on-secondary-fixed": "#1a1c1c",
+                      "tertiary-container": "#deb83f",
+                      "inverse-on-surface": "#233148",
+                      "on-tertiary-container": "#5d4900",
+                      "inverse-surface": "#d6e3ff",
+                      "surface-tint": "#86cffa",
+                      "on-surface": "#d6e3ff",
+                      "tertiary-fixed": "#ffe088",
+                      "on-primary-fixed": "#001e2c",
+                      "surface-bright": "#2c3951",
+                      "surface": "#041329",
+                      "on-secondary-container": "#b4b5b5",
+                      "on-error": "#690005",
+                      "outline": "#899298",
+                      "surface-container-highest": "#27354c",
+                      "on-tertiary-fixed": "#241a00",
+                      "on-primary": "#00344a",
+                      "tertiary-fixed-dim": "#e9c349",
+                      "primary": "#aadeff",
+                      "on-primary-container": "#00516f",
+                      "error-container": "#93000a",
+                      "surface-container-low": "#0d1c32",
+                      "on-tertiary-fixed-variant": "#574500",
+                      "surface-container-lowest": "#010e24",
+                      "on-surface-variant": "#bfc8cf",
+                      "surface-container-high": "#1c2a41",
+                      "on-error-container": "#ffdad6",
+                      "on-primary-fixed-variant": "#004c69",
+                      "surface-variant": "#27354c",
+                      "secondary-container": "#454747",
+                      "surface-container": "#112036",
+                      "secondary-fixed-dim": "#c6c6c7",
+                      "background": "#041329",
+                      "secondary-fixed": "#e2e2e2",
+                      "outline-variant": "#40484e",
+                      "on-background": "#d6e3ff",
+                      "secondary": "#c6c6c7",
+                      "surface-dim": "#041329",
+                      "error": "#ffb4ab",
+                      "tertiary": "#fbd358",
+                      "on-secondary": "#2f3131",
+                      "inverse-primary": "#00658b",
+                      "on-tertiary": "#3c2f00"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "stack-lg": "48px",
+                      "margin-mobile": "16px",
+                      "container-max": "1280px",
+                      "stack-md": "24px",
+                      "margin-desktop": "40px",
+                      "gutter": "24px",
+                      "base": "8px",
+                      "stack-sm": "12px"
+              },
+              "fontFamily": {
+                      "display-lg": ["Sora"],
+                      "label-md": ["JetBrains Mono"],
+                      "body-md": ["Hanken Grotesk"],
+                      "headline-md": ["Sora"],
+                      "body-lg": ["Hanken Grotesk"],
+                      "headline-lg": ["Sora"],
+                      "headline-lg-mobile": ["Sora"]
+              },
+              "fontSize": {
+                      "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                      "label-md": ["14px", {"lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                      "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                      "headline-lg-mobile": ["28px", {"lineHeight": "1.2", "fontWeight": "700"}]
+              }
+            }
+          }
+        }
+      </script>
+</head>
+<body class="bg-surface text-on-surface font-body-md min-h-screen flex items-center justify-center p-margin-mobile md:p-0">
+<!-- Atmospheric Background -->
+<div class="stadium-glow"></div>
+<div class="absolute inset-0 z-0 opacity-20">
+<div class="absolute top-0 right-0 w-96 h-96 bg-primary-container rounded-full blur-[120px]"></div>
+<div class="absolute bottom-0 left-0 w-96 h-96 bg-tertiary rounded-full blur-[120px]"></div>
+</div>
+<!-- Main Content Container -->
+<main class="relative z-10 w-full max-w-[480px] animate-in fade-in slide-in-from-bottom-8 duration-700">
+<!-- Branding Anchor -->
+<div class="flex flex-col items-center mb-stack-lg">
+<h1 class="font-display-lg text-headline-md italic font-black text-primary tracking-tighter mb-2">ElijoCreer</h1>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">World Cup 2026 Prode</p>
+</div>
+<!-- Login Card -->
+<div class="glass-card rounded-xl p-stack-md md:p-stack-lg shadow-xl">
+<div class="mb-stack-md text-center">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-2">Welcome Back, Champion</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Log in to place your predictions.</p>
+</div>
+<!-- Login Form -->
+<form action="#" class="space-y-stack-md">
+<div>
+<label class="font-label-md text-label-md text-on-surface-variant block mb-2" for="email">EMAIL ADDRESS</label>
+<input class="input-well w-full h-12 px-4 rounded-lg border-none focus:ring-2 focus:ring-primary text-on-surface transition-all" id="email" placeholder="name@example.com" type="email"/>
+</div>
+<div>
+<div class="flex justify-between items-center mb-2">
+<label class="font-label-md text-label-md text-on-surface-variant" for="password">PASSWORD</label>
+<a class="font-label-md text-label-md text-primary hover:text-primary-fixed transition-colors" href="#">Forgot Password?</a>
+</div>
+<div class="relative">
+<input class="input-well w-full h-12 px-4 rounded-lg border-none focus:ring-2 focus:ring-primary text-on-surface transition-all" id="password" placeholder="••••••••" type="password"/>
+<button class="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary" type="button">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</div>
+</div>
+<div class="flex items-center gap-2 mb-stack-md">
+<input class="w-4 h-4 rounded border-outline-variant bg-surface-container text-tertiary focus:ring-tertiary" id="remember" type="checkbox"/>
+<label class="font-body-md text-body-md text-on-surface-variant" for="remember">Remember me for 30 days</label>
+</div>
+<button class="w-full bg-tertiary text-on-tertiary font-headline-md py-4 rounded-lg hover:bg-tertiary-container active:scale-[0.98] transition-all shadow-lg shadow-tertiary/20" type="submit">
+                    Sign In
+                </button>
+</form>
+<!-- Divider -->
+<div class="flex items-center gap-4 my-stack-md">
+<div class="h-[1px] flex-grow bg-white/5"></div>
+<span class="font-label-md text-label-md text-on-surface-variant">OR CONTINUE WITH</span>
+<div class="h-[1px] flex-grow bg-white/5"></div>
+</div>
+<!-- Social Logins -->
+<div class="grid grid-cols-2 gap-gutter">
+<button class="flex items-center justify-center gap-2 h-12 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 transition-colors font-body-md text-on-surface">
+<img alt="Google Logo" class="w-5 h-5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDA-EbNG53deUKKGDCCQLCijm5Fig_z0oKDz6Gd3vIw-_7T9oiSdK2Dwx3kcnum1yGkcgimiGldMP9M4ajv3PbD3T7zDNAE_hXU9l9Kx9ofSYsWdIC5T2tmWsdIg3a5L2ptsU5ELUp1qrHSbSUhZzuU2WlPAs1lMmVjs5XqelvJE-cq9LfehDUt6Cm2yqjQxoQuuAuc_AwF6V2ifztL6uTvS7hHoTp1bS4IqGUOOUB1Yk-__0efWIPCHuKIYY9D_YxUNVeKux3u7do"/>
+<span>Google</span>
+</button>
+<button class="flex items-center justify-center gap-2 h-12 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 transition-colors font-body-md text-on-surface">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">apps</span>
+<span>Apple</span>
+</button>
+</div>
+</div>
+<!-- Secondary Actions -->
+<div class="mt-stack-md text-center">
+<p class="font-body-md text-body-md text-on-surface-variant">
+                Don't have an account? 
+                <a class="text-primary font-bold hover:underline" href="#">Join the League</a>
+</p>
+</div>
+<!-- Footer Credits -->
+<footer class="mt-stack-lg text-center opacity-40">
+<p class="font-label-md text-label-md text-on-surface-variant">© 2026 ElijoCreer - The Ultimate Prode Experience</p>
+</footer>
+</main>
+<!-- Decorative Corner Icons -->
+<div class="fixed bottom-margin-desktop left-margin-desktop hidden lg:block opacity-10 pointer-events-none">
+<span class="material-symbols-outlined text-[120px] text-primary" style="font-variation-settings: 'wght' 200;">sports_soccer</span>
+</div>
+<div class="fixed top-margin-desktop right-margin-desktop hidden lg:block opacity-10 pointer-events-none">
+<span class="material-symbols-outlined text-[120px] text-tertiary" style="font-variation-settings: 'wght' 200;">trophy</span>
+</div>
+<script>
+        // Simple Interaction logic
+        document.querySelector('form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            btn.innerHTML = '<span class="material-symbols-outlined animate-spin">progress_activity</span>';
+            setTimeout(() => {
+                btn.innerHTML = 'Sign In';
+            }, 2000);
+        });
+
+        // Focus ring effect for inputs
+        const inputs = document.querySelectorAll('input[type="email"], input[type="password"]');
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                input.closest('.glass-card').style.boxShadow = '0 10px 40px rgba(123, 196, 238, 0.1)';
+            });
+            input.addEventListener('blur', () => {
+                input.closest('.glass-card').style.boxShadow = '';
+            });
+        });
+    </script>
+</body></html>
