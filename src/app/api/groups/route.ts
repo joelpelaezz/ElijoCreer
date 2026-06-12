@@ -48,46 +48,46 @@ export async function POST(request: Request) {
     const _db = getDb();
     const { name, tournamentId, description } = await request.json();
 
-  if (!name || !tournamentId) {
-    return NextResponse.json(
-      { error: "Nombre y torneo son requeridos" },
-      { status: 400 }
-    );
-  }
+    if (!name || !tournamentId) {
+      return NextResponse.json(
+        { error: "Nombre y torneo son requeridos" },
+        { status: 400 }
+      );
+    }
 
-  const groupId = crypto.randomUUID();
-  const inviteCode = crypto.randomUUID().slice(0, 8).toUpperCase();
+    const groupId = crypto.randomUUID();
+    const inviteCode = crypto.randomUUID().slice(0, 8).toUpperCase();
 
-  await _db.insert(groups).values({
-    id: groupId,
-    name,
-    slug: name.toLowerCase().replace(/\s+/g, "-"),
+    await _db.insert(groups).values({
+      id: groupId,
+      name,
+      slug: name.toLowerCase().replace(/\s+/g, "-"),
     description: description || null,
-    inviteCode,
-    ownerUserId: session.user.id,
-    tournamentId,
-    isActive: true,
-  });
+      inviteCode,
+      ownerUserId: session.user.id,
+      tournamentId,
+      isActive: true,
+    });
 
-  // Agregar owner como miembro admin
-  await _db.insert(groupMembers).values({
-    groupId,
-    userId: session.user.id,
-    role: "admin",
-    status: "active",
-  });
+    // Agregar owner como miembro admin
+    await _db.insert(groupMembers).values({
+      groupId,
+      userId: session.user.id,
+      role: "admin",
+      status: "active",
+    });
 
-  // Crear reglas de puntaje default para el grupo
-  await _db.insert(groupScoringRules).values({
-    groupId,
-    exactScorePoints: 5,
-    outcomePoints: 3,
-    oneTeamScorePoints: 0,
-    bonusPoints: 0,
-    updatedBy: session.user.id,
-  });
+    // Crear reglas de puntaje default para el grupo
+    await _db.insert(groupScoringRules).values({
+      groupId,
+      exactScorePoints: 5,
+      outcomePoints: 3,
+      oneTeamScorePoints: 0,
+      bonusPoints: 0,
+      updatedBy: session.user.id,
+    });
 
-  return NextResponse.json(
+    return NextResponse.json(
       { success: true, groupId, inviteCode },
       { status: 201 }
     );
