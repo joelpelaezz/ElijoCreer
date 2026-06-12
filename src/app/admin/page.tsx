@@ -79,6 +79,7 @@ export default function AdminPage() {
   const [loadingScoring, setLoadingScoring] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [authError, setAuthError] = useState<boolean>(false);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
 
   useEffect(() => {
@@ -108,7 +109,16 @@ export default function AdminPage() {
     try {
       // Load stats
       const statsRes = await fetch("/api/admin/stats");
-      if (!statsRes.ok) throw new Error("No autorizado");
+      if (statsRes.status === 401 || statsRes.status === 403) {
+        setAuthError(true);
+        throw new Error("No autorizado");
+      } else {
+        setAuthError(false);
+      }
+      if (!statsRes.ok) {
+        const errData = await statsRes.json().catch(() => ({}));
+        throw new Error(errData?.error || errData?.detail || "Error al cargar estadísticas");
+      }
       setStats(await statsRes.json());
 
       // Load groups
@@ -305,7 +315,7 @@ export default function AdminPage() {
     );
   }
 
-  if (error) {
+  if (error && authError) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-8 text-center">
         <span className="material-symbols-outlined text-5xl text-destructive mb-3">
@@ -321,6 +331,35 @@ export default function AdminPage() {
         >
           Volver al inicio
         </Link>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="max-w-4xl mx-auto px-4 py-8 text-center">
+        <span className="material-symbols-outlined text-5xl text-destructive mb-3">
+          error
+        </span>
+        <p className="text-foreground font-medium text-lg">Error cargando panel</p>
+        <p className="text-muted-foreground text-sm mt-1">{error}</p>
+        <div className="flex gap-2 justify-center mt-4">
+          <button
+            onClick={() => {
+              setError(null);
+              loadData();
+            }}
+            className="px-4 py-2 text-sm font-medium rounded-lg bg-primary text-primary-foreground"
+          >
+            Reintentar
+          </button>
+          <Link
+            href="/dashboard"
+            className="px-4 py-2 text-sm font-medium rounded-lg border border-border text-foreground"
+          >
+            Volver al inicio
+          </Link>
+        </div>
       </div>
     );
   }
