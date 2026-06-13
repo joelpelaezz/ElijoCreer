@@ -279,10 +279,12 @@ export default function FixturePage() {
                     weekday: "short",
                     day: "numeric",
                     month: "short",
+                    timeZone: "UTC",
                   })}{" "}
                   {new Date(match.startsAt).toLocaleTimeString("es-AR", {
                     hour: "2-digit",
                     minute: "2-digit",
+                    timeZone: "UTC",
                   })}
                 </span>
                 {matchStatus === "open" && (

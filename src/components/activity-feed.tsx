@@ -86,5 +86,5 @@ function timeAgo(date: Date): string {
   if (hours < 24) return `hace ${hours}h`;
   const days = Math.floor(hours / 24);
   if (days < 7) return `hace ${days}d`;
-  return date.toLocaleDateString("es-AR");
+  return date.toLocaleDateString("es-AR", { timeZone: "UTC" });
 }
