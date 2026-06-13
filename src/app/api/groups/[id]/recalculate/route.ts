@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getDb } from "@/lib/db";
+import { getDb, getPool } from "@/lib/db";
 import {
   predictions,
   officialResults,
@@ -86,6 +86,8 @@ export async function POST(
       userId: predictions.userId,
       predictedHomeScore: predictions.predictedHomeScore,
       predictedAwayScore: predictions.predictedAwayScore,
+      isLate: predictions.isLate,
+      latePenaltyApplied: predictions.latePenaltyApplied,
     })
     .from(predictions)
     .where(
@@ -103,12 +105,26 @@ export async function POST(
 
   const resultMap = new Map(allResults.map((r) => [r.matchId, r]));
 
+  // Obtener late penalty percent de config
+  let latePenaltyPercent: number | undefined;
+  try {
+    const pool = getPool();
+    const configResult = await pool.query(
+      `SELECT value FROM app_config WHERE key = 'latePredictionPenaltyPercent' AND category = 'scoring'`
+    );
+    if (configResult.rows?.length > 0) {
+      latePenaltyPercent = parseInt(configResult.rows[0].value, 10);
+    }
+  } catch {}
+
   // Recalcular y persistir
   let count = 0;
 
   for (const pred of groupPredictions) {
     const result = resultMap.get(pred.matchId);
     if (!result) continue;
+
+    const penalty = (pred.isLate && pred.latePenaltyApplied) ? latePenaltyPercent : undefined;
 
     const score = calculateScore(
       pred.predictedHomeScore,
@@ -120,7 +136,8 @@ export async function POST(
         outcomePoints: rules.outcomePoints,
         oneTeamScorePoints: rules.oneTeamScorePoints,
         bonusPoints: rules.bonusPoints,
-      }
+      },
+      penalty
     );
 
     // Upsert en predictionScores

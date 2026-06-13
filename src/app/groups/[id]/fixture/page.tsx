@@ -32,6 +32,9 @@ interface Prediction {
   predictedHomeScore: number;
   predictedAwayScore: number;
   isLocked: boolean;
+  isLate: boolean;
+  lateMinutes: number | null;
+  latePenaltyApplied: boolean;
 }
 
 export default function FixturePage() {
@@ -50,6 +53,11 @@ export default function FixturePage() {
   const [loadingScore, setLoadingScore] = useState<string | null>(null);
   const [activeStage, setActiveStage] = useState("group");
   const [loadingMatches, setLoadingMatches] = useState(true);
+  const [lateConfig, setLateConfig] = useState<{
+    enabled: boolean;
+    deadlineMinutes: number;
+    lateWindowMinutes: number;
+  }>({ enabled: false, deadlineMinutes: 30, lateWindowMinutes: 120 });
 
   useEffect(() => {
     // Cargar info del grupo para obtener tournamentId
@@ -62,6 +70,22 @@ export default function FixturePage() {
       })
       .catch(() => {});
   }, [id]);
+
+  useEffect(() => {
+    // Cargar configuración de scoring (deadline, late window)
+    fetch("/api/scoring-config/public")
+      .then((r) => r.json())
+      .then((data) => {
+        if (data) {
+          setLateConfig({
+            enabled: data.latePredictionEnabled === true,
+            deadlineMinutes: parseInt(data.predictionDeadlineMinutes ?? "30", 10),
+            lateWindowMinutes: parseInt(data.latePredictionWindowMinutes ?? "120", 10),
+          });
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     if (!tournamentId) return;
@@ -133,19 +157,39 @@ export default function FixturePage() {
     setTimeout(() => setMessage(null), 3000);
   }
 
-  // Buffer de 30 minutos antes del partido para cerrar pronósticos
-  const DEADLINE_BUFFER_MINUTES = 30;
+  // Estados dinámicos desde config
+  function getMatchTime(match: Match) { return new Date(match.startsAt); }
+  function getDeadline(match: Match) {
+    const mt = getMatchTime(match);
+    return new Date(mt.getTime() - lateConfig.deadlineMinutes * 60 * 1000);
+  }
+  function getLateDeadline(match: Match) {
+    const d = getDeadline(match);
+    return new Date(d.getTime() + lateConfig.lateWindowMinutes * 60 * 1000);
+  }
+  function isDeadlinePassed(match: Match): boolean {
+    return getDeadline(match) < new Date();
+  }
+  function isLateWindowClosed(match: Match): boolean {
+    return getLateDeadline(match) < new Date();
+  }
 
-  function isPast(match: Match): boolean {
-    const matchTime = new Date(match.startsAt);
-    const deadline = new Date(matchTime.getTime() - DEADLINE_BUFFER_MINUTES * 60 * 1000);
-    return deadline < new Date();
+  function getMatchStatus(match: Match): "open" | "late" | "closed" {
+    if (isDeadlinePassed(match)) {
+      if (lateConfig.enabled && !isLateWindowClosed(match)) return "late";
+      return "closed";
+    }
+    return "open";
   }
 
   function getDeadlineText(match: Match): string {
-    const matchTime = new Date(match.startsAt);
-    const deadline = new Date(matchTime.getTime() - DEADLINE_BUFFER_MINUTES * 60 * 1000);
-    return deadline.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" });
+    const d = getDeadline(match);
+    const text = d.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" });
+    if (lateConfig.enabled) {
+      const late = getLateDeadline(match);
+      return `${text} (tardío hasta ${late.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" })})`;
+    }
+    return text;
   }
 
   // Agrupar por stage
@@ -219,7 +263,7 @@ export default function FixturePage() {
         ) : null}
         {matchesList.map((match) => {
           const pred = predictions[match.id];
-          const isPastMatch = isPast(match);
+          const matchStatus = getMatchStatus(match);
 
           return (
             <div
@@ -241,9 +285,14 @@ export default function FixturePage() {
                     minute: "2-digit",
                   })}
                 </span>
-                {!isPastMatch && (
+                {matchStatus === "open" && (
                   <span className="text-orange-600 font-medium" title="Último momento para pronosticar">
                     🕐 Cierra {getDeadlineText(match)}
+                  </span>
+                )}
+                {matchStatus === "late" && (
+                  <span className="text-amber-600 font-medium" title="Podés pronosticar con penalización">
+                    🟡 Tardío — cierre a las {getDeadlineText(match)}
                   </span>
                 )}
               </div>
@@ -270,7 +319,7 @@ export default function FixturePage() {
                     type="number"
                     min={0}
                     max={99}
-                    disabled={isPastMatch || pred?.isLocked}
+                    disabled={matchStatus === "closed" || pred?.isLocked}
                     value={scores[match.id]?.[0] ?? ""}
                     onChange={(e) =>
                       setScores((prev) => ({
@@ -283,7 +332,7 @@ export default function FixturePage() {
                         ? "border-primary bg-primary/5 text-primary"
                         : "border-border bg-surface text-foreground"
                     } focus:border-primary focus:ring-0 outline-none ${
-                      isPastMatch || pred?.isLocked
+                      matchStatus === "closed" || pred?.isLocked
                         ? "opacity-60 cursor-not-allowed"
                         : ""
                     }`}
@@ -296,7 +345,7 @@ export default function FixturePage() {
                     type="number"
                     min={0}
                     max={99}
-                    disabled={isPastMatch || pred?.isLocked}
+                    disabled={matchStatus === "closed" || pred?.isLocked}
                     value={scores[match.id]?.[1] ?? ""}
                     onChange={(e) =>
                       setScores((prev) => ({
@@ -309,7 +358,7 @@ export default function FixturePage() {
                         ? "border-primary bg-primary/5 text-primary"
                         : "border-border bg-surface text-foreground"
                     } focus:border-primary focus:ring-0 outline-none ${
-                      isPastMatch || pred?.isLocked
+                      matchStatus === "closed" || pred?.isLocked
                         ? "opacity-60 cursor-not-allowed"
                         : ""
                     }`}
@@ -334,19 +383,33 @@ export default function FixturePage() {
 
               {/* Status + Save */}
               <div className="flex items-center justify-between pt-2 border-t border-border">
-                <span
-                  className={`text-xs font-medium ${
-                    isPastMatch
-                      ? "text-muted-foreground"
-                      : "text-green-600"
-                  }`}
-                >
-                  {isPastMatch
-                    ? "❌ Cerrado"
-                    : pred?.isLocked
-                      ? "🔒 Bloqueado"
-                      : "🟢 Abierto"}
-                </span>
+                <div className="flex items-center gap-2">
+                  <span
+                    className={`text-xs font-medium ${
+                      matchStatus === "closed"
+                        ? "text-muted-foreground"
+                        : matchStatus === "late"
+                          ? "text-amber-600"
+                          : "text-green-600"
+                    }`}
+                  >
+                    {matchStatus === "closed"
+                      ? "❌ Cerrado"
+                      : matchStatus === "late"
+                        ? "🟡 Tardío"
+                        : pred?.isLocked
+                          ? "🔒 Bloqueado"
+                          : "🟢 Abierto"}
+                  </span>
+                  {pred?.isLate && pred?.latePenaltyApplied && (
+                    <span
+                      className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-600 dark:text-amber-400 text-xs font-medium"
+                      title={`Cargado ${pred.lateMinutes} min después del cierre — penalización del 50%`}
+                    >
+                      🟡 Tarde{pred.lateMinutes ? ` (${pred.lateMinutes}min)` : ""}
+                    </span>
+                  )}
+                </div>
                 <div className="flex items-center gap-2">
                   <button
                     onClick={async () => {
@@ -367,7 +430,7 @@ export default function FixturePage() {
                   >
                     {compareOpen === match.id ? "Ocultar" : "Ver pronósticos"}
                   </button>
-                  {isPastMatch && pred && (
+                  {matchStatus === "closed" && pred && (
                     <button
                       onClick={async () => {
                         if (scoreDetails[match.id]) {
@@ -396,7 +459,7 @@ export default function FixturePage() {
                       {pred.predictedHomeScore} - {pred.predictedAwayScore}
                     </span>
                   )}
-                  {!isPastMatch && !pred?.isLocked && (
+                  {matchStatus !== "closed" && !pred?.isLocked && (
                     <>
                       <button
                         onClick={() => handleSave(match.id)}

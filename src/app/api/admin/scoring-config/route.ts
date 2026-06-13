@@ -16,6 +16,17 @@ export async function GET(request: Request) {
   }
 
   try {
+    // Ensure table exists
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS app_config (
+        key VARCHAR(100) PRIMARY KEY,
+        value TEXT,
+        description TEXT,
+        category VARCHAR(50),
+        updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+      )
+    `);
+
     // Get global config
     const configResult = await pool.query(`
       SELECT key, value, description, updated_at
@@ -38,6 +49,11 @@ export async function GET(request: Request) {
       outcomePoints: { value: "3", description: "Puntos por ganador acertado" },
       oneTeamScorePoints: { value: "1", description: "Puntos por un equipo acertado" },
       bonusPoints: { value: "2", description: "Puntos bonus por partido" },
+      predictionDeadlineMinutes: { value: "60", description: "Minutos antes del partido para cerrar apuestas" },
+      resultLoadingWindowHours: { value: "72", description: "Horas después del partido para cargar resultado" },
+      latePredictionEnabled: { value: "false", description: "Habilitar ventana extemporánea (pronósticos después del deadline)" },
+      latePredictionWindowMinutes: { value: "120", description: "Minutos extra después del deadline para pronosticar" },
+      latePredictionPenaltyPercent: { value: "50", description: "Penalización por pronóstico tardío (0-100%)" },
     };
 
     // Merge with defaults

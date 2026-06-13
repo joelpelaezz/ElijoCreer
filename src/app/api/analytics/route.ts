@@ -38,14 +38,15 @@ export async function GET(request: Request) {
     const byTournament = await pool.query(`
       SELECT t.name as tournament, 
              count(p.id)::int as predictions,
-             sum(CASE WHEN p.predicted_home_score = m.home_score AND p.predicted_away_score = m.away_score THEN 1 ELSE 0 END)::int as exact,
-             sum(CASE WHEN (p.predicted_home_score > p.predicted_away_score AND m.home_score > m.away_score)
-                       OR (p.predicted_home_score < p.predicted_away_score AND m.home_score < m.away_score)
-                       OR (p.predicted_home_score = p.predicted_away_score AND m.home_score = m.away_score) THEN 1 ELSE 0 END)::int as outcome
+             sum(CASE WHEN p.predicted_home_score = r.home_score AND p.predicted_away_score = r.away_score THEN 1 ELSE 0 END)::int as exact,
+             sum(CASE WHEN (p.predicted_home_score > p.predicted_away_score AND r.home_score > r.away_score)
+                       OR (p.predicted_home_score < p.predicted_away_score AND r.home_score < r.away_score)
+                       OR (p.predicted_home_score = p.predicted_away_score AND r.home_score = r.away_score) THEN 1 ELSE 0 END)::int as outcome
       FROM predictions p
       JOIN groups g ON g.id = p.group_id
       JOIN tournaments t ON t.id = g.tournament_id
       JOIN matches m ON m.id = p.match_id
+      LEFT JOIN official_results r ON r.match_id = m.id
       WHERE p.user_id = $1
       GROUP BY t.id, t.name
     `, [userId]);

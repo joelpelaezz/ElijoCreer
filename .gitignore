@@ -47,6 +47,14 @@ yarn-error.log*
 # vercel
 .vercel
 
+# playwright artifacts
+.playwright-mcp/
+test-results/
+
+# env files with secrets
+.env.prod-db
+.env.vercel-temp
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

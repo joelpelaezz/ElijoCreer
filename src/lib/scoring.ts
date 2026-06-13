@@ -22,7 +22,8 @@ export function calculateScore(
     outcomePoints: number;
     oneTeamScorePoints: number;
     bonusPoints: number;
-  }
+  },
+  latePenaltyPercent?: number
 ): ScoreResult {
   const ph = predictedHome;
   const pa = predictedAway;
@@ -40,47 +41,52 @@ export function calculateScore(
     };
   }
 
+  let points: number;
+  let hitExactScore = false;
+  let hitOutcome = false;
+  let hitOneTeamScore = false;
+  let reason: string;
+
   // Resultado exacto
   if (ph === ah && pa === aa) {
-    return {
-      points: rules.exactScorePoints + rules.bonusPoints,
-      hitExactScore: true,
-      hitOutcome: true,
-      hitOneTeamScore: true,
-      reason: `Resultado exacto: ${ph}-${pa}`,
-    };
+    points = rules.exactScorePoints + rules.bonusPoints;
+    hitExactScore = true;
+    hitOutcome = true;
+    hitOneTeamScore = true;
+    reason = `Resultado exacto: ${ph}-${pa}`;
+  } else if (ph === ah || pa === aa) {
+    // Acertó score de un equipo (prioridad media)
+    points = rules.oneTeamScorePoints;
+    hitExactScore = false;
+    hitOutcome = false;
+    hitOneTeamScore = true;
+    reason = `Acertó el score de ${ph === ah ? "local" : "visitante"}`;
+  } else {
+    // Acertó ganador o empate (prioridad baja)
+    const predSign = Math.sign(ph - pa);
+    const actualSign = Math.sign(ah - aa);
+    if (predSign === actualSign) {
+      points = rules.outcomePoints;
+      hitExactScore = false;
+      hitOutcome = true;
+      hitOneTeamScore = false;
+      reason = `Acertó el resultado: ${predSign === 0 ? "Empate" : predSign > 0 ? "Ganador Local" : "Ganador Visitante"}`;
+    } else {
+      // Sin puntos
+      points = 0;
+      hitExactScore = false;
+      hitOutcome = false;
+      hitOneTeamScore = false;
+      reason = "No acertó";
+    }
   }
 
-  // Acertó score de un equipo (prioridad media)
-  if (ph === ah || pa === aa) {
-    return {
-      points: rules.oneTeamScorePoints,
-      hitExactScore: false,
-      hitOutcome: false,
-      hitOneTeamScore: true,
-      reason: `Acertó el score de ${ph === ah ? "local" : "visitante"}`,
-    };
+  // Aplicar penalización por pronóstico tardío
+  if (latePenaltyPercent && latePenaltyPercent > 0 && points > 0) {
+    const penalty = Math.floor(points * latePenaltyPercent / 100);
+    points = points - penalty;
+    reason += ` (tardío -${latePenaltyPercent}%)`;
   }
 
-  // Acertó ganador o empat (prioridad baja)
-  const predSign = Math.sign(ph - pa);
-  const actualSign = Math.sign(ah - aa);
-  if (predSign === actualSign) {
-    return {
-      points: rules.outcomePoints,
-      hitExactScore: false,
-      hitOutcome: true,
-      hitOneTeamScore: false,
-      reason: `Acertó el resultado: ${predSign === 0 ? "Empate" : predSign > 0 ? "Ganador Local" : "Ganador Visitante"}`,
-    };
-  }
-
-  // Sin puntos
-  return {
-    points: 0,
-    hitExactScore: false,
-    hitOutcome: false,
-    hitOneTeamScore: false,
-    reason: "No acertó",
-  };
+  return { points, hitExactScore, hitOutcome, hitOneTeamScore, reason };
 }

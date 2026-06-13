@@ -73,27 +73,28 @@ export async function PUT(request: Request) {
         SELECT p.user_id, 
                COALESCE(SUM(
                  CASE 
-                   WHEN p.predicted_home_score = m.home_score AND p.predicted_away_score = m.away_score THEN 5
-                   WHEN (p.predicted_home_score > p.predicted_away_score AND m.home_score > m.away_score)
-                        OR (p.predicted_home_score < p.predicted_away_score AND m.home_score < m.away_score)
-                        OR (p.predicted_home_score = p.predicted_away_score AND m.home_score = m.away_score) THEN 3
-                   WHEN p.predicted_home_score = m.home_score OR p.predicted_away_score = m.away_score THEN 1
+                   WHEN p.predicted_home_score = r.home_score AND p.predicted_away_score = r.away_score THEN 5
+                   WHEN (p.predicted_home_score > p.predicted_away_score AND r.home_score > r.away_score)
+                        OR (p.predicted_home_score < p.predicted_away_score AND r.home_score < r.away_score)
+                        OR (p.predicted_home_score = p.predicted_away_score AND r.home_score = r.away_score) THEN 3
+                   WHEN p.predicted_home_score = r.home_score OR p.predicted_away_score = r.away_score THEN 1
                    ELSE 0
                  END
                ), 0) as points,
                ROW_NUMBER() OVER (ORDER BY COALESCE(SUM(
                  CASE 
-                   WHEN p.predicted_home_score = m.home_score AND p.predicted_away_score = m.away_score THEN 5
-                   WHEN (p.predicted_home_score > p.predicted_away_score AND m.home_score > m.away_score)
-                        OR (p.predicted_home_score < p.predicted_away_score AND m.home_score < m.away_score)
-                        OR (p.predicted_home_score = p.predicted_away_score AND m.home_score = m.away_score) THEN 3
-                   WHEN p.predicted_home_score = m.home_score OR p.predicted_away_score = m.away_score THEN 1
+                   WHEN p.predicted_home_score = r.home_score AND p.predicted_away_score = r.away_score THEN 5
+                   WHEN (p.predicted_home_score > p.predicted_away_score AND r.home_score > r.away_score)
+                        OR (p.predicted_home_score < p.predicted_away_score AND r.home_score < r.away_score)
+                        OR (p.predicted_home_score = p.predicted_away_score AND r.home_score = r.away_score) THEN 3
+                   WHEN p.predicted_home_score = r.home_score OR p.predicted_away_score = r.away_score THEN 1
                    ELSE 0
                  END
                ), 0) DESC) as rank
         FROM predictions p
         JOIN matches m ON m.id = p.match_id
-        WHERE p.group_id = $1 AND m.home_score IS NOT NULL
+        LEFT JOIN official_results r ON r.match_id = m.id
+        WHERE p.group_id = $1 AND r.home_score IS NOT NULL
         GROUP BY p.user_id
       )
       SELECT rank FROM ranked WHERE user_id = $2

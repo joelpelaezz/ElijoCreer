@@ -74,8 +74,8 @@ export async function GET(request: Request) {
             g.name as group_name,
             p.user_id,
             p.match_id,
-            m.home_score as match_home,
-            m.away_score as match_away,
+            r.home_score as match_home,
+            r.away_score as match_away,
             p.predicted_home_score,
             p.predicted_away_score,
             p.is_locked,
@@ -84,6 +84,7 @@ export async function GET(request: Request) {
           FROM predictions p
           LEFT JOIN groups g ON g.id = p.group_id
           LEFT JOIN matches m ON m.id = p.match_id
+          LEFT JOIN official_results r ON r.match_id = m.id
           ORDER BY p.created_at DESC
           LIMIT 10000
         `);
@@ -102,14 +103,15 @@ export async function GET(request: Request) {
             m.round_label,
             ht.name as home_team,
             at.name as away_team,
-            m.home_score,
-            m.away_score,
+            r.home_score,
+            r.away_score,
             m.starts_at,
             m.status,
             m.venue
           FROM matches m
           LEFT JOIN teams ht ON ht.id = m.home_team_id
           LEFT JOIN teams at ON at.id = m.away_team_id
+          LEFT JOIN official_results r ON r.match_id = m.id
           ORDER BY m.starts_at
         `);
         data = result.rows;

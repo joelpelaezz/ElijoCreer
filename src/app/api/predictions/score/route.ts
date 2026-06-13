@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getDb } from "@/lib/db";
+import { getDb, getPool } from "@/lib/db";
 import {
   predictions,
   officialResults,
@@ -88,6 +88,20 @@ export async function GET(request: Request) {
     });
   }
 
+  // Verificar si aplica penalización por tardío
+  let latePenaltyPercent: number | undefined;
+  if (pred.isLate && pred.latePenaltyApplied) {
+    try {
+      const pool = getPool();
+      const configResult = await pool.query(
+        `SELECT value FROM app_config WHERE key = 'latePredictionPenaltyPercent' AND category = 'scoring'`
+      );
+      if (configResult.rows?.length > 0) {
+        latePenaltyPercent = parseInt(configResult.rows[0].value, 10);
+      }
+    } catch {}
+  }
+
   // Calcular score
   const score = calculateScore(
     pred.predictedHomeScore,
@@ -99,7 +113,8 @@ export async function GET(request: Request) {
       outcomePoints: rules.outcomePoints,
       oneTeamScorePoints: rules.oneTeamScorePoints,
       bonusPoints: rules.bonusPoints,
-    }
+    },
+    latePenaltyPercent
   );
 
   return NextResponse.json({
@@ -116,5 +131,8 @@ export async function GET(request: Request) {
       oneTeamScorePoints: rules.oneTeamScorePoints,
       bonusPoints: rules.bonusPoints,
     },
+    isLate: pred.isLate,
+    latePenaltyApplied: pred.latePenaltyApplied,
+    latePenaltyPercent,
   });
 }

@@ -104,4 +104,39 @@ describe('calculateScore', () => {
     expect(outcome.points).toBe(3);
     expect(outcome.reason).toContain('Empate');
   });
+
+  describe('late penalty', () => {
+    it('aplica penalización del 50% truncando', () => {
+      const result = calculateScore(2, 1, 2, 1, defaultRules, 50);
+      // 5 pts exacto - floor(5*50/100=2.5)=2 → 3 pts final
+      expect(result.points).toBe(3);
+    });
+
+    it('aplica penalización 0% sin alterar puntos', () => {
+      const result = calculateScore(2, 1, 2, 1, defaultRules, 0);
+      expect(result.points).toBe(5);
+    });
+
+    it('sin penalización si no se pasa latePenaltyPercent', () => {
+      const result = calculateScore(2, 1, 2, 1, defaultRules);
+      expect(result.points).toBe(5);
+    });
+
+    it('penalización 25% sobre resultado exacto con bonus', () => {
+      const rules = { ...defaultRules, bonusPoints: 2 };
+      const result = calculateScore(1, 0, 1, 0, rules, 25);
+      // base = 5+2 = 7, penalty = floor(7*25/100) = floor(1.75) = 1, final = 6
+      expect(result.points).toBe(6);
+    });
+
+    it('penalización no afecta cuando hay 0%', () => {
+      const result = calculateScore(5, 0, 0, 0, defaultRules, 0);
+      expect(result.points).toBe(1); // oneTeamScore = 1, penalty 0% no altera
+    });
+
+    it('incluye indicación de tardío en reason', () => {
+      const result = calculateScore(1, 0, 1, 0, defaultRules, 50);
+      expect(result.reason).toContain('tardío');
+    });
+  });
 });

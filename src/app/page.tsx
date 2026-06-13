@@ -51,20 +51,22 @@ async function getUserRanking(groupId: string, userId: string) {
   const pool = getPool();
   
   // Get user's total score from predictions
+  // Scores are stored in official_results, not on matches directly
   const scoreResult = await pool.query(`
     SELECT COALESCE(SUM(
       CASE 
-        WHEN p.predicted_home_score = m.home_score AND p.predicted_away_score = m.away_score THEN 5
-        WHEN (p.predicted_home_score > p.predicted_away_score AND m.home_score > m.away_score)
-             OR (p.predicted_home_score < p.predicted_away_score AND m.home_score < m.away_score)
-             OR (p.predicted_home_score = p.predicted_away_score AND m.home_score = m.away_score) THEN 3
-        WHEN p.predicted_home_score = m.home_score OR p.predicted_away_score = m.away_score THEN 1
+        WHEN p.predicted_home_score = r.home_score AND p.predicted_away_score = r.away_score THEN 5
+        WHEN (p.predicted_home_score > p.predicted_away_score AND r.home_score > r.away_score)
+             OR (p.predicted_home_score < p.predicted_away_score AND r.home_score < r.away_score)
+             OR (p.predicted_home_score = p.predicted_away_score AND r.home_score = r.away_score) THEN 3
+        WHEN p.predicted_home_score = r.home_score OR p.predicted_away_score = r.away_score THEN 1
         ELSE 0
       END
     ), 0) as score
     FROM predictions p
     JOIN matches m ON m.id = p.match_id
-    WHERE p.group_id = $1 AND p.user_id = $2 AND m.home_score IS NOT NULL
+    LEFT JOIN official_results r ON r.match_id = m.id
+    WHERE p.group_id = $1 AND p.user_id = $2 AND r.home_score IS NOT NULL
   `, [groupId, userId]);
   
   // Get total users in group

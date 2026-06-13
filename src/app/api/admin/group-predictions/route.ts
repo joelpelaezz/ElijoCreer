@@ -48,8 +48,8 @@ export async function GET(request: Request) {
         p.is_locked,
         p.created_at,
         p.updated_at,
-        m.home_score as actual_home,
-        m.away_score as actual_away,
+        r.home_score as actual_home,
+        r.away_score as actual_away,
         ht.name as home_team,
         at.name as away_team,
         m.starts_at
@@ -57,6 +57,7 @@ export async function GET(request: Request) {
       LEFT JOIN matches m ON m.id = p.match_id
       LEFT JOIN teams ht ON ht.id = m.home_team_id
       LEFT JOIN teams at ON at.id = m.away_team_id
+      LEFT JOIN official_results r ON r.match_id = m.id
       WHERE p.group_id = $1
       ORDER BY m.starts_at, p.user_id
     `, [groupId]);
