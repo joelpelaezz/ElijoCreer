@@ -312,6 +312,15 @@ export const groupActivity = pgTable("group_activity", {
   createdAt: timestamp("created_at", { mode: "date" }).notNull().defaultNow(),
 });
 
+// Configuración de la app (scoring, late predictions, etc.)
+export const appConfig = pgTable("app_config", {
+  key: text("key").primaryKey(),
+  value: text("value"),
+  description: text("description"),
+  category: text("category"),
+  updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow(),
+});
+
 // NOTA: los índices adicionales se agregan en migrations manuales.
 // Drizzle ORM tiene una limitación con columnas json/jsonb en
 // versiones recientes, así que evitamos exportar índices desde schema.
