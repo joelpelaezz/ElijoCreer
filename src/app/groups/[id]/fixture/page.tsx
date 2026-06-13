@@ -279,12 +279,10 @@ export default function FixturePage() {
                     weekday: "short",
                     day: "numeric",
                     month: "short",
-                    timeZone: "America/Argentina/Buenos_Aires",
                   })}{" "}
                   {new Date(match.startsAt).toLocaleTimeString("es-AR", {
                     hour: "2-digit",
                     minute: "2-digit",
-                    timeZone: "America/Argentina/Buenos_Aires",
                   })}
                 </span>
                 {matchStatus === "open" && (
