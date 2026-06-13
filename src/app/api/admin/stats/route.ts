@@ -1,14 +1,19 @@
 import { NextResponse } from "next/server";
-import { getDb } from "@/lib/db";
+import { getDb, getPool } from "@/lib/db";
 import { users, groups, groupMembers, matches, predictions, officialResults } from "@/lib/db/schema";
 import { auth } from "@/lib/auth/config";
-import { isAdmin } from "@/lib/admin";
+import { hasAdminAccess } from "@/lib/admin";
 import { count } from "drizzle-orm";
 
 export async function GET() {
   const session = await auth();
-  if (!session?.user?.email || !isAdmin(session.user.email)) {
-    return NextResponse.json({ error: "No autorizado" }, { status: 403 });
+  if (!session?.user?.id) {
+    return NextResponse.json({ error: "No autorizado" }, { status: 401 });
+  }
+
+  const pool = getPool();
+  if (!(await hasAdminAccess(session, pool))) {
+    return NextResponse.json({ error: "No autorizado - se requiere rol admin" }, { status: 403 });
   }
 
   const _db = getDb();

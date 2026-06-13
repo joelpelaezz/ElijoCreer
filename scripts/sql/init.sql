@@ -71,7 +71,8 @@ INSERT INTO teams (tournament_id, name, short_name, code, flag_icon, crest_url) 
 ('a0000000-0000-0000-0000-000000000001', 'Colombia', 'COL', 'COL', '🇨🇴', 'https://flagicons.lipis.dev/flags/4x3/co.svg'),
 ('a0000000-0000-0000-0000-000000000001', 'Croatia', 'CRO', 'CRO', '🇭🇷', 'https://flagicons.lipis.dev/flags/4x3/hr.svg'),
 ('a0000000-0000-0000-0000-000000000001', 'Ghana', 'GHA', 'GHA', '🇬🇭', 'https://flagicons.lipis.dev/flags/4x3/gh.svg'),
-('a0000000-0000-0000-0000-000000000001', 'Panama', 'PAN', 'PAN', '🇵🇦', 'https://flagicons.lipis.dev/flags/4x3/pa.svg')
+('a0000000-0000-0000-0000-000000000001', 'Panama', 'PAN', 'PAN', '🇵🇦', 'https://flagicons.lipis.dev/flags/4x3/pa.svg'),
+('a0000000-0000-0000-0000-000000000001', 'Scotland', 'SCO', 'SCO', '🏴󠁧󠁢󠁳󠁣󠁴󠁿', 'https://flagicons.lipis.dev/flags/4x3/gb-sct.svg')
 ON CONFLICT DO NOTHING;
 
 -- Equipos sin flag (64 equipos)
@@ -143,3 +144,22 @@ INSERT INTO teams (tournament_id, name, short_name, code, flag_icon, crest_url) 
 ON CONFLICT DO NOTHING;
 
 \echo 'Init SQL cargado: 1 torneo + 112 equipos (48 con flag_icon)'
+
+-- =============================================
+-- ADMIN USER
+-- Email: admin@elijocreer.com / Password: admin123
+-- =============================================
+
+INSERT INTO "user" (id, name, email, "emailVerified", image)
+VALUES ('admin-0000-0000-0000-000000000001', 'Admin', 'admin@elijocreer.com', NOW(), NULL)
+ON CONFLICT (email) DO UPDATE SET name = 'Admin';
+
+INSERT INTO account ("userId", type, provider, "providerAccountId", access_token)
+VALUES ('admin-0000-0000-0000-000000000001', 'credentials', 'credentials', 'admin@elijocreer.com',
+        '$2b$10$PWPxy0z1WC3MZNcZkqNpNeTYc44aQO8iO.iKnzL1mJECSr7uXZncy');
+
+INSERT INTO profiles (id, display_name, avatar_url, role)
+VALUES ('admin-0000-0000-0000-000000000001', 'Admin', NULL, 'admin')
+ON CONFLICT (id) DO UPDATE SET role = 'admin', display_name = 'Admin';
+
+\echo 'Admin user creado: admin@elijocreer.com / admin123'

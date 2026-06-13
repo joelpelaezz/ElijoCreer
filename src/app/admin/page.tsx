@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Skeleton } from "@/components/skeleton";
@@ -81,6 +81,12 @@ export default function AdminPage() {
   const [error, setError] = useState<string | null>(null);
   const [authError, setAuthError] = useState<boolean>(false);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [showInitModal, setShowInitModal] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [initConfirmText, setInitConfirmText] = useState("");
+  const [initLoading, setInitLoading] = useState(false);
+  const [initError, setInitError] = useState<string | null>(null);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -132,6 +138,13 @@ export default function AdminPage() {
       // Load tournaments
       const tournamentsRes = await fetch("/api/admin/tournaments");
       if (tournamentsRes.ok) setTournaments(await tournamentsRes.json());
+
+      // Check if user is admin (for UI visibility)
+      const roleRes = await fetch("/api/admin/verify-role");
+      if (roleRes.ok) {
+        const roleData = await roleRes.json();
+        setIsAdmin(roleData.isAdmin);
+      }
 
       setError(null);
     } catch (e: any) {
@@ -289,6 +302,28 @@ export default function AdminPage() {
     }
   }
 
+  async function initializeSystem() {
+    setInitLoading(true);
+    setInitError(null);
+    try {
+      const res = await fetch("/api/admin/initialize", { method: "POST" });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.detail || data.error || "Error al inicializar");
+      }
+      setShowInitModal(false);
+      setShowConfirmModal(false);
+      setInitConfirmText("");
+      alert("✅ Sistema inicializado correctamente. Redirigiendo al login...");
+      await signOut({ redirect: false });
+      router.push("/login?initialized=true");
+    } catch (e: any) {
+      setInitError(e.message);
+    } finally {
+      setInitLoading(false);
+    }
+  }
+
   const tabs = [
     { id: "stats" as Tab, label: "Estadísticas", icon: "analytics" },
     { id: "groups" as Tab, label: "Grupos", icon: "group" },
@@ -391,22 +426,44 @@ export default function AdminPage() {
 
       {/* Stats Tab */}
       {activeTab === "stats" && stats && (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[
-            { label: "Usuarios", value: stats.users, icon: "person", color: "text-blue-500" },
-            { label: "Grupos", value: stats.groups, icon: "group", color: "text-green-500" },
-            { label: "Partidos", value: stats.matches, icon: "sports_soccer", color: "text-orange-500" },
-            { label: "Pronósticos", value: stats.predictions, icon: "rate_review", color: "text-purple-500" },
-          ].map((card) => (
-            <div key={card.label} className="bg-card border border-border rounded-xl p-4 flex items-center gap-3">
-              <span className={`material-symbols-outlined text-3xl ${card.color}`}>{card.icon}</span>
-              <div>
-                <p className="text-2xl font-bold text-foreground">{card.value}</p>
-                <p className="text-xs text-muted-foreground">{card.label}</p>
+        <>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              { label: "Usuarios", value: stats.users, icon: "person", color: "text-blue-500" },
+              { label: "Grupos", value: stats.groups, icon: "group", color: "text-green-500" },
+              { label: "Partidos", value: stats.matches, icon: "sports_soccer", color: "text-orange-500" },
+              { label: "Pronósticos", value: stats.predictions, icon: "rate_review", color: "text-purple-500" },
+            ].map((card) => (
+              <div key={card.label} className="bg-card border border-border rounded-xl p-4 flex items-center gap-3">
+                <span className={`material-symbols-outlined text-3xl ${card.color}`}>{card.icon}</span>
+                <div>
+                  <p className="text-2xl font-bold text-foreground">{card.value}</p>
+                  <p className="text-xs text-muted-foreground">{card.label}</p>
+                </div>
               </div>
+            ))}
+          </div>
+
+          {isAdmin && (
+            <div className="mt-8 p-4 border border-destructive/30 bg-destructive/5 rounded-xl">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="material-symbols-outlined text-destructive text-xl">warning</span>
+                <h3 className="text-sm font-semibold text-destructive">Zona de Peligro</h3>
+              </div>
+              <p className="text-xs text-muted-foreground mb-3">
+                Reiniciá el sistema completo: borra TODOS los datos (usuarios, grupos, pronósticos, partidos)
+                y lo deja como recién instalado con el torneo del Mundial 2026.
+              </p>
+              <button
+                onClick={() => setShowInitModal(true)}
+                disabled={initLoading}
+                className="px-4 py-2 text-sm font-medium rounded-lg bg-destructive text-destructive-foreground hover:opacity-90 transition-opacity disabled:opacity-50"
+              >
+                {initLoading ? "Inicializando..." : "Inicializar Sistema"}
+              </button>
             </div>
-          ))}
-        </div>
+          )}
+        </>
       )}
 
       {/* Groups Tab */}
@@ -844,6 +901,106 @@ export default function AdminPage() {
               Enviar Notificación
             </button>
           </form>
+        </div>
+      )}
+
+      {/* Primer Modal — confirmación inicial */}
+      {showInitModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="bg-card border border-border rounded-xl p-6 max-w-md w-full mx-4 shadow-xl">
+            <div className="flex items-center gap-2 mb-3">
+              <span className="material-symbols-outlined text-destructive text-2xl">warning</span>
+              <h3 className="text-lg font-bold text-foreground">¿Inicializar el sistema?</h3>
+            </div>
+            <p className="text-sm text-muted-foreground mb-4">
+              Esto borrará <strong>TODOS</strong> los datos actuales: usuarios, grupos, pronósticos,
+              partidos, resultados, configuraciones y metadatos. El sistema quedará como recién instalado,
+              con el torneo del Mundial 2026, los 112 equipos y 104 partidos en horario argentina.
+            </p>
+            {initError && (
+              <p className="text-sm text-destructive mb-3 bg-destructive/10 p-2 rounded-lg">
+                Error: {initError}
+              </p>
+            )}
+            <div className="flex gap-2 justify-end">
+              <button
+                onClick={() => {
+                  setShowInitModal(false);
+                  setInitError(null);
+                }}
+                disabled={initLoading}
+                className="px-4 py-2 text-sm font-medium rounded-lg border border-border text-foreground hover:bg-muted transition-colors disabled:opacity-50"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={() => {
+                  setShowInitModal(false);
+                  setShowConfirmModal(true);
+                  setInitConfirmText("");
+                }}
+                disabled={initLoading}
+                className="px-4 py-2 text-sm font-medium rounded-lg bg-destructive text-destructive-foreground hover:opacity-90 transition-opacity disabled:opacity-50"
+              >
+                Continuar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Segundo Modal — escribir BORRAR */}
+      {showConfirmModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="bg-card border border-border rounded-xl p-6 max-w-md w-full mx-4 shadow-xl">
+            <div className="flex items-center gap-2 mb-3">
+              <span className="material-symbols-outlined text-destructive text-2xl">dangerous</span>
+              <h3 className="text-lg font-bold text-foreground">Confirmación final</h3>
+            </div>
+            <p className="text-sm text-muted-foreground mb-4">
+              Esta acción es <strong>IRREVERSIBLE</strong>. Escribí <strong>BORRAR</strong> en el campo
+              de abajo para confirmar.
+            </p>
+            <input
+              type="text"
+              placeholder="Escribí BORRAR para confirmar"
+              value={initConfirmText}
+              onChange={(e) => setInitConfirmText(e.target.value)}
+              className="w-full bg-background border border-border rounded-lg px-3 py-2 text-foreground mb-4 text-sm"
+            />
+            {initError && (
+              <p className="text-sm text-destructive mb-3 bg-destructive/10 p-2 rounded-lg">
+                Error: {initError}
+              </p>
+            )}
+            <div className="flex gap-2 justify-end">
+              <button
+                onClick={() => {
+                  setShowConfirmModal(false);
+                  setInitConfirmText("");
+                  setInitError(null);
+                }}
+                disabled={initLoading}
+                className="px-4 py-2 text-sm font-medium rounded-lg border border-border text-foreground hover:bg-muted transition-colors disabled:opacity-50"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={initializeSystem}
+                disabled={initConfirmText !== "BORRAR" || initLoading}
+                className="px-4 py-2 text-sm font-medium rounded-lg bg-destructive text-destructive-foreground hover:opacity-90 transition-opacity disabled:opacity-50 flex items-center gap-2"
+              >
+                {initLoading ? (
+                  <>
+                    <span className="inline-block w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    Inicializando...
+                  </>
+                ) : (
+                  "Confirmar y Inicializar"
+                )}
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>
