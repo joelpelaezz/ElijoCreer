@@ -41,8 +41,8 @@ yarn-error.log*
 !.env.example
 !.env.local.example
 
-# drizzle migrations
-/drizzle/
+# drizzle migrations (ignore meta/ internal, keep SQL)
+drizzle/meta/
 
 # vercel
 .vercel

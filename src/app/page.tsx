@@ -295,7 +295,7 @@ export default async function HomePage() {
           </h2>
           <p className="text-[#41474f] mt-2">
             {nextMatch 
-              ? `Fecha: ${new Date(nextMatch.starts_at).toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long' })}`
+              ? `Fecha: ${new Date(nextMatch.starts_at).toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'America/Argentina/Buenos_Aires' })}`
               : "Interfaz moderna diseñada para los fans más apasionados."
             }
           </p>

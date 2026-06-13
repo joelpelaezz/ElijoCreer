@@ -280,7 +280,7 @@ export default function GroupResultsPage() {
                 <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1">
                   <span className="font-medium">{stageLabels[match.stage] || match.stage}</span>
                   {match.venue && <span>· {match.venue}</span>}
-                  <span>· {new Date(match.startsAt).toLocaleDateString("es-AR")}</span>
+                  <span>· {new Date(match.startsAt).toLocaleDateString("es-AR", { timeZone: "America/Argentina/Buenos_Aires" })}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-semibold text-foreground truncate">
