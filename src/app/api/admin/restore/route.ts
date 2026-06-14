@@ -24,15 +24,19 @@ export async function POST(request: Request) {
 
     const sql = await file.text();
 
-    // Validación básica: debe empezar con BEGIN y terminar con COMMIT
-    const trimmed = sql.trim();
-    if (!trimmed.toUpperCase().startsWith("BEGIN")) {
+    // Validación básica: debe contener BEGIN y COMMIT
+    // Saltamos líneas de comentarios y vacías
+    const sqlLines = sql.split("\n").filter(
+      (line) => line.trim() !== "" && !line.trim().startsWith("--")
+    );
+    const normalized = sqlLines.join("\n").trim();
+    if (!normalized.toUpperCase().startsWith("BEGIN")) {
       return NextResponse.json(
-        { error: "El archivo SQL debe comenzar con BEGIN" },
+        { error: "El archivo SQL debe comenzar con BEGIN (líneas de comentario son válidas antes)" },
         { status: 400 }
       );
     }
-    if (!trimmed.toUpperCase().includes("COMMIT")) {
+    if (!normalized.toUpperCase().includes("COMMIT")) {
       return NextResponse.json(
         { error: "El archivo SQL debe terminar con COMMIT" },
         { status: 400 }
