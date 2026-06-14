@@ -118,7 +118,7 @@ const MATCH_STATUSES = [
   { value: "cancelled", label: "Cancelado" },
 ];
 
-type Tab = "stats" | "groups" | "users" | "tournaments" | "predictions" | "activity" | "export" | "metrics" | "scoring" | "notifications" | "matches" | "late";
+type Tab = "stats" | "groups" | "users" | "tournaments" | "predictions" | "activity" | "export" | "backup" | "metrics" | "scoring" | "notifications" | "matches" | "late";
 
 export default function AdminPage() {
   const { data: session, status } = useSession();
@@ -142,6 +142,7 @@ export default function AdminPage() {
   const [error, setError] = useState<string | null>(null);
   const [authError, setAuthError] = useState<boolean>(false);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
+  const [backupLoading, setBackupLoading] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [showInitModal, setShowInitModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -619,6 +620,7 @@ export default function AdminPage() {
     { id: "predictions" as Tab, label: "Pronósticos", icon: "rate_review" },
     { id: "activity" as Tab, label: "Actividad", icon: "history" },
     { id: "export" as Tab, label: "Exportar", icon: "download" },
+    { id: "backup" as Tab, label: "Backup", icon: "backup" },
     { id: "metrics" as Tab, label: "Métricas", icon: "trending_up" },
     { id: "scoring" as Tab, label: "Scoring", icon: "score" },
     { id: "matches" as Tab, label: "Partidos", icon: "sports_soccer" },
@@ -1135,6 +1137,95 @@ export default function AdminPage() {
               </div>
             </div>
           )}
+        </div>
+      )}
+
+      {/* Backup Tab */}
+      {activeTab === "backup" && (
+        <div className="space-y-6">
+          <div className="bg-card border border-border rounded-2xl p-5 sm:p-6">
+            <h2 className="text-lg font-semibold text-foreground mb-2">Descargar Backup</h2>
+            <p className="text-sm text-muted-foreground mb-4">
+              Generá un archivo SQL con todos los datos del sistema (usuarios, grupos, partidos,
+              pronósticos, resultados, configuraciones).
+            </p>
+            <a
+              href="/api/admin/backup"
+              className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold rounded-xl bg-primary text-primary-foreground hover:brightness-110 transition-all active:scale-95"
+            >
+              <span className="material-symbols-outlined text-lg">download</span>
+              Descargar Backup SQL
+            </a>
+          </div>
+
+          <div className="bg-card border border-border rounded-2xl p-5 sm:p-6">
+            <h2 className="text-lg font-semibold text-foreground mb-2">Restaurar desde Backup</h2>
+            <p className="text-sm text-muted-foreground mb-4">
+              Subí un archivo SQL generado por la opción de backup de arriba.
+              La restauración reemplaza todos los datos existentes.
+            </p>
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault();
+                const form = e.target as HTMLFormElement;
+                const fileInput = form.elements.namedItem("backupFile") as HTMLInputElement;
+                if (!fileInput.files?.[0]) return;
+                if (!confirm("¿Estás seguro? Esta acción reemplazará TODOS los datos del sistema.")) return;
+
+                const formData = new FormData();
+                formData.append("file", fileInput.files[0]);
+                setBackupLoading(true);
+                try {
+                  const res = await fetch("/api/admin/restore", {
+                    method: "POST",
+                    body: formData,
+                  });
+                  const data = await res.json();
+                  if (res.ok) {
+                    alert(`✅ Restore exitoso — ${data.statements} sentencias ejecutadas`);
+                    form.reset();
+                  } else {
+                    alert(`❌ Error: ${data.error}`);
+                  }
+                } catch (err: any) {
+                  alert(`❌ Error de conexión: ${err.message}`);
+                } finally {
+                  setBackupLoading(false);
+                }
+              }}
+              className="space-y-4"
+            >
+              <input
+                type="file"
+                name="backupFile"
+                accept=".sql"
+                required
+                className="block w-full text-sm text-foreground file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-primary-foreground hover:file:brightness-110 file:cursor-pointer file:transition-all"
+              />
+              <button
+                type="submit"
+                disabled={backupLoading}
+                className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold rounded-xl bg-destructive text-destructive-foreground hover:brightness-110 transition-all active:scale-95 disabled:opacity-50"
+              >
+                <span className="material-symbols-outlined text-lg">restore_page</span>
+                {backupLoading ? "Restaurando..." : "Restaurar Datos"}
+              </button>
+            </form>
+          </div>
+
+          <div className="rounded-2xl border border-amber-500/20 bg-amber-500/5 p-4 sm:p-5">
+            <div className="flex items-start gap-3">
+              <span className="material-symbols-outlined text-amber-600 text-xl flex-shrink-0">warning</span>
+              <div>
+                <h3 className="text-sm font-bold text-amber-700 dark:text-amber-400 mb-1">⚠️ Importante</h3>
+                <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                  La restauración borra todos los datos actuales antes de insertar los del backup.
+                  Asegurate de tener un backup actual antes de restaurar. El proceso puede demorar
+                  unos segundos dependiendo del tamaño.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       )}
 
