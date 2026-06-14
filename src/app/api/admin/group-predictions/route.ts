@@ -17,6 +17,7 @@ export async function GET(request: Request) {
 
   const { searchParams } = new URL(request.url);
   const groupId = searchParams.get("groupId");
+  const userFilter = searchParams.get("userFilter"); // nombre o parte del nombre/email
 
   if (!groupId) {
     return NextResponse.json({ error: "groupId requerido" }, { status: 400 });
@@ -52,15 +53,19 @@ export async function GET(request: Request) {
         r.away_score as actual_away,
         ht.name as home_team,
         at.name as away_team,
-        m.starts_at
+        m.starts_at,
+        COALESCE(pr.display_name, u.email, LEFT(p.user_id::text, 8)) as user_name
       FROM predictions p
       LEFT JOIN matches m ON m.id = p.match_id
       LEFT JOIN teams ht ON ht.id = m.home_team_id
       LEFT JOIN teams at ON at.id = m.away_team_id
       LEFT JOIN official_results r ON r.match_id = m.id
+      LEFT JOIN profiles pr ON pr.id = p.user_id
+      LEFT JOIN "user" u ON u.id = p.user_id
       WHERE p.group_id = $1
+      ${userFilter ? "AND (LOWER(pr.display_name) LIKE LOWER($2) OR LOWER(u.email) LIKE LOWER($2) OR p.user_id::text LIKE $2)" : ""}
       ORDER BY m.starts_at, p.user_id
-    `, [groupId]);
+    `, userFilter ? [groupId, `%${userFilter}%`] : [groupId]);
 
     // Get members
     const membersResult = await pool.query(`
@@ -92,6 +97,7 @@ export async function GET(request: Request) {
     const predictions = predictionsResult.rows.map((p: any) => ({
       matchId: p.match_id,
       userId: p.user_id,
+      userName: p.user_name,
       predictedHomeScore: p.predicted_home_score,
       predictedAwayScore: p.predicted_away_score,
       isLocked: p.is_locked,

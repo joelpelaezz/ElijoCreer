@@ -131,6 +131,7 @@ export default function AdminPage() {
   const [activity, setActivity] = useState<Activity[]>([]);
   const [selectedGroupPredictions, setSelectedGroupPredictions] = useState<GroupPredictions | null>(null);
   const [selectedGroupId, setSelectedGroupId] = useState<string>("");
+  const [filterUser, setFilterUser] = useState<string>("");
   const [loadingActivity, setLoadingActivity] = useState(false);
   const [loadingPredictions, setLoadingPredictions] = useState(false);
   const [metrics, setMetrics] = useState<any>(null);
@@ -273,7 +274,10 @@ export default function AdminPage() {
     if (!selectedGroupId) return;
     setLoadingPredictions(true);
     try {
-      const res = await fetch(`/api/admin/group-predictions?groupId=${selectedGroupId}`);
+      const url = filterUser 
+        ? `/api/admin/group-predictions?groupId=${selectedGroupId}&userFilter=${encodeURIComponent(filterUser)}`
+        : `/api/admin/group-predictions?groupId=${selectedGroupId}`;
+      const res = await fetch(url);
       if (res.ok) {
         setSelectedGroupPredictions(await res.json());
       }
@@ -1072,11 +1076,30 @@ export default function AdminPage() {
           </div>
           {selectedGroupPredictions && (
             <div className="space-y-4">
-              <div className="bg-card border border-border rounded-xl p-4">
-                <h3 className="font-semibold text-foreground">{selectedGroupPredictions.group.name}</h3>
-                <p className="text-sm text-muted-foreground">
-                  {selectedGroupPredictions.group.tournament} • {selectedGroupPredictions.totalPredictions} pronósticos
-                </p>
+              <div className="bg-card border border-border rounded-xl p-4 space-y-3">
+                <div>
+                  <h3 className="font-semibold text-foreground">{selectedGroupPredictions.group.name}</h3>
+                  <p className="text-sm text-muted-foreground">
+                    {selectedGroupPredictions.group.tournament} • {selectedGroupPredictions.totalPredictions} pronósticos
+                  </p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="text"
+                    placeholder="Filtrar por usuario (nombre o email)..."
+                    value={filterUser}
+                    onChange={(e) => setFilterUser(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && loadGroupPredictions()}
+                    className="flex-1 px-3 py-2 text-sm rounded-lg border border-border bg-background text-foreground"
+                  />
+                  <button
+                    onClick={loadGroupPredictions}
+                    disabled={loadingPredictions}
+                    className="px-3 py-2 text-sm font-medium rounded-lg bg-primary text-primary-foreground hover:bg-primary/90"
+                  >
+                    Buscar
+                  </button>
+                </div>
               </div>
               <div className="bg-card border border-border rounded-xl overflow-hidden">
                 <div className="max-h-96 overflow-y-auto">
@@ -1096,7 +1119,7 @@ export default function AdminPage() {
                             {p.homeTeam} vs {p.awayTeam}
                           </td>
                           <td className="p-3 text-sm text-muted-foreground">
-                            {p.userId?.slice(0, 8)}...
+                            {p.userName || p.userId?.slice(0, 8)}...
                           </td>
                           <td className="p-3 text-center text-sm font-semibold text-primary">
                             {p.predictedHomeScore} - {p.predictedAwayScore}

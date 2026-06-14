@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import { getDb } from "@/lib/db";
-import { groupMembers, predictions, groups, groupScoringRules, officialResults, profiles } from "@/lib/db/schema";
+import { groupMembers, predictions, groups, groupScoringRules, officialResults, profiles, matches, teams } from "@/lib/db/schema";
 import { auth } from "@/lib/auth/config";
-import { eq, inArray } from "drizzle-orm";
+import { eq, inArray, and } from "drizzle-orm";
 
 // GET /api/groups/:id/ranking
 export async function GET(
@@ -139,6 +139,80 @@ export async function GET(
   ranking.sort(
     (a, b) => b.totalPoints - a.totalPoints || b.predictionsCount - a.predictionsCount
   );
+
+  // Si hay userId, devolver detalle de puntos
+  const userId = new URL(request.url).searchParams.get("userId");
+  if (userId) {
+    // Obtener predicciones del usuario con resultados
+    const userPredictions = await _db
+      .select({
+        matchId: predictions.matchId,
+        predHomeScore: predictions.predictedHomeScore,
+        predAwayScore: predictions.predictedAwayScore,
+        actualHomeScore: officialResults.homeScore,
+        actualAwayScore: officialResults.awayScore,
+      })
+      .from(predictions)
+      .innerJoin(officialResults, eq(predictions.matchId, officialResults.matchId))
+      .where(and(eq(predictions.groupId, groupId), eq(predictions.userId, userId)));
+
+    // Obtener equipos de esos partidos
+    const matchIds = userPredictions.map(p => p.matchId);
+    const matchTeams = await _db
+      .select({ id: matches.id, homeTeamId: matches.homeTeamId, awayTeamId: matches.awayTeamId })
+      .from(matches)
+      .where(inArray(matches.id, matchIds));
+    const matchMap = new Map(matchTeams.map(m => [m.id, m]));
+
+    const teamIds = [...new Set(matchTeams.flatMap(m => [m.homeTeamId, m.awayTeamId]))];
+    const allTeams = await _db
+      .select({ id: teams.id, shortName: teams.shortName })
+      .from(teams)
+      .where(inArray(teams.id, teamIds));
+    const teamMap = new Map(allTeams.map(t => [t.id, t.shortName]));
+
+    // Enriquecer
+    const enriched = userPredictions.map(p => {
+      const mt = matchMap.get(p.matchId);
+      const homeTeam = mt ? (teamMap.get(mt.homeTeamId) || "?") : "?";
+      const awayTeam = mt ? (teamMap.get(mt.awayTeamId) || "?") : "?";
+      const ph = p.predHomeScore ?? 0;
+      const pa = p.predAwayScore ?? 0;
+      const ah = p.actualHomeScore ?? 0;
+      const aa = p.actualAwayScore ?? 0;
+
+      let points = 0;
+      let reason = "-";
+
+      if (ph === ah && pa === aa) {
+        points = exactScorePoints;
+        reason = "Resultado exacto";
+      } else if (Math.sign(ph - pa) === Math.sign(ah - aa)) {
+        points = outcomePoints;
+        reason = "Ganador acertado";
+      } else if (ph === ah || pa === aa) {
+        points = oneTeamScorePoints;
+        reason = "Un equipo acertado";
+      }
+
+      return {
+        matchId: p.matchId,
+        homeTeam,
+        awayTeam,
+        homeScore: ah,
+        awayScore: aa,
+        predHomeScore: ph,
+        predAwayScore: pa,
+        points,
+        reason,
+        hitExact: ph === ah && pa === aa,
+        hitOutcome: Math.sign(ph - pa) === Math.sign(ah - aa),
+        hitOneTeam: ph === ah || pa === aa,
+      };
+    });
+
+    return NextResponse.json(enriched);
+  }
 
   return NextResponse.json(ranking);
 }
