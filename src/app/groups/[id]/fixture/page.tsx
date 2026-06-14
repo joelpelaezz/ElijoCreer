@@ -22,6 +22,8 @@ interface Match {
   venue: string;
   homeTeam: Team;
   awayTeam: Team;
+  homeScore?: number | null;
+  awayScore?: number | null;
 }
 
 interface Prediction {
@@ -93,12 +95,19 @@ export default function FixturePage() {
     // Cargar partidos
     setLoadingMatches(true);
     fetch(`/api/matches?tournamentId=${tournamentId}&stage=${activeStage}`)
-      .then((r) => r.json())
+      .then((r) => r.ok ? r.json() : Promise.reject())
       .then((data) => {
-        setMatchesList(data);
+        if (Array.isArray(data)) {
+          setMatchesList(data);
+        } else {
+          setMatchesList([]);
+        }
         setLoadingMatches(false);
       })
-      .catch(() => setLoadingMatches(false));
+      .catch(() => {
+        setMatchesList([]);
+        setLoadingMatches(false);
+      });
 
     // Cargar predicciones existentes
     fetch(`/api/predictions?groupId=${id}`)
@@ -175,6 +184,12 @@ export default function FixturePage() {
   }
 
   function getMatchStatus(match: Match): "open" | "late" | "closed" {
+    // Partido ya terminado - permitir tardío si está habilitado (sin límite de tiempo)
+    if (match.status === "finished" || match.status === "completed") {
+      if (lateConfig.enabled) return "late";
+      return "closed";
+    }
+    // Partido no started - lógica normal
     if (isDeadlinePassed(match)) {
       if (lateConfig.enabled && !isLateWindowClosed(match)) return "late";
       return "closed";
@@ -182,12 +197,16 @@ export default function FixturePage() {
     return "open";
   }
 
-  function getDeadlineText(match: Match): string {
+function getDeadlineText(match: Match): string {
+    // Partido terminado
+    if (match.status === "finished" || match.status === "completed") {
+      return lateConfig.enabled ? "Tardío disponible" : "Partido finalizado";
+    }
     const d = getDeadline(match);
     const text = d.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" });
     if (lateConfig.enabled) {
       const late = getLateDeadline(match);
-      return `${text} (tardío hasta ${late.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" })})`;
+      return `${text} (tardío hasta ${late.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" })}`;
     }
     return text;
   }
@@ -315,57 +334,114 @@ export default function FixturePage() {
                   </span>
                 </div>
 
-                {/* Score inputs */}
+                {/* Score inputs o resultado */}
                 <div className="flex items-center gap-2">
-                  <input
-                    type="number"
-                    min={0}
-                    max={99}
-                    disabled={matchStatus === "closed" || pred?.isLocked}
-                    value={scores[match.id]?.[0] ?? ""}
-                    onChange={(e) =>
-                      setScores((prev) => ({
-                        ...prev,
-                        [match.id]: [e.target.value, prev[match.id]?.[1] || ""],
-                      }))
-                    }
-                    className={`w-14 h-14 text-center text-2xl font-bold rounded-xl border-2 transition-all ${
-                      pred
-                        ? "border-primary bg-primary/5 text-primary"
-                        : "border-border bg-surface text-foreground"
-                    } focus:border-primary focus:ring-0 outline-none ${
-                      matchStatus === "closed" || pred?.isLocked
-                        ? "opacity-60 cursor-not-allowed"
-                        : ""
-                    }`}
-                    placeholder="?"
-                  />
-                  <span className="text-xl font-bold text-muted-foreground">
-                    :
-                  </span>
-                  <input
-                    type="number"
-                    min={0}
-                    max={99}
-                    disabled={matchStatus === "closed" || pred?.isLocked}
-                    value={scores[match.id]?.[1] ?? ""}
-                    onChange={(e) =>
-                      setScores((prev) => ({
-                        ...prev,
-                        [match.id]: [prev[match.id]?.[0] || "", e.target.value],
-                      }))
-                    }
-                    className={`w-14 h-14 text-center text-2xl font-bold rounded-xl border-2 transition-all ${
-                      pred
-                        ? "border-primary bg-primary/5 text-primary"
-                        : "border-border bg-surface text-foreground"
-                    } focus:border-primary focus:ring-0 outline-none ${
-                      matchStatus === "closed" || pred?.isLocked
-                        ? "opacity-60 cursor-not-allowed"
-                        : ""
-                    }`}
-                    placeholder="?"
-                  />
+                  {match.homeScore != null && match.awayScore != null && matchStatus !== "late" ? (
+                    // Partido terminado sin late - solo mostrar resultado
+                    <>
+                      <div className="w-14 h-14 text-center text-2xl font-bold rounded-xl border-2 border-green-500 bg-green-500/10 text-green-600">
+                        {match.homeScore}
+                      </div>
+                      <span className="text-xl font-bold text-muted-foreground">:</span>
+                      <div className="w-14 h-14 text-center text-2xl font-bold rounded-xl border-2 border-green-500 bg-green-500/10 text-green-600">
+                        {match.awayScore}
+                      </div>
+                    </>
+                  ) : (match.homeScore != null && match.awayScore != null && matchStatus === "late") ? (
+                    // Partido terminado con late habilitado - mostrar resultado + inputs
+                    <div className="flex flex-col items-center">
+                      <div className="text-[10px] text-green-600 font-medium mb-1">Resultado: {match.homeScore}-{match.awayScore}</div>
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="number"
+                          min={0}
+                          max={99}
+                          disabled={false}
+                          value={scores[match.id]?.[0] ?? ""}
+                          onChange={(e) =>
+                            setScores((prev) => ({
+                              ...prev,
+                              [match.id]: [e.target.value, prev[match.id]?.[1] || ""],
+                            }))
+                          }
+                          className="w-14 h-14 text-center text-2xl font-bold rounded-xl border-2 border-amber-500 bg-amber-500/10 text-amber-600"
+                          placeholder="?"
+                        />
+                        <span className="text-xl font-bold text-muted-foreground">:</span>
+                        <input
+                          type="number"
+                          min={0}
+                          max={99}
+                          disabled={false}
+                          value={scores[match.id]?.[1] ?? ""}
+                          onChange={(e) =>
+                            setScores((prev) => ({
+                              ...prev,
+                              [match.id]: [prev[match.id]?.[0] || "", e.target.value],
+                            }))
+                          }
+                          className="w-14 h-14 text-center text-2xl font-bold rounded-xl border-2 border-amber-500 bg-amber-500/10 text-amber-600"
+                          placeholder="?"
+                        />
+                      </div>
+                    </div>
+                  ) : match.status === "finished" || match.status === "completed" ? (
+                    // Partido terminado pero sin resultado cargado
+                    <div className="text-xs text-orange-500 font-medium px-2 py-1 bg-orange-500/10 rounded-lg">
+                      Resultados próximos
+                    </div>
+                  ) : (
+                    // Partido abierto - mostrar inputs
+                    <>
+                      <input
+                        type="number"
+                        min={0}
+                        max={99}
+                        disabled={matchStatus === "closed" || pred?.isLocked}
+                        value={scores[match.id]?.[0] ?? ""}
+                        onChange={(e) =>
+                          setScores((prev) => ({
+                            ...prev,
+                            [match.id]: [e.target.value, prev[match.id]?.[1] || ""],
+                          }))
+                        }
+                        className={`w-14 h-14 text-center text-2xl font-bold rounded-xl border-2 transition-all ${
+                          pred
+                            ? "border-primary bg-primary/5 text-primary"
+                            : "border-border bg-surface text-foreground"
+                        } focus:border-primary focus:ring-0 outline-none ${
+                          matchStatus === "closed" || pred?.isLocked
+                            ? "opacity-60 cursor-not-allowed"
+                            : ""
+                        }`}
+                        placeholder="?"
+                      />
+                      <span className="text-xl font-bold text-muted-foreground">:</span>
+                      <input
+                        type="number"
+                        min={0}
+                        max={99}
+                        disabled={matchStatus === "closed" || pred?.isLocked}
+                        value={scores[match.id]?.[1] ?? ""}
+                        onChange={(e) =>
+                          setScores((prev) => ({
+                            ...prev,
+                            [match.id]: [prev[match.id]?.[0] || "", e.target.value],
+                          }))
+                        }
+                        className={`w-14 h-14 text-center text-2xl font-bold rounded-xl border-2 transition-all ${
+                          pred
+                            ? "border-primary bg-primary/5 text-primary"
+                            : "border-border bg-surface text-foreground"
+                        } focus:border-primary focus:ring-0 outline-none ${
+                          matchStatus === "closed" || pred?.isLocked
+                            ? "opacity-60 cursor-not-allowed"
+                            : ""
+                        }`}
+                        placeholder="?"
+                      />
+                    </>
+                  )}
                 </div>
 
                 {/* Away */}

@@ -19,11 +19,14 @@ export async function GET(request: Request) {
     let query = `
       SELECT 
         m.id, m.stage, m.round_label, m.match_number, m.starts_at, m.status, m.venue,
+        COALESCE(o.home_score, m.home_score) as home_score,
+        COALESCE(o.away_score, m.away_score) as away_score,
         ht.id as home_id, ht.name as home_name, ht.short_name as home_short, ht.code as home_code, ht.flag_icon as home_flag,
         at.id as away_id, at.name as away_name, at.short_name as away_short, at.code as away_code, at.flag_icon as away_flag
       FROM matches m
       JOIN teams ht ON ht.id = m.home_team_id
       JOIN teams at ON at.id = m.away_team_id
+      LEFT JOIN official_results o ON o.match_id = m.id
       WHERE 1=1
     `;
     const params: any[] = [];
@@ -48,6 +51,8 @@ export async function GET(request: Request) {
       startsAt: row.starts_at,
       status: row.status,
       venue: row.venue,
+      homeScore: row.home_score,
+      awayScore: row.away_score,
       homeTeam: {
         id: row.home_id,
         name: row.home_name,
@@ -67,8 +72,13 @@ export async function GET(request: Request) {
     return NextResponse.json(matches);
   } catch (error) {
     console.error("Error in matches API:", error);
+    const msg = error instanceof Error ? error.message : String(error);
+    // Si es error de auth, devolver 401
+    if (msg.includes("auth") || msg.includes("session")) {
+      return NextResponse.json({ error: "No autorizado" }, { status: 401 });
+    }
     return NextResponse.json(
-      { error: "Error fetching matches", detail: error instanceof Error ? error.message : String(error) },
+      { error: "Error fetching matches", detail: msg },
       { status: 500 }
     );
   }
