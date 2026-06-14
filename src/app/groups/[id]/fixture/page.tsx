@@ -203,10 +203,11 @@ function getDeadlineText(match: Match): string {
       return lateConfig.enabled ? "Tardío disponible" : "Partido finalizado";
     }
     const d = getDeadline(match);
-    const text = d.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" });
+    // Mostrar UTC sin conversión de timezone
+    const text = d.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: "UTC" });
     if (lateConfig.enabled) {
       const late = getLateDeadline(match);
-      return `${text} (tardío hasta ${late.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" })}`;
+      return `${text} (tardío hasta ${late.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: "UTC" })})`;
     }
     return text;
   }
@@ -397,7 +398,7 @@ function getDeadlineText(match: Match): string {
                         type="number"
                         min={0}
                         max={99}
-                        disabled={matchStatus === "closed" || pred?.isLocked}
+                        disabled={matchStatus === "closed"}
                         value={scores[match.id]?.[0] ?? ""}
                         onChange={(e) =>
                           setScores((prev) => ({
@@ -410,7 +411,7 @@ function getDeadlineText(match: Match): string {
                             ? "border-primary bg-primary/5 text-primary"
                             : "border-border bg-surface text-foreground"
                         } focus:border-primary focus:ring-0 outline-none ${
-                          matchStatus === "closed" || pred?.isLocked
+                          matchStatus === "closed"
                             ? "opacity-60 cursor-not-allowed"
                             : ""
                         }`}
@@ -421,7 +422,7 @@ function getDeadlineText(match: Match): string {
                         type="number"
                         min={0}
                         max={99}
-                        disabled={matchStatus === "closed" || pred?.isLocked}
+                        disabled={matchStatus === "closed"}
                         value={scores[match.id]?.[1] ?? ""}
                         onChange={(e) =>
                           setScores((prev) => ({
@@ -434,7 +435,7 @@ function getDeadlineText(match: Match): string {
                             ? "border-primary bg-primary/5 text-primary"
                             : "border-border bg-surface text-foreground"
                         } focus:border-primary focus:ring-0 outline-none ${
-                          matchStatus === "closed" || pred?.isLocked
+                          matchStatus === "closed"
                             ? "opacity-60 cursor-not-allowed"
                             : ""
                         }`}
@@ -475,7 +476,7 @@ function getDeadlineText(match: Match): string {
                       ? "❌ Cerrado"
                       : matchStatus === "late"
                         ? "🟡 Tardío"
-                        : pred?.isLocked
+                        : matchStatus !== "open" && pred?.isLocked
                           ? "🔒 Bloqueado"
                           : "🟢 Abierto"}
                   </span>
@@ -537,7 +538,7 @@ function getDeadlineText(match: Match): string {
                       {pred.predictedHomeScore} - {pred.predictedAwayScore}
                     </span>
                   )}
-                  {matchStatus !== "closed" && !pred?.isLocked && (
+                  {matchStatus === "open" || (matchStatus !== "closed" && !pred?.isLocked) ? (
                     <>
                       <button
                         onClick={() => handleSave(match.id)}
@@ -582,7 +583,7 @@ function getDeadlineText(match: Match): string {
                         </button>
                       )}
                     </>
-                  )}
+                  ) : null}
                 </div>
               </div>
 
