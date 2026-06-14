@@ -96,17 +96,24 @@ export async function POST(request: Request) {
     // Tablas involucradas (para truncar)
     const tables = [...new Set(insertStatements.map(getTableName).filter(Boolean))];
 
+    // Debug: ver orden antes de ejecutar
+    const executionOrder = insertStatements.map((s) => getTableName(s));
+    console.log("📦 Tablas en backup:", tables);
+    console.log("🔢 Orden de ejecución:", executionOrder);
+
     const client = await pool.connect();
     try {
       await client.query("BEGIN");
 
       // Truncar en orden inverso (hijos primero)
       for (const table of tables.toReversed()) {
+        console.log(`🗑️  Truncando "${table}" CASCADE`);
         await client.query(`TRUNCATE TABLE "${table}" CASCADE`);
       }
 
       // Ejecutar INSERTs en orden de dependencia (parents primero)
       for (const stmt of insertStatements) {
+        console.log(`📥 Insertando en "${getTableName(stmt)}"`);
         await client.query(stmt);
       }
 
