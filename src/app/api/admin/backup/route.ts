@@ -16,8 +16,8 @@ function escapeSQL(val: unknown): string {
 }
 
 const TABLE_ORDER = [
-  "teams",
   "tournaments",
+  "teams",
   "app_config",
   "verificationToken",
   "user",
