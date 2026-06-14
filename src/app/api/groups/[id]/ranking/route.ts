@@ -46,7 +46,7 @@ export async function GET(
 
   const exactScorePoints = rules?.exactScorePoints ?? 5;
   const outcomePoints = rules?.outcomePoints ?? 3;
-  const oneTeamScorePoints = rules?.oneTeamScorePoints ?? 0;
+  const oneTeamScorePoints = rules?.oneTeamScorePoints ?? 1;
 
   // Obtener miembros activos
   const members = await _db.query.groupMembers.findMany({
