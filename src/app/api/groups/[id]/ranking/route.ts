@@ -151,6 +151,7 @@ export async function GET(
         predAwayScore: predictions.predictedAwayScore,
         actualHomeScore: officialResults.homeScore,
         actualAwayScore: officialResults.awayScore,
+        updatedAt: predictions.updatedAt,
       })
       .from(predictions)
       .innerJoin(officialResults, eq(predictions.matchId, officialResults.matchId))
@@ -205,6 +206,7 @@ export async function GET(
         predAwayScore: pa,
         points,
         reason,
+        updatedAt: p.updatedAt?.toISOString() ?? null,
         hitExact: ph === ah && pa === aa,
         hitOutcome: Math.sign(ph - pa) === Math.sign(ah - aa),
         hitOneTeam: ph === ah || pa === aa,

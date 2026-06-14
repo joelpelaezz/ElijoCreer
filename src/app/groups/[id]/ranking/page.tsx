@@ -25,6 +25,7 @@ interface ScoreDetail {
   predAwayScore: number;
   points: number;
   reason: string;
+  updatedAt: string | null;
   hitExact: boolean;
   hitOutcome: boolean;
   hitOneTeam: boolean;
@@ -317,7 +318,7 @@ export default function RankingPage() {
                 <div className="space-y-2">
                   {scoreDetails.map((s) => (
                     <div key={s.matchId} className="flex items-center justify-between p-2 bg-surface rounded-lg">
-                      <div className="flex-1">
+                      <div className="flex-1 min-w-0">
                         <p className="text-sm font-medium text-foreground">
                           {s.homeTeam} vs {s.awayTeam}
                         </p>
@@ -325,8 +326,18 @@ export default function RankingPage() {
                           Pronóstico: {s.predHomeScore}-{s.predAwayScore}
                           {s.homeScore !== null && ` | Resultado: ${s.homeScore}-${s.awayScore}`}
                         </p>
+                        {s.updatedAt && (
+                          <p className="text-[10px] text-muted-foreground/60 mt-0.5">
+                            Últ. act.: {new Date(s.updatedAt).toLocaleString("es-AR", {
+                              day: "2-digit",
+                              month: "2-digit",
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            })}
+                          </p>
+                        )}
                       </div>
-                      <div className="text-right">
+                      <div className="text-right shrink-0">
                         <p className="text-sm font-bold text-primary">{s.points} pts</p>
                         <p className="text-xs text-muted-foreground">{s.reason}</p>
                       </div>
