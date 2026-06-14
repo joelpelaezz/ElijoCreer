@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getPool } from "@/lib/db";
 import { auth } from "@/lib/auth/config";
+import { hasAdminAccess } from "@/lib/admin";
 
 /**
  * Escapa un valor SQL para INSERT.
@@ -10,12 +11,10 @@ function escapeSQL(val: unknown): string {
   if (typeof val === "number") return val.toString();
   if (typeof val === "boolean") return val ? "true" : "false";
   if (val instanceof Date) return `'${val.toISOString()}'`;
-  // String: escapar comillas simples duplicándolas
   const str = String(val).replace(/'/g, "''");
   return `'${str}'`;
 }
 
-// Tablas en orden de dependencia (sin FK → con FK)
 const TABLE_ORDER = [
   "teams",
   "tournaments",
@@ -43,11 +42,7 @@ export async function GET() {
   }
 
   const pool = getPool();
-  const isAdmin = await pool.query(
-    `SELECT EXISTS (SELECT 1 FROM "user" WHERE id = $1 AND role = 'admin') AS ok`,
-    [session.user.id]
-  );
-  if (!isAdmin.rows[0]?.ok) {
+  if (!(await hasAdminAccess(session, pool))) {
     return NextResponse.json({ error: "No autorizado - se requiere rol admin" }, { status: 403 });
   }
 
@@ -60,7 +55,6 @@ export async function GET() {
     sqlLines.push("BEGIN;");
     sqlLines.push("");
 
-    // Obtener columnas de cada tabla
     const colsResult = await pool.query(`
       SELECT table_name, column_name, data_type
       FROM information_schema.columns

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getPool } from "@/lib/db";
 import { auth } from "@/lib/auth/config";
+import { hasAdminAccess } from "@/lib/admin";
 
 export async function POST(request: Request) {
   const session = await auth();
@@ -9,11 +10,7 @@ export async function POST(request: Request) {
   }
 
   const pool = getPool();
-  const isAdmin = await pool.query(
-    `SELECT EXISTS (SELECT 1 FROM "user" WHERE id = $1 AND role = 'admin') AS ok`,
-    [session.user.id]
-  );
-  if (!isAdmin.rows[0]?.ok) {
+  if (!(await hasAdminAccess(session, pool))) {
     return NextResponse.json({ error: "No autorizado - se requiere rol admin" }, { status: 403 });
   }
 
