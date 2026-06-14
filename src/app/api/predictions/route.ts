@@ -43,7 +43,7 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: "No sos miembro" }, { status: 403 });
     }
 
-    // Get predictions
+    // Get predictions - solo del usuario actual
     const predResult = await pool.query(
       `
       SELECT 
@@ -60,9 +60,9 @@ export async function GET(request: Request) {
         p.created_at,
         p.updated_at
       FROM predictions p 
-      WHERE p.group_id = $1
+      WHERE p.group_id = $1 AND p.user_id = $2
       `,
-      [groupId]
+      [groupId, session.user.id]
     );
 
     return NextResponse.json(
