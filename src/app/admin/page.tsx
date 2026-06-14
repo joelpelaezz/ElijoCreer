@@ -1149,13 +1149,37 @@ export default function AdminPage() {
               Generá un archivo SQL con todos los datos del sistema (usuarios, grupos, partidos,
               pronósticos, resultados, configuraciones).
             </p>
-            <a
-              href="/api/admin/backup"
-              className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold rounded-xl bg-primary text-primary-foreground hover:brightness-110 transition-all active:scale-95"
+            <button
+              onClick={async () => {
+                setBackupLoading(true);
+                try {
+                  const res = await fetch("/api/admin/backup");
+                  if (!res.ok) {
+                    const err = await res.json().catch(() => ({ error: "Error desconocido" }));
+                    alert(`Error: ${err.error || "No autorizado"}`);
+                    return;
+                  }
+                  const blob = await res.blob();
+                  const url = URL.createObjectURL(blob);
+                  const a = document.createElement("a");
+                  a.href = url;
+                  a.download = `elijocreer-backup-${new Date().toISOString().slice(0, 10)}.sql`;
+                  document.body.appendChild(a);
+                  a.click();
+                  document.body.removeChild(a);
+                  URL.revokeObjectURL(url);
+                } catch (err: any) {
+                  alert(`Error de conexión: ${err.message}`);
+                } finally {
+                  setBackupLoading(false);
+                }
+              }}
+              disabled={backupLoading}
+              className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold rounded-xl bg-primary text-primary-foreground hover:brightness-110 transition-all active:scale-95 disabled:opacity-50"
             >
               <span className="material-symbols-outlined text-lg">download</span>
-              Descargar Backup SQL
-            </a>
+              {backupLoading ? "Generando..." : "Descargar Backup SQL"}
+            </button>
           </div>
 
           <div className="bg-card border border-border rounded-2xl p-5 sm:p-6">
