@@ -24,8 +24,7 @@ export async function POST(request: Request) {
 
     const sql = await file.text();
 
-    // Validación básica: debe contener BEGIN y COMMIT
-    // Saltamos líneas de comentarios y vacías
+    // Saltamos líneas de comentarios y vacías para validar
     const sqlLines = sql.split("\n").filter(
       (line) => line.trim() !== "" && !line.trim().startsWith("--")
     );
@@ -43,6 +42,19 @@ export async function POST(request: Request) {
       );
     }
 
+    // Extraemos las tablas de los INSERT para truncarlas antes
+    const tableMatches = sql.match(/INSERT\s+INTO\s+"?(\w+)"?\s*\(/gi);
+    if (!tableMatches || tableMatches.length === 0) {
+      return NextResponse.json({ error: "No se encontraron INSERTs en el archivo" }, { status: 400 });
+    }
+
+    const tables = [...new Set(
+      tableMatches.map((m) => {
+        const match = m.match(/INSERT\s+INTO\s+"?(\w+)"?/i);
+        return match ? match[1] : null;
+      }).filter(Boolean) as string[]
+    )];
+
     // Separar sentencias por ";"
     const statements = sql
       .split(";")
@@ -53,7 +65,14 @@ export async function POST(request: Request) {
     try {
       await client.query("BEGIN");
 
+      // Truncar todas las tablas involucradas en orden inverso (CASCADE respeta FKs)
+      for (const table of tables.toReversed()) {
+        await client.query(`TRUNCATE TABLE "${table}" CASCADE`);
+      }
+
+      // Ejecutar INSERTs
       for (const stmt of statements) {
+        if (!stmt.toUpperCase().startsWith("INSERT")) continue;
         await client.query(stmt);
       }
 
@@ -72,6 +91,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       message: "✅ Restore completado exitosamente",
+      tables: tables.length,
       statements: statements.length,
     });
   } catch (error: any) {
