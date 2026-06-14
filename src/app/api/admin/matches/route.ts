@@ -3,6 +3,13 @@ import { getPool } from "@/lib/db";
 import { auth } from "@/lib/auth/config";
 import { hasAdminAccess } from "@/lib/admin";
 
+// Helper: pg devuelve timestamp without time zone como Date en hora local,
+// esto causa corrimiento al serializar a JSON. Lo corregimos a UTC.
+function toUTC(d: Date | null | undefined): string | null {
+  if (!d) return null;
+  return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString();
+}
+
 // GET /api/admin/matches?tournamentId=X&stage=group
 // Lista todos los partidos con equipos
 export async function GET(request: Request) {
@@ -78,11 +85,11 @@ export async function GET(request: Request) {
       stage: row.stage,
       roundLabel: row.round_label,
       matchNumber: row.match_number,
-      startsAt: row.starts_at,
+      startsAt: toUTC(row.starts_at),
       status: row.status,
       venue: row.venue,
-      createdAt: row.created_at,
-      updatedAt: row.updated_at,
+      createdAt: toUTC(row.created_at),
+      updatedAt: toUTC(row.updated_at),
       homeTeam: {
         id: row.home_id,
         name: row.home_name,
