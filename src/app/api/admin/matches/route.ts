@@ -5,9 +5,17 @@ import { hasAdminAccess } from "@/lib/admin";
 
 // Helper: pg devuelve timestamp without time zone como Date en hora local,
 // esto causa corrimiento al serializar a JSON. Lo corregimos a UTC.
-function toUTC(d: Date | null | undefined): string | null {
+// También soporta strings por si pg ya devolvió texto.
+function toUTC(d: any): string | null {
   if (!d) return null;
-  return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString();
+  if (typeof d === "string") {
+    // Si ya es string ISO con Z, devolverlo; si no, agregar Z
+    return d.includes("T") && d.endsWith("Z") ? d : `${d.slice(0, 10)}T${d.slice(11, 19)}Z`;
+  }
+  if (d instanceof Date && typeof d.getTime === "function") {
+    return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString();
+  }
+  return String(d);
 }
 
 // GET /api/admin/matches?tournamentId=X&stage=group
