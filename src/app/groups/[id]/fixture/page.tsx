@@ -337,7 +337,7 @@ function getDeadlineText(match: Match): string {
 
                 {/* Score inputs o resultado */}
                 <div className="flex items-center gap-2">
-                  {match.homeScore != null && match.awayScore != null && matchStatus !== "late" ? (
+                  {match.homeScore != null && match.awayScore != null && matchStatus !== "late" && (match.status === "finished" || match.status === "completed") ? (
                     // Partido terminado sin late - solo mostrar resultado
                     <>
                       <div className="w-14 h-14 text-center text-2xl font-bold rounded-xl border-2 border-green-500 bg-green-500/10 text-green-600">
