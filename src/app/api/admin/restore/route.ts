@@ -42,18 +42,25 @@ export async function POST(request: Request) {
       );
     }
 
-    // Extraemos las tablas de los INSERT para truncarlas antes
-    const tableMatches = sql.match(/INSERT\s+INTO\s+"?(\w+)"?\s*\(/gi);
-    if (!tableMatches || tableMatches.length === 0) {
-      return NextResponse.json({ error: "No se encontraron INSERTs en el archivo" }, { status: 400 });
-    }
-
-    const tables = [...new Set(
-      tableMatches.map((m) => {
-        const match = m.match(/INSERT\s+INTO\s+"?(\w+)"?/i);
-        return match ? match[1] : null;
-      }).filter(Boolean) as string[]
-    )];
+    const TABLE_ORDER = [
+      "tournaments",
+      "teams",
+      "app_config",
+      "verificationToken",
+      "user",
+      "account",
+      "session",
+      "profiles",
+      "groups",
+      "group_members",
+      "group_activity",
+      "group_scoring_rules",
+      "matches",
+      "official_results",
+      "predictions",
+      "prediction_history",
+      "prediction_scores",
+    ];
 
     // Separar sentencias por ";"
     const statements = sql
@@ -61,18 +68,45 @@ export async function POST(request: Request) {
       .map((s) => s.trim())
       .filter((s) => s.length > 0 && !s.startsWith("--"));
 
+    // Extraer solo INSERTs y agruparlos por tabla
+    const insertStatements = statements.filter((s) =>
+      s.toUpperCase().startsWith("INSERT")
+    );
+    if (insertStatements.length === 0) {
+      return NextResponse.json({ error: "No se encontraron INSERTs en el archivo" }, { status: 400 });
+    }
+
+    // Ordenar INSERTs segun TABLE_ORDER (parents first) para respetar FKs
+    const getTableName = (stmt: string): string => {
+      const match = stmt.match(/INSERT\s+INTO\s+"?(\w+)"?/i);
+      return match ? match[1] : "";
+    };
+
+    const tablePriority: Record<string, number> = {};
+    TABLE_ORDER.forEach((t, i) => {
+      tablePriority[t] = i;
+    });
+
+    insertStatements.sort((a, b) => {
+      const ta = getTableName(a);
+      const tb = getTableName(b);
+      return (tablePriority[ta] ?? 999) - (tablePriority[tb] ?? 999);
+    });
+
+    // Tablas involucradas (para truncar)
+    const tables = [...new Set(insertStatements.map(getTableName).filter(Boolean))];
+
     const client = await pool.connect();
     try {
       await client.query("BEGIN");
 
-      // Truncar todas las tablas involucradas en orden inverso (CASCADE respeta FKs)
+      // Truncar en orden inverso (hijos primero)
       for (const table of tables.toReversed()) {
         await client.query(`TRUNCATE TABLE "${table}" CASCADE`);
       }
 
-      // Ejecutar INSERTs
-      for (const stmt of statements) {
-        if (!stmt.toUpperCase().startsWith("INSERT")) continue;
+      // Ejecutar INSERTs en orden de dependencia (parents primero)
+      for (const stmt of insertStatements) {
         await client.query(stmt);
       }
 
