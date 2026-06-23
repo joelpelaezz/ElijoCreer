@@ -2,6 +2,19 @@ import { NextResponse } from "next/server";
 import { getPool } from "@/lib/db";
 import { auth } from "@/lib/auth/config";
 
+// pg devuelve timestamp without time zone como Date en hora local,
+// lo corregimos a UTC para consistencia en el frontend.
+function toUTC(d: any): string | null {
+  if (!d) return null;
+  if (typeof d === "string") {
+    return d.includes("T") && d.endsWith("Z") ? d : `${d.slice(0, 10)}T${d.slice(11, 19)}Z`;
+  }
+  if (d instanceof Date && typeof d.getTime === "function") {
+    return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString();
+  }
+  return String(d);
+}
+
 // GET /api/matches?tournamentId=X&stage=group
 export async function GET(request: Request) {
   try {
@@ -48,7 +61,7 @@ export async function GET(request: Request) {
       id: row.id,
       stage: row.stage,
       matchNumber: row.match_number,
-      startsAt: row.starts_at,
+      startsAt: toUTC(row.starts_at),
       status: row.status,
       venue: row.venue,
       homeScore: row.home_score,
