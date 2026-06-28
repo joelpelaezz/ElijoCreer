@@ -295,7 +295,7 @@ export default async function HomePage() {
           </h2>
           <p className="text-[#41474f] mt-2">
             {nextMatch 
-              ? `Fecha: ${new Date(nextMatch.starts_at).toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC' })}`
+              ? `Fecha: ${new Date(nextMatch.starts_at).toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'America/Argentina/Buenos_Aires' })}`
               : "Interfaz moderna diseñada para los fans más apasionados."
             }
           </p>
@@ -344,7 +344,7 @@ export default async function HomePage() {
               </div>
               <div className="bg-[#f2f4f6] p-4 rounded-2xl flex items-center justify-between">
                 <p className="text-[#41474f] text-sm">
-                  {new Date(nextMatch.starts_at).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })} hs
+                  {new Date(nextMatch.starts_at).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', timeZone: 'America/Argentina/Buenos_Aires' })} hs
                 </p>
                 <span className="text-sm font-bold text-[#236391]">
                   +5 pts si acertás el exacto

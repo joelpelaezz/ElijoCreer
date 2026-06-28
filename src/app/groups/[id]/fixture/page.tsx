@@ -204,10 +204,10 @@ function getDeadlineText(match: Match): string {
     }
     const d = getDeadline(match);
     // Mostrar UTC sin conversión de timezone
-    const text = d.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: "UTC" });
+    const text = d.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: "America/Argentina/Buenos_Aires" });
     if (lateConfig.enabled) {
       const late = getLateDeadline(match);
-      return `${text} (tardío hasta ${late.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: "UTC" })})`;
+      return `${text} (tardío hasta ${late.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: "America/Argentina/Buenos_Aires" })})`;
     }
     return text;
   }
@@ -299,12 +299,12 @@ function getDeadlineText(match: Match): string {
                     weekday: "short",
                     day: "numeric",
                     month: "short",
-                    timeZone: "UTC",
+                    timeZone: "America/Argentina/Buenos_Aires",
                   })}{" "}
                   {new Date(match.startsAt).toLocaleTimeString("es-AR", {
                     hour: "2-digit",
                     minute: "2-digit",
-                    timeZone: "UTC",
+                    timeZone: "America/Argentina/Buenos_Aires",
                   })}
                 </span>
                 {matchStatus === "open" && (
